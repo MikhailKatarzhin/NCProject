@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Signing Up</title>
+</head>
+<body>
+Signing up
+<hr>
+
+<form th:action="@{/sign_up}" method="post">
+    <table >
+
+    </table>
+    <div><label>User name: <input type="text" name="username"></label></div>
+    <div><label>Password: <input type="password" name="password"></label></div>
+    <div><label>Email: <input type="email" name="email"></label></div>
+    <div><input type="submit" value="Sign up"></div>
+</form>
+
+<hr>
+<a href="/sign_in"> Already have profile?</a>
+</body>
+</html>
