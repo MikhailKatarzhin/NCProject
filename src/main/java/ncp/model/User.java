@@ -29,19 +29,21 @@ public class User implements UserDetails {
     @Column(nullable = false, unique = true)
     private String email;
 
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(cascade = CascadeType.ALL, optional = false, orphanRemoval = true)
+    @JoinColumn(nullable = false)
     private Personality personality;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn
+    @JoinColumn(nullable = false)
     private Set<Contract> contracts = new LinkedHashSet<>();
 
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private Set<Role> roleSet = new LinkedHashSet<>();
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn
+    @JoinColumn(nullable = false)
     private Set<Tariff> tariffs = new LinkedHashSet<>();
 
     @Override
