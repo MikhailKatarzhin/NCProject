@@ -1,7 +1,7 @@
 package ncp.model;
 
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.*;
@@ -9,8 +9,8 @@ import javax.persistence.*;
 @Table
 @Entity
 @ToString
-@RequiredArgsConstructor
 @Getter
+@NoArgsConstructor
 public class Personality {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
