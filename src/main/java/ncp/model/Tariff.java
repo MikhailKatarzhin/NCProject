@@ -22,9 +22,9 @@ public class Tariff {
     private String description;
 
     @ManyToMany(cascade = CascadeType.ALL)
-    private Set<Transmitter> connected_transmitters = new java.util.LinkedHashSet<>();
+    private Set<Transmitter> connectedTransmitters = new java.util.LinkedHashSet<>();
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn
-    private Set<Contract> signed_contracts = new java.util.LinkedHashSet<>();
+    private Set<Contract> signedContracts = new java.util.LinkedHashSet<>();
 }
