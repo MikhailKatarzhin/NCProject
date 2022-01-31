@@ -3,19 +3,15 @@ package ncp.controller;
 import ncp.model.Personality;
 import ncp.model.Role;
 import ncp.model.User;
+import ncp.repository.RoleRepository;
 import ncp.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.Mapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.Collections;
 import java.util.LinkedHashSet;
-import java.util.Map;
 import java.util.Set;
 
 @RequestMapping("/sign_up")
@@ -23,21 +19,27 @@ import java.util.Set;
 public class SignUpController {
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private RoleRepository roleRepository;
 
     @GetMapping
-    public String signUp(){
+    public String signUp(ModelMap model){
+        model.addAttribute("roles", roleRepository.findAllExceptName("ADMINISTRATOR"));
         return "sign_up";
     }
 
     @PostMapping
-    public String addUser(User user, Model model){
+    public String addUser(@RequestParam("roles")Long[] rolesId, User user, ModelMap model){
         if (userRepository.findByUsername(user.getUsername()) != null){
             model.addAttribute("errorMessage", "User already exists");
             return "sign_up";
         }
-
+        Set<Role> roleSet = new LinkedHashSet<>();
+        for (Long roleId: rolesId) {
+            roleSet.add(roleRepository.findById(roleId).orElseThrow());
+        }
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
-        user.setRoleSet(Collections.singleton(Role.CONSUMER));
+        user.setRoleSet(roleSet);
         user.setPersonality(new Personality());
         user.setTariffs(new LinkedHashSet<>());
         user.setContracts(new LinkedHashSet<>());
