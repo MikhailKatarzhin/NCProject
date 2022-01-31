@@ -18,6 +18,10 @@ public class Transmitter {
 
     private String description;
 
+    @ManyToOne(optional = false)
+    @JoinColumn(nullable = false)
+    private TransmitterStatus status;
+
     @ManyToMany
     private Set<Address> availableAddresses = new java.util.LinkedHashSet<>();
 

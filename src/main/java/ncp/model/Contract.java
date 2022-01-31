@@ -3,6 +3,7 @@ package ncp.model;
 import lombok.*;
 
 import javax.persistence.*;
+import java.sql.Date;
 
 @Getter
 @Setter
@@ -21,4 +22,7 @@ public class Contract {
 
     @ManyToOne(optional = false, targetEntity = Address.class)
     private Address address;
+
+    @Column(nullable = false)
+    private Date contractExpirationDate;
 }

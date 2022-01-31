@@ -21,6 +21,13 @@ public class Tariff {
 
     private String description;
 
+    @Column(nullable = false)
+    private Long price;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(nullable = false)
+    private TariffStatus status;
+
     @ManyToMany(cascade = CascadeType.ALL)
     private Set<Transmitter> connectedTransmitters = new java.util.LinkedHashSet<>();
 

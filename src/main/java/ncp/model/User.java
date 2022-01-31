@@ -37,9 +37,7 @@ public class User implements UserDetails {
     @JoinColumn(nullable = false)
     private Set<Contract> contracts = new LinkedHashSet<>();
 
-    @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
-    @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
+    @ManyToMany
     private Set<Role> roleSet = new LinkedHashSet<>();
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
