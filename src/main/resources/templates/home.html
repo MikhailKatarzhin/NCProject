@@ -4,10 +4,19 @@
     <title>Spring Security Example</title>
 </head>
 <body>
-<h1>Welcome!</h1>
-
-<p>Click <a href="/profile">here</a> to go to profile.</p>
-<p>Have account? <a href="/sign_in">Click here to go to signing in</a></p>
-<p>Have not account? <a href="/sign_up">Click here to go to signing up</a></p>
+<table>
+    <thead><tr><th><h1>Welcome [[${#httpServletRequest.remoteUser}]]!</h1></th></tr></thead>
+    <tbody>
+        <tr><td><form th:action="@{/profile}" method="get">
+            <input type="submit" value="Go to profile">
+        </form></td></tr>
+        <tr><td><form th:action="@{/sign_up}" method="get">
+            <input type="submit" value="Go to signing up">
+        </form></td></tr>
+        <tr><td><form th:action="@{/sign_in}" method="get">
+            <input type="submit" value="Go to signing in">
+        </form></td></tr>
+    </tbody>
+</table>
 </body>
 </html>
