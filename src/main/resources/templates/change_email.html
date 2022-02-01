@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Change email</title>
+</head>
+<body>
+    <table>
+        <thead><tr><th><h1>Change email</h1></th></tr></thead>
+        <tfoot><tr><td><form th:action="@{/profile}" method="get">
+            <input type="submit" value="Return to profile"/>
+        </form></td></tr></tfoot>
+        <tbody>
+            <tr><td th:text="'Current email: '+${currentEmail}"></td></tr>
+            <tr><td><form th:action="@{/profile/change_email}" method="post"><table>
+                <tr><td><input type="email" name="email"></td></tr>
+                <tr><td><input type="submit" name="Change"></td></tr>
+            </table></form></td></tr>
+        </tbody>
+    </table>
+</body>
+</html>

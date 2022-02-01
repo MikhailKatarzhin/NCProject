@@ -4,9 +4,24 @@
     <title>Profile</title>
 </head>
 <body>
-<h1>Hello [[${#httpServletRequest.remoteUser}]]!</h1>
-<form th:action="@{/sign_in}" method="post">
-    <input type="submit" value="Sign Out"/>
-</form>
+<table>
+    <thead><tr><th><h1 th:text="'Profile of ' + ${user.getUsername()}"></h1></th></tr></thead>
+    <tfoot><tr><td><form th:action="@{/logout}" method="post">
+        <input type="submit" value="Sign Out"/>
+    </form></td></tr></tfoot>
+    <tbody><tr>
+        <td><table>
+                <tr><th>Roles</th></tr>
+                <tr th:each="role:${user.getRoleSet()}"><td th:text="${role.name}"></td></tr>
+        </table></td>
+        <td><table>
+                <tr><th>Email</th></tr>
+                <tr><td th:text="${user.getEmail()}"></td></tr>
+                <tr><td><form th:action="@{/profile/change_email}" method="get">
+                    <input type="submit" value="Change email">
+                </form></td></tr>
+        </table></td>
+    </tr></tbody>
+</table>
 </body>
 </html>
