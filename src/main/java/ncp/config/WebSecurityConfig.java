@@ -26,7 +26,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                     .antMatchers("/sign_up").not().fullyAuthenticated()
-                    .antMatchers("/profile").hasAnyAuthority("1", "2")
+                    .antMatchers("/profile/**").hasAnyAuthority("1", "2", "3")
                     .antMatchers("/", "/home").permitAll()
                     .anyRequest().authenticated()
                 .and()
