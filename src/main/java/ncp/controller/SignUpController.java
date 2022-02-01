@@ -5,7 +5,6 @@ import ncp.model.Role;
 import ncp.model.User;
 import ncp.repository.RoleRepository;
 import ncp.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -17,9 +16,7 @@ import java.util.Set;
 @RequestMapping("/sign_up")
 @Controller
 public class SignUpController {
-    @Autowired
     private UserRepository userRepository;
-    @Autowired
     private RoleRepository roleRepository;
 
     @GetMapping
@@ -40,7 +37,7 @@ public class SignUpController {
         }
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         user.setRoleSet(roleSet);
-        user.setPersonality(new Personality());
+        user.setPersonality(new Personality(user.getId(), "", "", ""));
         user.setTariffs(new LinkedHashSet<>());
         user.setContracts(new LinkedHashSet<>());
         userRepository.save(user);
