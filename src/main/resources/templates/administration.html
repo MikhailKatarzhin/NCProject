@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<table>
+    <thead><tr><th>Administration page</th></tr></thead>
+    <tfoot><tr>
+        <td><form th:action="@{/}" method="get">
+            <input type="submit" value="Home page">
+        </form></td>
+        <td><form th:action="@{/profile}" method="get">
+            <input type="submit" value="Go to profile">
+        </form></td>
+    </tr></tfoot>
+    <tr><td><form th:action="@{/address}" method="get">
+        <input type="submit" value="Address management">
+    </form></td></tr>
+    <tr><td><form th:action="@{/transmitter}" method="get">
+        <input type="submit" value="Transmitter management">
+    </form></td></tr>
+</table>
+</body>
+</html>
