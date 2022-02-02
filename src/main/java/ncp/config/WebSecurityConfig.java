@@ -17,7 +17,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private DataSource  dataSource;
     @Bean
-    public BCryptPasswordEncoder bCryptPasswordEncoder() {
+    public BCryptPasswordEncoder encoder() {
         return new BCryptPasswordEncoder();
     }
 
@@ -42,7 +42,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.jdbcAuthentication()
                 .dataSource(dataSource)
-                .passwordEncoder(bCryptPasswordEncoder())
+                .passwordEncoder(encoder())
                 .usersByUsernameQuery("select username, password, 'true' from user where username=?")
                 .authoritiesByUsernameQuery("select u.username, ur.role_set_id from user u inner join user_role_set ur on " +
                         "u.id = ur.user_id where u.username=?");
