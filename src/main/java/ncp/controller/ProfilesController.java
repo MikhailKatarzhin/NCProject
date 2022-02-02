@@ -1,60 +1,63 @@
 package ncp.controller;
 
 import lombok.AllArgsConstructor;
+import ncp.model.Personality;
 import ncp.model.User;
-import ncp.repository.ContractRepository;
-import ncp.repository.PersonalityRepository;
-import ncp.repository.RoleRepository;
-import ncp.repository.UserRepository;
+import ncp.service.PersonalityService;
+import ncp.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletRequest;
 
 @RequestMapping("/profile")
 @Controller
 @AllArgsConstructor
 public class ProfilesController {
-    private UserRepository userRepository;
-    private RoleRepository roleRepository;
-    private PersonalityRepository personalityRepository;
-    private ContractRepository contractRepository;
-    private HttpServletRequest httpServletRequest;
+    @Autowired
+    private PersonalityService personalityService;
+    @Autowired
+    private UserService userService;
+
     @GetMapping
     public String myProfile(){
-        if (httpServletRequest.getRemoteUser()==null)
-            return "/sign_up";
-        return "redirect:/profile/"+userRepository.findByUsername(httpServletRequest.getRemoteUser()).getId();
+        return "redirect:/profile/"+userService.getRemoteUserId();
     }
 
     @GetMapping("/{id}")
     public String viewProfileById(@PathVariable Long id, ModelMap model){
-        try {
-            User user = userRepository.findById(id).orElseThrow();
-            model.addAttribute("user", user);
-        }catch (Exception e){
-            return "sign_in";
-        }
+        User user = userService.getUserById(id);
+        if (user == null)
+            return myProfile();
+        model.addAttribute("user", user);
         return "/profile";
     }
 
     @GetMapping("/change_email")
     public String changeEmail(ModelMap model){
-        User user = userRepository.findByUsername(httpServletRequest.getRemoteUser());
-        model.addAttribute("currentEmail", user.getEmail());
+        model.addAttribute("currentEmail", userService.getRemoteUserEmail());
         return "change_email";
     }
 
     @PostMapping("/change_email")
     public String changeEmail(@RequestParam("email") String email, ModelMap model){
-        if (userRepository.countByEmail(email) != 0){
-            model.addAttribute("emailError", "Email already exists");
+        if (userService.emailExists(email)){
+            model.addAttribute("emailExistsError", "Email already exists");
             return "/change_email";
         }
-        User user = userRepository.findByUsername(httpServletRequest.getRemoteUser());
-        user.setEmail(email);
-        userRepository.save(user);
+        userService.saveEmail(email);
+        return "redirect:/profile";
+    }
+
+    @GetMapping("/change_personality")
+    public String changePersonality(ModelMap model){
+        model.addAttribute("personality", userService.getRemoteUserPersonality());
+        return "change_personality";
+    }
+
+    @PostMapping("/change_personality")
+    public String changePersonality(@ModelAttribute Personality personality){
+        personalityService.save(personality);
         return "redirect:/profile";
     }
 }

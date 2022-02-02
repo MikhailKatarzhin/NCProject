@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Change personality</title>
+</head>
+<body>
+<table>
+    <thead><tr><th><h1>Change email</h1></th></tr></thead>
+    <tfoot><tr><td><form th:action="@{/profile}" method="get">
+        <input type="submit" value="Return to profile" name="Return to profile"/>
+    </form></td></tr></tfoot>
+    <tbody>
+    <tr><td><form th:action="@{/profile/change_personality}" th:object="${personality}" method="post">
+        <input type="hidden" th:field="*{id}">
+        <table>
+            <tr>
+                <td th:text="'Current first name: '+*{firstName}"></td>
+                <td>
+                    <label for="firstName">New first name: </label>
+                    <input type="text" id="firstName" th:field="*{firstName}">
+                </td>
+            </tr>
+            <tr>
+                <td th:text="'Current last name: '+*{lastName}"></td>
+                <td>
+                    <label for="lastName">New first name: </label>
+                    <input type="text" id="lastName" th:field="*{lastName}">
+                </td>
+            </tr>
+            <tr>
+                <td th:text="'Current patronymic: '+*{patronymic}"></td>
+                <td>
+                    <label for="patronymic">New first name: </label>
+                    <input type="text" id="patronymic" th:field="*{patronymic}">
+                </td>
+            </tr>
+            <tr>
+                <td><input type="submit" value="Change"></td>
+            </tr>
+    </table></form></td></tr>
+    </tbody>
+</table>
+</body>
+</html>

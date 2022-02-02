@@ -11,10 +11,11 @@
             <input type="submit" value="Return to profile"/>
         </form></td></tr></tfoot>
         <tbody>
+            <tr th:if="${emailExistsError}"><td th:text="${emailExistsError}"></td></tr>
             <tr><td th:text="'Current email: '+${currentEmail}"></td></tr>
             <tr><td><form th:action="@{/profile/change_email}" method="post"><table>
                 <tr><td><input type="email" name="email"></td></tr>
-                <tr><td><input type="submit" name="Change"></td></tr>
+                <tr><td><input type="submit" value="Change"></td></tr>
             </table></form></td></tr>
         </tbody>
     </table>
