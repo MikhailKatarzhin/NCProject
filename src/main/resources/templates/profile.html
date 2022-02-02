@@ -7,7 +7,7 @@
 </head>
 <body>
 <table>
-    <thead><tr><th><h1 th:text="'Profile of ' + ${user.getUsername()}"></h1></th></tr></thead>
+    <caption><h1 th:text="'Profile of ' + ${user.getUsername()}"></h1></caption>
     <tbody><tr>
         <td><table>
             <tfoot><tr><td><form th:action="@{/logout}" method="post">
