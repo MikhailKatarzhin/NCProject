@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Address management</title>
+</head>
+<body>
+<table>
+    <caption>Address management</caption>
+    <thead><tr>
+        <td><form th:action="@{/}" method="get">
+            <input type="submit" value="Home page">
+        </form></td>
+        <td><form th:action="@{/profile}" method="get">
+            <input type="submit" value="Profile">
+        </form></td>
+        <td><form th:action="@{/administration}" method="get">
+            <input type="submit" value="Administration">
+        </form></td>
+        <td><form th:action="@{/address/add}" method="get">
+            <input type="submit" value="Add new address">
+        </form></td>
+    </tr></thead>
+    <tbody>
+        <tr>
+            <th>id</th>
+            <th>country</th>
+            <th>region</th>
+            <th>city</th>
+            <th>street</th>
+            <th>house</th>
+            <th>building</th>
+            <th>flat</th>
+        </tr>
+        <tr th:each="address : ${addresses}">
+            <td th:text="${address.id}"></td>
+            <td th:text="${address.country}"></td>
+            <td th:text="${address.region}"></td>
+            <td th:text="${address.city}"></td>
+            <td th:text="${address.street}"></td>
+            <td th:text="${address.house}"></td>
+            <td th:text="${address.building}"></td>
+            <td th:text="${address.flat}"></td>
+            <td><form th:action="@{/address/list/__${currentPage}__/__${address.id}__/remove}" method="post">
+                <input type="submit" value="remove">
+            </form></td>
+        </tr>
+        <tr>
+            <td><form th:action="@{/address}">
+                <input type="submit" value="First page">
+            </form></td>
+            <td><form th:action="@{/address/list/__${currentPage}__/preview_page}" method="get">
+                <input type="submit" value="Preview page">
+            </form></td>
+            <td><form th:action="@{/address/to_page}" method="get">
+                <label for="toPage">To page:</label>
+                <input type="number" name="toPage" id="toPage" min="1" th:max="${nPage}" th:value="${currentPage}">
+                <input type="submit" value="go">
+            </form></td>
+            <td><form th:action="@{/address/list/__${currentPage}__/next_page}" method="get">
+                <input type="submit" value="Next page">
+            </form></td>
+            <td><form th:action="@{/address/last_page}">
+                <input type="submit" value="Last page">
+            </form></td>
+        </tr>
+    </tbody>
+</table>
+</body>
+</html>
