@@ -57,9 +57,8 @@ public class UserService implements UserDetailsService {
         return userRepository.findByUsername(username);
     }
 
-    public User signUp(String password, Set<Role> roleSet){
-        User user = new User();
-        user.setPassword(passwordEncoder.encode(password));
+    public User signUp(User user, Set<Role> roleSet){
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRoleSet(roleSet);
         user.setPersonality(new Personality());
         user.setTariffs(new LinkedHashSet<>());

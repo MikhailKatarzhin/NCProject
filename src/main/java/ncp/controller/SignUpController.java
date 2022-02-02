@@ -8,7 +8,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
-
 @RequestMapping("/sign_up")
 @Controller
 public class SignUpController {
@@ -29,10 +28,14 @@ public class SignUpController {
     @PostMapping
     public String addUser(@RequestParam("roles")Long[] rolesId, User user, ModelMap model){
         if (userService.getUserByUsername(user.getUsername()) != null){
-            model.addAttribute("errorAddUser", "User already exists");
+            model.addAttribute("usernameExistsError", "Username already exists");
             return "sign_up";
         }
-        userService.signUp(user.getPassword(), roleService.getRoleSetByIds(rolesId));
+        if (userService.emailExists(user.getEmail())){
+            model.addAttribute("emailExistsError", "Email already exists");
+            return "sign_up";
+        }
+        userService.signUp(user, roleService.getRoleSetByIds(rolesId));
         return "redirect:/sign_in";
     }
 }
