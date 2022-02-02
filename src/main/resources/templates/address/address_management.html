@@ -6,7 +6,7 @@
 </head>
 <body>
 <table>
-    <caption>Address management</caption>
+    <caption><h1>Address management</h1></caption>
     <thead><tr>
         <td><form th:action="@{/}" method="get">
             <input type="submit" value="Home page">
@@ -23,14 +23,14 @@
     </tr></thead>
     <tbody>
         <tr>
-            <th>id</th>
-            <th>country</th>
-            <th>region</th>
-            <th>city</th>
-            <th>street</th>
-            <th>house</th>
-            <th>building</th>
-            <th>flat</th>
+            <th>Id</th>
+            <th>Country</th>
+            <th>Region</th>
+            <th>City</th>
+            <th>Street</th>
+            <th>House</th>
+            <th>Building</th>
+            <th>Flat</th>
         </tr>
         <tr th:each="address : ${addresses}">
             <td th:text="${address.id}"></td>
