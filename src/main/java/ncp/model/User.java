@@ -31,6 +31,7 @@ public class User implements UserDetails {
 
     @OneToOne(cascade = CascadeType.ALL, optional = false, orphanRemoval = true)
     @JoinColumn(nullable = false)
+    @PrimaryKeyJoinColumn
     private Personality personality;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
