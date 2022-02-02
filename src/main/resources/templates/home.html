@@ -1,21 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Spring Security Example</title>
+    <title>NCP Home page</title>
 </head>
 <body>
 <table>
     <thead><tr><th><h1>Welcome [[${#httpServletRequest.remoteUser}]]!</h1></th></tr></thead>
-    <tbody>
+    <tbody th:if="${#httpServletRequest.remoteUser} != null">
         <tr><td><form th:action="@{/profile}" method="get">
             <input type="submit" value="Go to profile">
         </form></td></tr>
-        <tr><td><form th:action="@{/sign_up}" method="get">
-            <input type="submit" value="Go to signing up">
-        </form></td></tr>
-        <tr><td><form th:action="@{/sign_in}" method="get">
-            <input type="submit" value="Go to signing in">
-        </form></td></tr>
+    </tbody>
+    <tbody th:if="${#httpServletRequest.remoteUser} == null">
+    <tr><td><form th:action="@{/sign_up}" method="get">
+        <input type="submit" value="Go to signing up">
+    </form></td></tr>
+    <tr><td><form th:action="@{/sign_in}" method="get">
+        <input type="submit" value="Go to signing in">
+    </form></td></tr>
     </tbody>
 </table>
 </body>
