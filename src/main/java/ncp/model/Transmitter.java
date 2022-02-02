@@ -3,6 +3,7 @@ package ncp.model;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 
@@ -23,7 +24,7 @@ public class Transmitter {
     private TransmitterStatus status;
 
     @ManyToMany
-    private Set<Address> availableAddresses = new java.util.LinkedHashSet<>();
+    private Set<Address> availableAddresses = new HashSet<>();
 
     @ManyToOne
     private Address address;
