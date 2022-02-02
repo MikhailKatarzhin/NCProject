@@ -9,10 +9,11 @@ Signing up
 <hr>
 
 <form th:action="@{/sign_up}" method="post">
-    <table >
+    <table>
         <tr>
             <td>User name: </td>
             <td><input type="text" name="username"></td>
+            <td th:if="${usernameExistsError}" th:text="${usernameExistsError}"></td>
         </tr>
         <tr>
             <td>Password: </td>
@@ -21,6 +22,7 @@ Signing up
         <tr>
             <td>Email: </td>
             <td><input type="email" name="email"></td>
+            <td th:if="${emailExistsError}" th:text="${emailExistsError}"></td>
         </tr>
         <tr><input type="checkbox" name="roles" th:each="role : ${roles}"
                 th:value="${role.id}"
