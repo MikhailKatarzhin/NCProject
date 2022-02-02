@@ -1,9 +1,6 @@
 package ncp.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -11,15 +8,16 @@ import javax.persistence.*;
 @Entity
 @ToString
 @Getter
-@NoArgsConstructor
-@AllArgsConstructor
+@Setter
+@RequiredArgsConstructor
 public class Personality {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long        id;
 
-    private String      firstName;
+    private String      firstName = "";
 
-    private String      lastName;
+    private String      lastName = "";
 
-    private String      patronymic;
+    private String      patronymic = "";
 }
