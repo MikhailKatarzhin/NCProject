@@ -20,19 +20,30 @@ public class SignUpController {
     public String signUp(ModelMap model){
         if (userService.getRemoteUser()!=null)
             return "redirect:/profile";
+        model.addAttribute("user", new User());
         model.addAttribute("roles"
                 , roleService.findAllExceptName("ADMINISTRATOR"));
         return "sign_up";
     }
 
     @PostMapping
-    public String addUser(@RequestParam("roles")Long[] rolesId, User user, ModelMap model){
+    public String addUser(@RequestParam Long[] rolesId, @RequestParam String confirmPassword, User user, ModelMap model){
         if (userService.getUserByUsername(user.getUsername()) != null){
             model.addAttribute("usernameExistsError", "Username already exists");
-            return "sign_up";
+        }
+        if (!user.getPassword().equals(confirmPassword)){
+            model.addAttribute("passwordsAreDifferent", "Passwords are different");
         }
         if (userService.emailExists(user.getEmail())){
             model.addAttribute("emailExistsError", "Email already exists");
+        }
+        if (rolesId.length==0){
+            model.addAttribute("roleRequired", "Required at least 1 role");
+        }
+        if (model.size()>2){
+            model.addAttribute("roles"
+                    , roleService.findAllExceptName("ADMINISTRATOR"));
+            model.addAttribute("selectedRoles", rolesId);
             return "sign_up";
         }
         userService.signUp(user, roleService.getRoleSetByIds(rolesId));
