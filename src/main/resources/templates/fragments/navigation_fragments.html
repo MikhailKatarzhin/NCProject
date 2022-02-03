@@ -9,7 +9,7 @@
             <td><form th:action="@{/}" method="get">
                 <input type="submit" value="Home page">
             </form></td>
-            <td sec:authorize="hasAuthority('3')">
+            <td sec:authorize="hasAuthority('ADMINISTRATOR')">
                 <form th:action="@{/administration}" method="get">
                     <input type="submit" value="Administration">
                 </form></td>
