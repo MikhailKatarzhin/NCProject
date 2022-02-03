@@ -23,7 +23,6 @@
                                 Profile
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown" sec:authorize="isAuthenticated()">
-                                <li><a class="dropdown-item" th:text="${#httpServletRequest.remoteUser}"></a></li>
                                 <li><a class="dropdown-item" th:href="@{/profile}" th:text="'Profile of '+${#httpServletRequest.remoteUser}"></a></li>
                                 <li><hr class="dropdown-divider"></li>
                                 <li><a class="dropdown-item" th:href="@{/logout}">Sign out</a></li>
@@ -39,7 +38,7 @@
                                 Administration
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
-                                <li><a class="dropdown-item" th:href="@{/address}">Address management</a></li>
+                                <li><a class="dropdown-item" th:href="@{/address}" th:formaction="">Address management</a></li>
                                 <li><a class="dropdown-item" th:href="@{/transmitter}">Transmitter management</a></li>
                             </ul>
                         </li>
