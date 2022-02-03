@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Setup Transmitter</title>
+</head>
+<body>
+<div th:insert="~{fragments/navigation_fragments  :: toolbar}"></div>
+<table th:object="${transmitter}">
+    <caption><h2 th:text="'Setup transmitter '+*{id}"></h2></caption>
+    <tr>
+        <td><table>
+            <tr><th>Status</th></tr>
+            <tr><td><form th:action="@{/transmitter/list/__${numberPageList}__/__*{id}__/setup/status}" method="post">
+                <select name="statusSelect" onchange="this.form.submit()">
+                <option th:each="tstatus : ${statusList}" th:value="${tstatus.id}" th:text="${tstatus.name}"
+                        th:selected="${tstatus}==*{status}"></option>
+            </select></form></td></tr>
+        </table></td>
+        <td><table></table></td>
+    </tr>
+</table>
+</body>
+</html>
