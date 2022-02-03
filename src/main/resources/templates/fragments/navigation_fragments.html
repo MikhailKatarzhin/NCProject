@@ -23,14 +23,22 @@
                                 Profile
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown" sec:authorize="isAuthenticated()">
-                                <li><a class="dropdown-item" th:href="@{/profile}" th:text="'Profile of '+${#httpServletRequest.remoteUser}"></a></li>
+                                <li><form th:action="@{/profile}">
+                                    <button type="submit" class="dropdown-item"
+                                            th:text="'Profile of '+${#httpServletRequest.remoteUser}">
+                                    </button></form></li>
                                 <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" th:href="@{/logout}">Sign out</a></li>
+                                <li><form th:action="@{/logout}" th:method="post">
+                                    <button type="submit" class="dropdown-item">Sign out</button>
+                                </form></li>
                             </ul>
                             <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown" sec:authorize="isAnonymous()">
-                                <li><a class="dropdown-item" th:text="${#httpServletRequest.remoteUser}"></a></li>
-                                <li><a class="dropdown-item" th:href="@{/sign_in}">Sign in</a></li>
-                                <li><a class="dropdown-item" th:href="@{/sign_up}">Sign up</a></li>
+                                <li><form th:action="@{/sign_in}">
+                                    <button type="submit" class="dropdown-item">Sign in</button>
+                                </form></li>
+                                <li><form th:action="@{/sign_up}">
+                                    <button type="submit" class="dropdown-item">Sign up</button>
+                                </form></li>
                             </ul>
                         </li>
                         <li class="nav-item dropdown" sec:authorize="hasAuthority('ADMINISTRATOR')">
@@ -38,8 +46,12 @@
                                 Administration
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
-                                <li><a class="dropdown-item" th:href="@{/address}" th:formaction="">Address management</a></li>
-                                <li><a class="dropdown-item" th:href="@{/transmitter}">Transmitter management</a></li>
+                                <li><form th:action="@{/address}" class="dropdown-item">
+                                    <button type="submit">Address management</button>
+                                </form></li>
+                                <li><form th:action="@{/transmitter}" class="dropdown-item">
+                                    <button type="submit">Transmitter management</button>
+                                </form></li>
                             </ul>
                         </li>
                     </ul>
