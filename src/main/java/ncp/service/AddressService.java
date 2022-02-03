@@ -39,48 +39,69 @@ public class AddressService {
     }
 
     public boolean isExistsFlats(Address address){
-        return 0 < addressRepository.isExistsFlats(address.getCountry(), address.getRegion(), address.getCity()
+        return 0 < addressRepository.countCountyRegionCityStreetHouseBuildingsWithFlats(address.getCountry(), address.getRegion(), address.getCity()
                 , address.getStreet(), address.getHouse(), address.getBuilding());
     }
     public boolean isExistsBuildings(Address address){
-        return 0 < addressRepository.isExistsBuildings(address.getCountry(), address.getRegion(), address.getCity()
+        return 0 < addressRepository.countCountyRegionCityStreetHouseWithBuildings(address.getCountry(), address.getRegion(), address.getCity()
         , address.getStreet(), address.getHouse());
     }
     public boolean isExistsStreets(Address address){
-        return 0 < addressRepository.isExistsStreets(address.getCountry(), address.getRegion(), address.getCity());
+        return 0 < addressRepository.countCountyRegionCityWithStreets(address.getCountry(), address.getRegion(), address.getCity());
     }
     public boolean isExistsRegions(Address address){
-        return 0 < addressRepository.isExistsRegions(address.getCountry());
+        return 0 < addressRepository.countCountyWithRegions(address.getCountry());
     }
 
     public ModelMap addNewAddress(Address address, ModelMap model){
 
-        if (address.getCountry().isEmpty() || address.getCountry()==null){
-            model.addAttribute("CountryRequiredError", "Country is required");
+        if (address.getCountry()==null){
+            model.addAttribute("CountryError", "Country is required");
+            return model;
+        }else if(address.getCountry().length()<2){
+            model.addAttribute("CountryError", "Country length must be more 1");
             return model;
         }
-        if (isExistsRegions(address)){
-            model.addAttribute("RegionRequiredError", "Region is required");
+        if (isExistsRegions(address) && address.getRegion() == null){
+            model.addAttribute("RegionError", "Region is required");
+            return model;
+        }else if(address.getRegion().length() <2){
+            model.addAttribute("RegionError", "Region length must be more 1");
             return model;
         }
-        if (address.getCity().isEmpty() || address.getCity()==null){
-            model.addAttribute("CityRequiredError", "City is required");
+        if (address.getCity()==null){
+            model.addAttribute("CityError", "City is required");
+            return model;
+        }else if(address.getCity().length()<2){
+            model.addAttribute("CityError", "City length must be more 1");
             return model;
         }
-        if (isExistsStreets(address)){
-            model.addAttribute("StreetRequiredError", "Street is required");
+        if (isExistsStreets(address) && address.getStreet()==null){
+            model.addAttribute("StreetError", "Street is required");
+            return model;
+        }else if(address.getStreet().length() <2){
+            model.addAttribute("StreetError", "Street length must be more 1");
             return model;
         }
         if (address.getHouse()==null){
-            model.addAttribute("HouseRequiredError", "House is required");
+            model.addAttribute("HouseError", "House is required");
+            return model;
+        }else if(address.getHouse()<1){
+            model.addAttribute("HouseError", "House number must be more 0");
             return model;
         }
-        if (isExistsBuildings(address)){
-            model.addAttribute("BuildingRequiredError", "Building is required");
+        if (isExistsBuildings(address) && address.getBuilding()==null){
+            model.addAttribute("BuildingError", "Building is required");
+            return model;
+        }else if(address.getBuilding()<1){
+            model.addAttribute("BuildingError", "Building number must be more 0");
             return model;
         }
-        if (isExistsFlats(address)){
-            model.addAttribute("FlatRequiredError", "Flat is required");
+        if (isExistsFlats(address) && address.getFlat()==null){
+            model.addAttribute("FlatError", "Flat is required");
+            return model;
+        }else if(address.getFlat()<1){
+            model.addAttribute("FlatError", "Flat number must be more 0");
             return model;
         }
         if (addressExists(address)){

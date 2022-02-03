@@ -12,54 +12,55 @@
     <tfoot><tr><td><form th:action="@{/address}" method="get">
         <input type="submit" value="Return to management">
     </form></td></tr></tfoot>
+    <tr th:if="${addressExistsError}"><td></td><td th:text="${addressExistsError}"></td></tr>
     <tr><td><form th:action="@{/address/add}" th:object="${address}" method="post"><table>
         <tr><td>
             <label for="country">Country: </label>
             </td><td>
             <input type="text" id="country" th:field="*{country}" required minlength="2">
         </td>
-            <td th:if="${CountryRequiredError}" th:text="${CountryRequiredError}"></td>
+            <td th:if="${CountryError}" th:text="${CountryError}"></td>
         </tr>
         <tr><td>
             <label for="region">Region: </label>
         </td><td>
-            <input type="text" id="region" th:field="*{region}" required minlength="2">
+            <input type="text" id="region" th:field="*{region}" minlength="2">
         </td>
-            <td th:if="${RegionRequiredError}" th:text="${RegionRequiredError}"></td>
+            <td th:if="${RegionError}" th:text="${RegionError}"></td>
         </tr>
         <tr><td>
             <label for="city">City: </label>
         </td><td>
             <input type="text" id="city" th:field="*{city}" required minlength="2">
         </td>
-            <td th:if="${CityRequiredError}" th:text="${CityRequiredError}"></td>
+            <td th:if="${CityError}" th:text="${CityError}"></td>
         </tr>
         <tr><td>
             <label for="street">Street: </label>
         </td><td>
             <input type="text" id="street" th:field="*{street}" minlength="2">
         </td>
-            <td th:if="${StreetRequiredError}" th:text="${StreetRequiredError}"></td></tr>
+            <td th:if="${StreetError}" th:text="${StreetError}"></td></tr>
         <tr><td>
             <label for="house">House: </label>
         </td><td>
             <input type="number" id="house" th:field="*{house}" min="1" required>
         </td>
-            <td th:if="${HouseRequiredError}" th:text="${HouseRequiredError}"></td>
+            <td th:if="${HouseError}" th:text="${HouseError}"></td>
         </tr>
         <tr><td>
             <label for="building">Building: </label>
         </td><td>
             <input type="number" id="building" th:field="*{building}" min="1">
         </td>
-            <td th:if="${BuildingRequiredError}" th:text="${BuildingRequiredError}"></td>
+            <td th:if="${BuildingError}" th:text="${BuildingError}"></td>
         </tr>
         <tr><td>
             <label for="flat">Flat: </label>
         </td><td>
             <input type="number" id="flat" th:field="*{flat}" min="0">
         </td>
-            <td th:if="${FlatRequiredError}" th:text="${FlatRequiredError}"></td>
+            <td th:if="${FlatError}" th:text="${FlatError}"></td>
         </tr>
         <tr><td>
             <input type="submit" value="Add">

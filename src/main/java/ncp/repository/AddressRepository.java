@@ -29,24 +29,24 @@ public interface AddressRepository extends JpaRepository<Address, Long> {
                     " AND a.house=?5 AND a.building=?6 AND a.flat IS NOT NULL"
             , nativeQuery = true
     )
-    Long isExistsFlats(String country, String region, String city, String street, long house, long building);
+    Long countCountyRegionCityStreetHouseBuildingsWithFlats(String country, String region, String city, String street, long house, long building);
 
     @Query(
             value = "SELECT COUNT(*) FROM address a WHERE a.country =?1 AND a.region =?2 AND a.city=?3 AND a.street=?4" +
                     " AND a.house=?5 AND a.building IS NOT NULL"
             , nativeQuery = true
     )
-    Long isExistsBuildings(String country, String region, String city, String street, long house);
+    Long countCountyRegionCityStreetHouseWithBuildings(String country, String region, String city, String street, long house);
 
     @Query(
             value = "SELECT COUNT(*) FROM address a WHERE a.country =?1 AND a.region =?2 AND a.city=?3 AND a.street IS NOT NULL"
             , nativeQuery = true
     )
-    Long isExistsStreets(String country, String region, String city);
+    Long countCountyRegionCityWithStreets(String country, String region, String city);
 
     @Query(
             value = "SELECT COUNT(*) FROM address a WHERE a.country =? AND a.region IS NOT NULL"
             , nativeQuery = true
     )
-    Long isExistsRegions(String country);
+    Long countCountyWithRegions(String country);
 }
