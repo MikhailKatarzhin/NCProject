@@ -37,14 +37,6 @@
                 <td th:text="${user.getPersonality().getPatronymic()}"></td>
             </tr>
         </table></td>
-        <td><table>
-            <tr sec:authorize="hasAuthority('1')"><td><form th:action="@{/profile/change_email}" method="get">
-                <input type="submit" value="Contract management">
-            </form></td></tr>
-            <tr sec:authorize="hasAuthority('2')"><td><form th:action="@{/profile/change_email}" method="get">
-                <input type="submit" value="Tariff management">
-            </form></td></tr>
-        </table></td>
     </tr><tr>
     <td align="center"><form th:action="@{/profile/change_email}" method="get">
         <input type="submit" value="Change email">
