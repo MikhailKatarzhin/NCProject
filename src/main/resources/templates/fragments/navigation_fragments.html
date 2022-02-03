@@ -4,6 +4,7 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <body>
     <div th:fragment="toolbar">
+        <hr>
         <table><tr>
             <td><form th:action="@{/}" method="get">
                 <input type="submit" value="Home page">
@@ -25,7 +26,33 @@
                 <input type="submit" value="Sign Out"/>
             </form></td>
         </tr></table>
+        <hr>
     </div>
 
+    <div th:fragment="paging (listObject, currentPage, nPage)">
+        <hr>
+        <table>
+            <tr>
+                <td><form th:action="@{/__${listObject}__}">
+                    <input type="submit" value="First page">
+                </form></td>
+                <td><form th:action="@{/__${listObject}__/list/__${currentPage}__/preview_page}" method="get">
+                    <input type="submit" value="Preview page">
+                </form></td>
+                <td><form th:action="@{/__${listObject}__/to_page}" method="get">
+                    <label for="toPage">To page:</label>
+                    <input type="number" name="toPage" id="toPage" min="1" th:max="${nPage}" th:value="${currentPage}">
+                    <input type="submit" value="go">
+                </form></td>
+                <td><form th:action="@{/__${listObject}__/list/__${currentPage}__/next_page}" method="get">
+                    <input type="submit" value="Next page">
+                </form></td>
+                <td><form th:action="@{/__${listObject}__/last_page}">
+                    <input type="submit" value="Last page">
+                </form></td>
+            </tr>
+        </table>
+        <hr>
+    </div>
 </body>
 </html>
