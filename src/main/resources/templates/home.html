@@ -6,8 +6,6 @@
 </head>
 <body>
 <div th:insert="~{fragments/navigation_fragments  :: toolbar}"></div>
-<table>
-    <caption><h1>Welcome [[${#httpServletRequest.remoteUser}]]!</h1></caption>
-</table>
+<h1>Welcome [[${#httpServletRequest.remoteUser}]]!</h1>
 </body>
 </html>
