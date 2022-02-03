@@ -26,11 +26,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                     .antMatchers("/administration/**", "/address/**", "/transmitter/**")
-                        .hasAnyAuthority("3")
+                        .hasAnyAuthority("ADMINISTRATOR")
                     .antMatchers("/contract/**")
-                        .hasAnyAuthority("1", "3")
+                        .hasAnyAuthority("CONSUMER", "ADMINISTRATOR")
                     .antMatchers("/tariff/**")
-                        .hasAnyAuthority("2", "3")
+                        .hasAnyAuthority("PROVIDER", "ADMINISTRATOR")
                     .antMatchers("/profile/**")
                         .fullyAuthenticated()
                     .antMatchers("/", "/home", "/sign_up")
@@ -51,7 +51,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .dataSource(dataSource)
                 .passwordEncoder(encoder())
                 .usersByUsernameQuery("select username, password, 'true' from user where username=?")
-                .authoritiesByUsernameQuery("select u.username, ur.role_set_id from user u inner join user_role_set ur on " +
-                        "u.id = ur.user_id where u.username=?");
+                .authoritiesByUsernameQuery("\n" +
+                        "select u.username, r.name from user u inner join user_role_set ur on u.id = ur.user_id" +
+                        " inner join role r on ur.role_set_id = r.id where u.username=?");
     }
 }
