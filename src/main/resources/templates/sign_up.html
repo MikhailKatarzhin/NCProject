@@ -9,32 +9,40 @@
 </head>
 <body>
 <div th:insert="~{fragments/navigation_fragments  :: navbar}"></div>
-<hr>
-<form th:action="@{/sign_up}" method="post">
-    <table>
-        <caption><h1>Signing up</h1></caption>
-        <tr>
-            <td>User name: </td>
-            <td><input type="text" name="username"></td>
-            <td th:if="${usernameExistsError}" th:text="${usernameExistsError}"></td>
-        </tr>
-        <tr>
-            <td>Password: </td>
-            <td><input type="password" name="password"></td>
-        </tr>
-        <tr>
-            <td>Email: </td>
-            <td><input type="email" name="email"></td>
-            <td th:if="${emailExistsError}" th:text="${emailExistsError}"></td>
-        </tr>
-        <tr><td><input type="checkbox" name="roles" th:each="role : ${roles}"
-                th:value="${role.id}"
-                th:text="${role.name}">
-            </td>
-        <tr>
-            <td><input type="submit" value="Sign up"></td>
-        </tr>
-    </table>
+<form th:action="@{/sign_up}" method="post" class="form-sign m-auto col-3 text-center">
+    <h1 class="h3 mb-3 fw-normal">Please sign up</h1>
+
+    <div class="mt-1 mb-1 text-muted" th:if="${param.error}">Invalid username or/and password.</div>
+    <div class="mt-1 mb-1 text-muted" th:if="${param.logout}">You have been logged out.</div>
+    <div class="form-floating">
+        <input type="text" th:class="'form-control'+(${usernameExistsError!=null}?' is-invalid':'')"
+               id="floatingInput" name="username" placeholder="Username" required>
+        <label for="floatingInput" th:text="${usernameExistsError==null}?'Username':${usernameExistsError}"></label>
+    </div>
+    <div class="form-floating">
+        <input type="password" th:class="'form-control'+(${passwordsAreDifferent!=null}?' is-invalid':'')"
+               id="floatingPassword" name="password" placeholder="Password">
+        <label for="floatingPassword"
+               th:text="${passwordsAreDifferent==null}?'Password':${passwordsAreDifferent}"></label>
+    </div>
+    <div class="form-floating">
+        <input type="password" th:class="'form-control'+(${passwordsAreDifferent!=null}?' is-invalid':'')"
+               id="floatingConfirmPassword" name="confirmPassword" placeholder="Confirm password">
+        <label for="floatingConfirmPassword"
+               th:text="${passwordsAreDifferent==null}?'Confirm password':${passwordsAreDifferent}"></label>
+    </div>
+    <div class="form-floating">
+        <input type="email" th:class="'form-control'+(${emailExistsError!=null}?' is-invalid':'')"
+               id="floatingEmail" name="email" placeholder="Email">
+        <label for="floatingEmail" th:text="${emailExistsError==null}?'Email':${emailExistsError}"></label>
+    </div>
+    <div th:class="'form-check form-switch'+(${roleRequired!=null}?' is-invalid':'')" th:each="role : ${roles}">
+        <input type="checkbox" class="form-check-input" name="rolesId" id="flexSwitchCheckDefault"
+               th:value="${role.id}"> <!--th:checked="${#arrays.contains(__${selectedRoles}__, __${role.id}__)}"-->
+        <label class="form-check-label" for="flexSwitchCheckDefault" th:text="${role.name}"></label>
+    </div>
+    <div class="invalid-feedback" th:if="${roleRequired}" th:text="${roleRequired}"></div>
+    <button class="w-100 btn btn-lg btn-primary" type="submit">Sign up</button>
 </form>
 <script type="text/javascript"
         src="/webjars/jquery/3.6.0/jquery.min.js"></script>
