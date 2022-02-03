@@ -62,27 +62,34 @@
 
     <div th:fragment="paging (listObject, currentPage, nPage)">
         <hr>
-        <table>
-            <tr>
-                <td><form th:action="@{/__${listObject}__}">
-                    <input type="submit" value="First page">
-                </form></td>
-                <td><form th:action="@{/__${listObject}__/list/__${currentPage}__/preview_page}" method="get">
-                    <input type="submit" value="Preview page">
-                </form></td>
-                <td><form th:action="@{/__${listObject}__/to_page}" method="get">
-                    <label for="toPage">To page:</label>
-                    <input type="number" name="toPage" id="toPage" min="1" th:max="${nPage}" th:value="${currentPage}">
-                    <input type="submit" value="go">
-                </form></td>
-                <td><form th:action="@{/__${listObject}__/list/__${currentPage}__/next_page}" method="get">
-                    <input type="submit" value="Next page">
-                </form></td>
-                <td><form th:action="@{/__${listObject}__/last_page}">
-                    <input type="submit" value="Last page">
-                </form></td>
-            </tr>
-        </table>
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                <li class="page-item" th:if="${currentPage > 1}">
+                    <a class="page-link" th:href="@{/__${listObject}__}"
+                    >First page</a>
+                </li>
+                <li class="page-item" th:if="${currentPage > 2}">
+                    <a class="page-link" th:href="@{/__${listObject}__/list/__${currentPage}__/preview_page}"
+                    >Previous page</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" th:href="@{/__${listObject}__/to_page}"
+                    >To page: </a>
+                </li>
+                <li class="page-item">
+                    <input type="number" name="toPage" id="toPage" min="1" th:max="${nPage}" th:value="${currentPage}"
+                    class="form-control me-2">
+                </li>
+                <li class="page-item" th:if="${currentPage < (nPage - 1)}">
+                    <a class="page-link" th:href="@{/__${listObject}__/list/__${currentPage}__/next_page}"
+                    >Next page</a>
+                </li>
+                <li class="page-item" th:if="${currentPage < nPage}">
+                    <a class="page-link" th:href="@{/__${listObject}__/last_page}"
+                    >Last page</a>
+                </li>
+            </ul>
+        </nav>
         <hr>
     </div>
 </body>
