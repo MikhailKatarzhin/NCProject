@@ -30,20 +30,20 @@ public class ProfilesController {
         if (user == null)
             return myProfile();
         model.addAttribute("user", user);
-        return "/profile";
+        return "profile/profile";
     }
 
     @GetMapping("/change_email")
     public String changeEmail(ModelMap model){
         model.addAttribute("currentEmail", userService.getRemoteUserEmail());
-        return "change_email";
+        return "profile/change_email";
     }
 
     @PostMapping("/change_email")
     public String changeEmail(@RequestParam("email") String email, ModelMap model){
         if (userService.emailExists(email)){
             model.addAttribute("emailExistsError", "Email already exists");
-            return "/change_email";
+            return "profile/change_email";
         }
         userService.saveEmail(email);
         return "redirect:/profile";
@@ -52,7 +52,7 @@ public class ProfilesController {
     @GetMapping("/change_personality")
     public String changePersonality(ModelMap model){
         model.addAttribute("personality", userService.getRemoteUserPersonality());
-        return "change_personality";
+        return "profile/change_personality";
     }
 
     @PostMapping("/change_personality")
