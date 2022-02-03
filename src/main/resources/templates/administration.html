@@ -1,20 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
+<div th:insert="~{fragments/navigation_fragments  :: toolbar}"></div>
 <table>
-    <thead><tr><th>Administration page</th></tr></thead>
-    <tfoot><tr>
-        <td><form th:action="@{/}" method="get">
-            <input type="submit" value="Home page">
-        </form></td>
-        <td><form th:action="@{/profile}" method="get">
-            <input type="submit" value="Go to profile">
-        </form></td>
-    </tr></tfoot>
+    <caption>Administration page</caption>
     <tr><td><form th:action="@{/address}" method="get">
         <input type="submit" value="Address management">
     </form></td></tr>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en"
+    xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<body>
+    <div th:fragment="toolbar">
+        <table><tr>
+            <td><form th:action="@{/}" method="get">
+                <input type="submit" value="Home page">
+            </form></td>
+            <td sec:authorize="hasAuthority('3')">
+                <form th:action="@{/administration}" method="get">
+                    <input type="submit" value="Administration">
+                </form></td>
+            <td sec:authorize="isAnonymous()"><form th:action="@{/sign_up}" method="get">
+                <input type="submit" value="Go to signing up">
+            </form></td>
+            <td  sec:authorize="isAnonymous()"><form th:action="@{/sign_in}" method="get">
+                <input type="submit" value="Go to signing in">
+            </form></td>
+            <td sec:authorize="isAuthenticated()"><form th:action="@{/profile}" method="get">
+                <input type="submit" value="Profile">
+            </form></td>
+            <td sec:authorize="isAuthenticated()"><form th:action="@{/logout}" method="post">
+                <input type="submit" value="Sign Out"/>
+            </form></td>
+        </tr></table>
+    </div>
+
+</body>
+</html>

@@ -1,16 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Adding address</title>
 </head>
 <body>
+<div th:insert="~{fragments/navigation_fragments  :: toolbar}"></div>
 <table>
-    <thead><tr><th><h1>Adding new address</h1></th></tr></thead>
+    <caption><h1>Adding new address</h1></caption>
     <tfoot><tr><td><form th:action="@{/address}" method="get">
         <input type="submit" value="Return to management">
     </form></td></tr></tfoot>
-    <tr th:if="${addressExistsError}"><td th:text="${addressExistsError}"></td></tr>
     <tr><td><form th:action="@{/address/add}" th:object="${address}" method="post"><table>
         <tr><td>
             <label for="country">Country: </label>

@@ -6,28 +6,22 @@
     <title>Profile</title>
 </head>
 <body>
+<div th:insert="~{fragments/navigation_fragments  :: toolbar}"></div>
 <table>
     <caption><h1 th:text="'Profile of ' + ${user.getUsername()}"></h1></caption>
-    <tbody><tr>
+    <tr>
+        <th>Roles</th>
+        <th>Email</th>
+        <th>Personality</th>
+    </tr>
+    <tr>
         <td><table>
-            <tfoot><tr><td><form th:action="@{/logout}" method="post">
-                <input type="submit" value="Sign Out"/>
-            </form></td></tr></tfoot>
-            <tr><th>Roles</th></tr>
             <tr th:each="role:${user.getRoleSet()}"><td th:text="${role.name}"></td></tr>
         </table></td>
         <td><table>
-            <tfoot><tr><td><form th:action="@{/profile/change_email}" method="get">
-                <input type="submit" value="Change email">
-            </form></td></tr></tfoot>
-            <tr><th>Email</th></tr>
             <tr><td th:text="${user.getEmail()}"></td></tr>
         </table></td>
         <td><table>
-            <tfoot><tr><td><form th:action="@{/profile/change_personality}" method="get">
-                <input type="submit" value="Change personality">
-            </form></td></tr></tfoot>
-            <tr><th>Personality</th></tr>
             <tr>
                 <td>First name: </td>
                 <td th:text="${user.getPersonality().getFirstName()}"></td>
@@ -48,14 +42,15 @@
             <tr sec:authorize="hasAuthority('2')"><td><form th:action="@{/profile/change_email}" method="get">
                 <input type="submit" value="Tariff management">
             </form></td></tr>
-            <tr><td><form th:action="@{/}" method="get">
-                <input type="submit" value="Home page">
-            </form></td></tr>
-            <tr sec:authorize="hasAuthority('3')"><td><form th:action="@{/administration}" method="get">
-                <input type="submit" value="Administration">
-            </form></td></tr>
         </table></td>
-    </tr></tbody>
+    </tr><tr>
+    <td align="center"><form th:action="@{/profile/change_email}" method="get">
+        <input type="submit" value="Change email">
+    </form></td>
+    <td align="center"><form th:action="@{/profile/change_personality}" method="get">
+        <input type="submit" value="Change personality">
+    </form></td>
+    </tr>
 </table>
 </body>
 </html>

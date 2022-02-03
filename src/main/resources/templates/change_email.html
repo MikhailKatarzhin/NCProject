@@ -1,23 +1,20 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Change email</title>
 </head>
 <body>
+<div th:insert="~{fragments/navigation_fragments  :: toolbar}"></div>
     <table>
-        <thead><tr><th><h1>Change email</h1></th></tr></thead>
-        <tfoot><tr><td><form th:action="@{/profile}" method="get">
-            <input type="submit" value="Return to profile"/>
-        </form></td></tr></tfoot>
-        <tbody>
-            <tr th:if="${emailExistsError}"><td th:text="${emailExistsError}"></td></tr>
-            <tr><td th:text="'Current email: '+${currentEmail}"></td></tr>
-            <tr><td><form th:action="@{/profile/change_email}" method="post"><table>
-                <tr><td><input type="email" name="email"></td></tr>
-                <tr><td><input type="submit" value="Change"></td></tr>
-            </table></form></td></tr>
-        </tbody>
+        <caption>Change email</caption>
+        <tr th:if="${emailExistsError}"><td th:text="${emailExistsError}"></td></tr>
+        <tr><td th:text="'Current email: '+${currentEmail}"></td></tr>
+        <tr><td><form th:action="@{/profile/change_email}" method="post"><table>
+            <tr><td><input type="email" name="email"></td></tr>
+            <tr><td><input type="submit" value="Change"></td></tr>
+        </table></form></td></tr>
     </table>
 </body>
 </html>

@@ -1,15 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Signing Up</title>
 </head>
 <body>
-Signing up
+<div th:insert="~{fragments/navigation_fragments  :: toolbar}"></div>
 <hr>
-
 <form th:action="@{/sign_up}" method="post">
     <table>
+        <caption><h1>Signing up</h1></caption>
         <tr>
             <td>User name: </td>
             <td><input type="text" name="username"></td>
@@ -24,17 +25,14 @@ Signing up
             <td><input type="email" name="email"></td>
             <td th:if="${emailExistsError}" th:text="${emailExistsError}"></td>
         </tr>
-        <tr><input type="checkbox" name="roles" th:each="role : ${roles}"
+        <tr><td><input type="checkbox" name="roles" th:each="role : ${roles}"
                 th:value="${role.id}"
                 th:text="${role.name}">
-        </tr>
+            </td>
         <tr>
             <td><input type="submit" value="Sign up"></td>
         </tr>
     </table>
 </form>
-
-<hr>
-<a href="/sign_in"> Already have profile?</a>
 </body>
 </html>

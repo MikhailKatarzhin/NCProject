@@ -7,12 +7,9 @@
     <title>Change personality</title>
 </head>
 <body>
+<div th:insert="~{fragments/navigation_fragments  :: toolbar}"></div>
 <table>
-    <thead><tr><th><h1>Change email</h1></th></tr></thead>
-    <tfoot><tr><td><form th:action="@{/profile}" method="get">
-        <input type="submit" value="Return to profile" name="Return to profile"/>
-    </form></td></tr></tfoot>
-    <tbody>
+    <caption><h1>Change personality</h1></caption>
     <tr><td><form th:action="@{/profile/change_personality}" th:object="${personality}" method="post">
         <input type="hidden" th:field="*{id}">
         <table>
@@ -40,8 +37,8 @@
             <tr>
                 <td><input type="submit" value="Change"></td>
             </tr>
-    </table></form></td></tr>
-    </tbody>
+        </table>
+    </form></td></tr>
 </table>
 </body>
 </html>

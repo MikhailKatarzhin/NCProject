@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Signing in</title>
 </head>
 <body>
-Signing in
-<hr>
+<div th:insert="~{fragments/navigation_fragments  :: toolbar}"></div>
 
 <div th:if="${param.error}">
     Invalid username or/and password.
@@ -13,14 +13,22 @@ Signing in
 <div th:if="${param.logout}">
     You have been logged out.
 </div>
-
-<form th:action="@{/sign_in}" method="post">
-    <div><label> User Name : <input type="text" name="username"/> </label></div>
-    <div><label> Password: <input type="password" name="password"/> </label></div>
-    <div><input type="submit" value="Sign In"/></div>
-</form>
-
 <hr>
-<a href="/sign_up"> Didn't have profile?</a>
+<form th:action="@{/sign_in}" method="post">
+    <table>
+        <caption><h1>Signing in</h1></caption>
+        <tr>
+            <td><label for="username">Username:</label> </td>
+            <td><input type="text" name="username" id="username"></td>
+        </tr>
+        <tr>
+            <td><label for="password">Username:</label> </td>
+            <td><input type="password" name="password" id="password"></td>
+        </tr>
+        <tr>
+            <td><input type="submit" value="Sign In"/></td>
+        </tr>
+    </table>
+</form>
 </body>
 </html>
