@@ -8,13 +8,13 @@
 <body>
 <div th:insert="~{fragments/navigation_fragments  :: toolbar}"></div>
 <table>
-    <caption><h1>Address management</h1></caption>
-    <thead><tr>
-        <td><form th:action="@{/address/add}" method="get">
-            <input type="submit" value="Add new address">
-        </form></td>
-    </tr></thead>
-    <tbody>
+    <tr><td><table>
+        <caption><h1>Address management</h1></caption>
+        <thead><tr>
+            <td><form th:action="@{/address/add}" method="get">
+                <input type="submit" value="Add new address">
+            </form></td>
+        </tr></thead>
         <tr>
             <th>Id</th>
             <th>Country</th>
@@ -38,26 +38,10 @@
                 <input type="submit" value="remove">
             </form></td>
         </tr>
-        <tr>
-            <td><form th:action="@{/address}">
-                <input type="submit" value="First page">
-            </form></td>
-            <td><form th:action="@{/address/list/__${currentPage}__/preview_page}" method="get">
-                <input type="submit" value="Preview page">
-            </form></td>
-            <td><form th:action="@{/address/to_page}" method="get">
-                <label for="toPage">To page:</label>
-                <input type="number" name="toPage" id="toPage" min="1" th:max="${nPage}" th:value="${currentPage}">
-                <input type="submit" value="go">
-            </form></td>
-            <td><form th:action="@{/address/list/__${currentPage}__/next_page}" method="get">
-                <input type="submit" value="Next page">
-            </form></td>
-            <td><form th:action="@{/address/last_page}">
-                <input type="submit" value="Last page">
-            </form></td>
-        </tr>
-    </tbody>
+    </table></td></tr>
+    <tr>
+        <td th:insert="~{fragments/navigation_fragments  :: paging ('address', ${currentPage}, ${nPage})}"></td>
+    </tr>
 </table>
 </body>
 </html>
