@@ -4,9 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Setup Transmitter</title>
+    <link rel="stylesheet" type="text/css"
+          href="/webjars/bootstrap/5.1.1/css/bootstrap.min.css" />
 </head>
 <body>
-<div th:insert="~{fragments/navigation_fragments  :: toolbar}"></div>
+<div th:insert="~{fragments/navigation_fragments  :: navbar}"></div>
 <table th:object="${transmitter}">
     <caption><h2 th:text="'Setup transmitter '+*{id}"></h2></caption>
     <tr>
@@ -21,5 +23,10 @@
         <td><table></table></td>
     </tr>
 </table>
+<script type="text/javascript"
+        src="/webjars/jquery/3.6.0/jquery.min.js"></script>
+
+<script type="text/javascript"
+        src="/webjars/bootstrap/5.1.1/js/bootstrap.min.js"></script>
 </body>
 </html>

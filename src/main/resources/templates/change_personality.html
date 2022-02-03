@@ -5,9 +5,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Change personality</title>
+    <link rel="stylesheet" type="text/css"
+          href="/webjars/bootstrap/5.1.1/css/bootstrap.min.css" />
 </head>
 <body>
-<div th:insert="~{fragments/navigation_fragments  :: toolbar}"></div>
+<div th:insert="~{fragments/navigation_fragments  :: navbar}"></div>
 <table>
     <caption><h1>Change personality</h1></caption>
     <tr><td><form th:action="@{/profile/change_personality}" th:object="${personality}" method="post">
@@ -40,5 +42,10 @@
         </table>
     </form></td></tr>
 </table>
+<script type="text/javascript"
+        src="/webjars/jquery/3.6.0/jquery.min.js"></script>
+
+<script type="text/javascript"
+        src="/webjars/bootstrap/5.1.1/js/bootstrap.min.js"></script>
 </body>
 </html>

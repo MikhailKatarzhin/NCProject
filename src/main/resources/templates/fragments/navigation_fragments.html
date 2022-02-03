@@ -1,32 +1,52 @@
 <!DOCTYPE html>
-<html lang="en"
-    xmlns:th="http://www.thymeleaf.org"
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <body>
-    <div th:fragment="toolbar">
-        <hr>
-        <table><tr>
-            <td><form th:action="@{/}" method="get">
-                <input type="submit" value="Home page">
-            </form></td>
-            <td sec:authorize="hasAuthority('ADMINISTRATOR')">
-                <form th:action="@{/administration}" method="get">
-                    <input type="submit" value="Administration">
-                </form></td>
-            <td sec:authorize="isAnonymous()"><form th:action="@{/sign_up}" method="get">
-                <input type="submit" value="Go to signing up">
-            </form></td>
-            <td  sec:authorize="isAnonymous()"><form th:action="@{/sign_in}" method="get">
-                <input type="submit" value="Go to signing in">
-            </form></td>
-            <td sec:authorize="isAuthenticated()"><form th:action="@{/profile}" method="get">
-                <input type="submit" value="Profile">
-            </form></td>
-            <td sec:authorize="isAuthenticated()"><form th:action="@{/logout}" method="post">
-                <input type="submit" value="Sign Out"/>
-            </form></td>
-        </tr></table>
-        <hr>
+    <div th:fragment="navbar">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container-fluid">
+                <a class="navbar-brand" th:href="@{/}">Home page</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarScroll">
+                    <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+                        <li class="nav-item" sec:authorize="hasAuthority('CONSUMER')">
+                            <a class="nav-link active" aria-current="page" href="#">Contract management</a>
+                        </li>
+                        <li class="nav-item" sec:authorize="hasAuthority('PROVIDER')">
+                            <a class="nav-link active" aria-current="page" href="#">Tariff management</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Profile
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown" sec:authorize="isAuthenticated()">
+                                <li><a class="dropdown-item" th:text="${#httpServletRequest.remoteUser}"></a></li>
+                                <li><a class="dropdown-item" th:href="@{/profile}" th:text="'Profile of '+${#httpServletRequest.remoteUser}"></a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" th:href="@{/logout}">Sign out</a></li>
+                            </ul>
+                            <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown" sec:authorize="isAnonymous()">
+                                <li><a class="dropdown-item" th:text="${#httpServletRequest.remoteUser}"></a></li>
+                                <li><a class="dropdown-item" th:href="@{/sign_in}">Sign in</a></li>
+                                <li><a class="dropdown-item" th:href="@{/sign_up}">Sign up</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown" sec:authorize="hasAuthority('ADMINISTRATOR')">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Administration
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
+                                <li><a class="dropdown-item" th:href="@{/address}">Address management</a></li>
+                                <li><a class="dropdown-item" th:href="@{/transmitter}">Transmitter management</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
     </div>
 
     <div th:fragment="paging (listObject, currentPage, nPage)">

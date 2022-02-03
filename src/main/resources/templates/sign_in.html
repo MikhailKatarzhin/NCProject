@@ -3,31 +3,36 @@
       xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Signing in</title>
-</head>
-<body>
-<div th:insert="~{fragments/navigation_fragments  :: toolbar}"></div>
 
-<div th:if="${param.error}">
-    Invalid username or/and password.
-</div>
-<div th:if="${param.logout}">
-    You have been logged out.
-</div>
-<form th:action="@{/sign_in}" method="post">
-    <table>
-        <caption><h1>Signing in</h1></caption>
-        <tr>
-            <td><label for="username">Username:</label> </td>
-            <td><input type="text" name="username" id="username"></td>
-        </tr>
-        <tr>
-            <td><label for="password">Password:</label> </td>
-            <td><input type="password" name="password" id="password"></td>
-        </tr>
-        <tr>
-            <td><input type="submit" value="Sign In"/></td>
-        </tr>
-    </table>
-</form>
+    <link rel="stylesheet" type="text/css"
+          href="/webjars/bootstrap/5.1.1/css/bootstrap.min.css" />
+</head>
+
+<body class="text-center">
+<main class="form-signin">
+    <div th:insert="~{fragments/navigation_fragments  :: navbar}"></div>
+
+    <form th:action="@{/sign_in}" method="post">
+        <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+
+        <div class="mt-5 mb-3 text-muted" th:if="${param.error}">Invalid username or/and password.</div>
+        <p class="mt-5 mb-3 text-muted" th:if="${param.logout}">You have been logged out.</p>
+        <div class="form-floating">
+            <input type="text" class="form-control" id="floatingInput" name="username" placeholder="Username">
+            <label for="floatingInput">Username</label>
+        </div>
+        <div class="form-floating">
+            <input type="password" class="form-control" id="floatingPassword" name="password" placeholder="Password">
+            <label for="floatingPassword">Password</label>
+        </div>
+        <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
+        <p class="mt-5 mb-3 text-muted">&copy; 2021-2022</p>
+    </form>
+</main>
+<script type="text/javascript"
+        src="/webjars/jquery/3.6.0/jquery.min.js"></script>
+
+<script type="text/javascript"
+        src="/webjars/bootstrap/5.1.1/js/bootstrap.min.js"></script>
 </body>
 </html>
