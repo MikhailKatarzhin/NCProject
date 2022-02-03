@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Adding new Transmitter</title>
+</head>
+<body>
+<div th:insert="~{fragments/navigation_fragments  :: toolbar}"></div>
+<table>
+    <caption><h2>Adding new Transmitter</h2></caption>
+    <tr><td><form th:action="@{/transmitter/add}" method="post"><table>
+        <caption>Description transmitter</caption>
+        <tr><td><textarea name="description"></textarea></td></tr>
+        <tr><td><input type="submit" value="Create transmitter"></td></tr>
+    </table></form></td></tr>
+    <tr><td><form th:action="@{/transmitter}" method="get">
+        <input type="submit" value="Return to management">
+    </form></td></tr>
+</table>
+</body>
+</html>
