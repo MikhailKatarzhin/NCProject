@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Transmitter management</title>
+</head>
+<body>
+<div th:insert="~{fragments/navigation_fragments  :: toolbar}"></div>
+<table>
+    <tr><td><table>
+        <caption><h1>Transmitter management</h1></caption>
+        <thead><tr>
+            <td><form th:action="@{/transmitter/add}" method="get">
+                <input type="submit" value="Add new transmitter">
+            </form></td>
+        </tr></thead>
+        <tr>
+            <th>Id</th>
+            <th>Status</th>
+            <th>Description</th>
+            <th>Country</th>
+            <th>Region</th>
+            <th>City</th>
+            <th>Street</th>
+            <th>House</th>
+            <th>Building</th>
+            <th>Flat</th>
+        </tr>
+        <tr th:each="transmitter : ${transmitters}">
+            <td th:text="${transmitter.id}"></td>
+            <td th:text="${transmitter.status.name}"></td>
+            <td th:text="${transmitter.description}"></td>
+            <td th:if="${transmitter.address}" th:text="${transmitter.address.country}"></td>
+            <td th:unless="${transmitter.address}"></td>
+            <td th:if="${transmitter.address}" th:text="${transmitter.address.region}"></td>
+            <td th:unless="${transmitter.address}"></td>
+            <td th:if="${transmitter.address}" th:text="${transmitter.address.city}"></td>
+            <td th:unless="${transmitter.address}"></td>
+            <td th:if="${transmitter.address}" th:text="${transmitter.address.street}"></td>
+            <td th:unless="${transmitter.address}"></td>
+            <td th:if="${transmitter.address}" th:text="${transmitter.address.house}"></td>
+            <td th:unless="${transmitter.address}"></td>
+            <td th:if="${transmitter.address}" th:text="${transmitter.address.building}"></td>
+            <td th:unless="${transmitter.address}"></td>
+            <td th:if="${transmitter.address}" th:text="${transmitter.address.flat}"></td>
+            <td th:unless="${transmitter.address}"></td>
+            <td><form th:action="@{/transmitter/list/__${currentPage}__/__${transmitter.id}__/remove}" method="post">
+                <input type="submit" value="remove">
+            </form></td>
+            <td><form th:action="@{/transmitter/list/__${currentPage}__/__${transmitter.id}__/setup}" method="get">
+                <input type="submit" value="setup">
+            </form></td>
+        </tr>
+    </table></td></tr>
+    <tr>
+        <td th:insert="~{fragments/navigation_fragments  :: paging ('transmitter', ${currentPage}, ${nPage})}"></td>
+    </tr>
+</table>
+</body>
+</html>
