@@ -55,28 +55,28 @@ public class AddressService {
 
     public ModelMap addNewAddress(Address address, ModelMap model){
 
-        if (address.getCountry()==null){
+        if (address.getCountry().isBlank()){
             model.addAttribute("CountryError", "Country is required");
             return model;
         }else if(address.getCountry().length()<2){
             model.addAttribute("CountryError", "Country length must be more 1");
             return model;
         }
-        if (isExistsRegions(address) && address.getRegion() == null){
+        if (isExistsRegions(address) && address.getRegion().isBlank()){
             model.addAttribute("RegionError", "Region is required");
             return model;
         }else if(address.getRegion().length() <2){
             model.addAttribute("RegionError", "Region length must be more 1");
             return model;
         }
-        if (address.getCity()==null){
+        if (address.getCity().isBlank()){
             model.addAttribute("CityError", "City is required");
             return model;
         }else if(address.getCity().length()<2){
             model.addAttribute("CityError", "City length must be more 1");
             return model;
         }
-        if (isExistsStreets(address) && address.getStreet()==null){
+        if (isExistsStreets(address) && address.getStreet().isBlank()){
             model.addAttribute("StreetError", "Street is required");
             return model;
         }else if(address.getStreet().length() <2){
