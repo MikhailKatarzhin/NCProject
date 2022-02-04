@@ -60,7 +60,7 @@
         </nav>
     </div>
 
-    <div th:fragment="paging (listObject, currentPage, nPage)">
+    <div th:fragment="paging (listObject, currentPage, nPage)"><form th:action="@{/__${listObject}__/to_page/}">
         <hr>
         <nav aria-label="Page navigation example">
             <ul class="pagination">
@@ -73,12 +73,11 @@
                     >Previous page</a>
                 </li>
                 <li class="page-item">
-                    <a class="page-link" th:href="@{/__${listObject}__/to_page}"
-                    >To page: </a>
+                    <a class="page-link">To page: </a>
                 </li>
                 <li class="page-item">
                     <input type="number" name="toPage" id="toPage" min="1" th:max="${nPage}" th:value="${currentPage}"
-                    class="form-control me-2">
+                    class="form-control me-2" onchange="this.form.submit()">
                 </li>
                 <li class="page-item" th:if="${currentPage < (nPage - 1)}">
                     <a class="page-link" th:href="@{/__${listObject}__/list/__${currentPage}__/next_page}"
@@ -91,6 +90,6 @@
             </ul>
         </nav>
         <hr>
-    </div>
+    </form></div>
 </body>
 </html>
