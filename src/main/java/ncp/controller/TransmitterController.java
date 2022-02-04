@@ -18,9 +18,24 @@ public class TransmitterController {
     private TransmitterService transmitterService;
     @Autowired
     private TransmitterStatusService transmitterStatusService;
+
+///********************! Transmitter management !********************
+
     @GetMapping
     public String management(){
+        return firstPage();
+    }
+
+    @PostMapping("/add")
+    public String transmitterAdd(@RequestParam String description){
+        transmitterService.saveNew(description);
         return "redirect:/transmitter/list/1";
+    }
+
+    @PostMapping("/list/{numberPageList}/{id}/remove")
+    public String removeById(@PathVariable Long numberPageList, @PathVariable Long id){
+        transmitterService.deleteById(id);
+        return "redirect:/transmitter/list/"+numberPageList;
     }
 
     @GetMapping("/list/{numberPageList}")
@@ -37,43 +52,38 @@ public class TransmitterController {
         return "transmitter/transmitter_management";
     }
 
+///********************! Pagination transmitters !********************
+
     @GetMapping("/to_page")
     public String toPage(@RequestParam("toPage") Long toPage){
-        return "redirect:/transmitter/list/"+toPage;
+        return "redirect:/transmitter/list/" + toPage;
+    }
+
+    @GetMapping("/first_page")
+    public String firstPage(){
+        return toPage(1L);
     }
 
     @GetMapping("/list/{numberPageList}/next_page")
     public String nextPage(@PathVariable Long numberPageList){
-        return "redirect:/transmitter/list/"+(numberPageList+1L);
+        return toPage(numberPageList+1L);
     }
 
     @GetMapping("/list/{numberPageList}/preview_page")
     public String previewPage(@PathVariable Long numberPageList){
-        return "redirect:/transmitter/list/"+(numberPageList-1L);
+        return toPage(numberPageList-1L);
     }
 
     @GetMapping("/last_page")
     public String lastPage(){
-        return "redirect:/transmitter/list/"+transmitterService.pageCount();
+        return toPage(transmitterService.pageCount());
     }
 
-    @PostMapping("/add")
-    public String transmitterAdd(@RequestParam String description){
-        transmitterService.saveNew(description);
-        return "redirect:/transmitter/list/1";
-    }
-
-    @PostMapping("/list/{numberPageList}/{id}/remove")
-    public String removeById(@PathVariable Long numberPageList, @PathVariable Long id){
-        transmitterService.deleteById(id);
-        return "redirect:/transmitter/list/"+numberPageList;
-    }
+///********************! Setup of Transmitter !********************
 
     @GetMapping("/setup/{id}")
-    public String setupById(@PathVariable Long id, ModelMap model){
-        model.addAttribute("transmitter", transmitterService.getById(id));
-        model.addAttribute("statusList", transmitterStatusService.getAll());
-        return "redirect:/transmitter/setup/"+id+"/list/1";
+    public String setupById(@PathVariable Long id){
+        return firstAvailableAddressPage(id);
     }
 
     @GetMapping("/setup/{id}/list/{availableAddressPage}")
@@ -92,39 +102,63 @@ public class TransmitterController {
         return "transmitter/setup";
     }
 
-    @GetMapping("/setup/{id}/to_page")
-    public String toAvailableAddressPage(@RequestParam("toPage") Long toPage, @PathVariable Long id){
-        return "redirect:/transmitter/setup/"+id+"/list/"+toPage;
-    }
-
-    @GetMapping("/setup/{id}/list/{availableAddressPage}/next_page")
-    public String nextAvailableAddressPage(@PathVariable Long id, @PathVariable Long availableAddressPage){
-        return "redirect:/transmitter/setup/"+id+"/list/"+(availableAddressPage+1L);
-    }
-
-    @GetMapping("/setup/{id}/list/{availableAddressPage}/preview_page")
-    public String previewAvailableAddressPage(@PathVariable Long id, @PathVariable Long availableAddressPage){
-        return "redirect:/transmitter/setup/"+id+"/list/"+(availableAddressPage-1L);
-    }
-
-    @GetMapping("/setup/{id}/last_page")
-    public String lastAvailableAddressPage(@PathVariable Long id){
-        return "redirect:/transmitter/setup/"+id+"/list/"+transmitterService.availableAddressPageCount(id);
-    }
-
     @PostMapping("/setup/{id}/{availableAddressPage}/status")
     public String setStatusByTransmitterId(
             @PathVariable Long id
             , @PathVariable Long availableAddressPage
             , @RequestParam long statusSelect){
         transmitterService.setStatus(id, statusSelect);
-        return "redirect:/transmitter/setup/"+id+"/list/"+availableAddressPage;
+        return toAvailableAddressPage(availableAddressPage, id);
     }
+
+
+    @GetMapping("/setup/{id}/addressList/{numberPage}")
+    public String selectAddress(@PathVariable Long id, @PathVariable Long numberPage
+            , @RequestParam Address address, ModelMap model){
+        model.addAttribute("addresses", transmitterService.searchAddressByAddress(address, numberPage));
+        return "";
+    }
+
+    @PostMapping("/setup/{id}/address/{addressId}")
+    public String setAddress(@PathVariable Long id, @PathVariable Long addressId){
+        transmitterService.setAddress(id, addressId);
+        return setupById(id);
+    }
+
+///********************! Pagination available addresses !********************
+
+    @GetMapping("/setup/{id}/to_page")
+    public String toAvailableAddressPage(@RequestParam("toPage") Long toPage, @PathVariable Long id){
+        return "redirect:/transmitter/setup/"+id+"/list/"+toPage;
+    }
+
+    @GetMapping("/setup/{id}/first_page")
+    public String firstAvailableAddressPage(@PathVariable Long id){
+        return toAvailableAddressPage(1L, id);
+    }
+
+    @GetMapping("/setup/{id}/list/{availableAddressPage}/next_page")
+    public String nextAvailableAddressPage(@PathVariable Long id, @PathVariable Long availableAddressPage){
+        return toAvailableAddressPage(availableAddressPage+1L, id);
+    }
+
+    @GetMapping("/setup/{id}/list/{availableAddressPage}/preview_page")
+    public String previewAvailableAddressPage(@PathVariable Long id, @PathVariable Long availableAddressPage){
+        return toAvailableAddressPage(availableAddressPage-1L, id);
+    }
+
+    @GetMapping("/setup/{id}/last_page")
+    public String lastAvailableAddressPage(@PathVariable Long id){
+        return toAvailableAddressPage(transmitterService.availableAddressPageCount(id), id);
+    }
+
+///********************! Available address management !********************
 
     @PostMapping("/setup/{id}/{availableAddressPage}/removeAvailableAddress/{idAA}")
     public String removeAvailableAddressByTransmitterIdAndAddressId(@PathVariable Long id
             , @PathVariable Long availableAddressPage, @PathVariable Long idAA){
         transmitterService.removeAvailableAddressByTransmitterIdAndAddressId(id, idAA);
-        return "redirect:/transmitter/setup/"+id+"/list/"+availableAddressPage;
+        return toAvailableAddressPage(availableAddressPage, id);
     }
+
 }

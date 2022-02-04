@@ -15,6 +15,8 @@ public class AddressController {
     @Autowired
     private AddressService addressService;
 
+///********************! Address management !********************
+
     @GetMapping
     public String managementByOffset(){
         return "redirect:/address/list/1";
@@ -32,26 +34,6 @@ public class AddressController {
         List<Address> addressList =addressService.addressListByNumberPageList(numberPageList);
         model.addAttribute("addresses", addressList);
         return "address/address_management";
-    }
-
-    @GetMapping("/to_page")
-    public String toPage(@RequestParam("toPage") Long toPage){
-        return "redirect:/address/list/"+toPage;
-    }
-
-    @GetMapping("/list/{numberPageList}/next_page")
-    public String nextPage(@PathVariable Long numberPageList, ModelMap model){
-        return "redirect:/address/list/"+(numberPageList+1L);
-    }
-
-    @GetMapping("/list/{numberPageList}/preview_page")
-    public String previewPage(@PathVariable Long numberPageList, ModelMap model){
-        return "redirect:/address/list/"+(numberPageList-1L);
-    }
-
-    @GetMapping("/last_page")
-    public String lastPage(){
-        return "redirect:/address/list/"+addressService.pageCount();
     }
 
     @GetMapping("/add")
@@ -73,5 +55,31 @@ public class AddressController {
     public String removeById(@PathVariable Long numberPageList, @PathVariable Long id){
         addressService.deleteById(id);
         return "redirect:/address/list/"+numberPageList;
+    }
+///********************! Pagination addresses !********************
+
+    @GetMapping("/to_page")
+    public String toPage(@RequestParam("toPage") Long toPage){
+        return "redirect:/address/list/"+toPage;
+    }
+
+    @GetMapping("/first_page")
+    public String firstPage(){
+        return toPage(1L);
+    }
+
+    @GetMapping("/list/{numberPageList}/next_page")
+    public String nextPage(@PathVariable Long numberPageList){
+        return toPage(numberPageList+1L);
+    }
+
+    @GetMapping("/list/{numberPageList}/preview_page")
+    public String previewPage(@PathVariable Long numberPageList){
+        return toPage(numberPageList-1L);
+    }
+
+    @GetMapping("/last_page")
+    public String lastPage(){
+        return toPage(addressService.pageCount());
     }
 }
