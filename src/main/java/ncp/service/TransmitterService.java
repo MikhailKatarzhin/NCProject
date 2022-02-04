@@ -1,5 +1,6 @@
 package ncp.service;
 
+import ncp.model.Address;
 import ncp.model.Transmitter;
 import ncp.repository.TransmitterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +23,22 @@ public class TransmitterService {
         return nPage == 0? nPage+1 : nPage;
     }
 
+    public long availableAddressPageCount(long id){
+        long nPage=transmitterRepository.countAvailableAddressById(id)/ROW_COUNT
+                + (transmitterRepository.countAvailableAddressById(id)%ROW_COUNT == 0? 0:1);
+        return nPage == 0? nPage+1 : nPage;
+    }
+
     public List<Transmitter> transmitterListByNumberPageList(long numberPageList){
         return transmitterRepository.selectByLimitOffset(ROW_COUNT, (numberPageList-1)*ROW_COUNT);
+    }
+
+    public List<Address> availableAddressListByNumberPageListAndTransmitterId(long numberPageList, Long transmitterId){
+        return transmitterRepository.selectAvailableAddressByLimitOffsetAndId(
+                ROW_COUNT
+                , (numberPageList-1)*ROW_COUNT
+                , transmitterId
+        );
     }
 
     public Transmitter saveNew(String description){
@@ -49,5 +64,8 @@ public class TransmitterService {
 
     public void deleteById(long id){
         transmitterRepository.deleteById(id);
+    }
+    public void removeAvailableAddressByTransmitterIdAndAddressId(long tId, long aId){
+        transmitterRepository.removeAvailableAddressByTransmitterIdAndAddressId(tId, aId);
     }
 }
