@@ -9,7 +9,7 @@
 </head>
 <body>
 <div th:insert="~{fragments/navigation_fragments  :: navbar}"></div>
-<form th:action="@{/sign_up}" method="post" class="form-sign m-auto col-3 text-center">
+<form th:action="@{/sign_up}" method="post" class="m-auto col-3 text-center">
     <h1 class="h3 mb-3 fw-normal">Please sign up</h1>
 
     <div class="mt-1 mb-1 text-muted" th:if="${param.error}">Invalid username or/and password.</div>
