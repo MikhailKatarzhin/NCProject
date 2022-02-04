@@ -37,7 +37,7 @@
             <td th:text="${address.building}"></td>
             <td th:text="${address.flat}"></td>
             <td><form th:action="@{/address/list/__${currentPage}__/__${address.id}__/remove}" method="post">
-                <input type="submit" value="remove">
+                <input class="w-100 btn btn-sm btn-danger" type="submit" value="remove">
             </form></td>
         </tr>
     </table></td></tr>
