@@ -49,4 +49,13 @@ public interface AddressRepository extends JpaRepository<Address, Long> {
             , nativeQuery = true
     )
     Long countCountyWithRegions(String country);
+
+    @Query(
+            value = "SELECT * FROM address WHERE country LIKE ?1 AND region LIKE ?2 AND city LIKE ?3 AND street LIKE ?4" +
+                    " AND house LIKE ?5 AND building LIKE ?6 AND flat LIKE ?7" +
+                    " LIMIT ?8 OFFSET ?9"
+            , nativeQuery = true
+    )
+    List<Address> searchAddress(String country, String region, String city, String street
+            , String house, String building, String flat, Long limit, Long offset);
 }

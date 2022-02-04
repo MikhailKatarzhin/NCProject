@@ -34,6 +34,9 @@ public class AddressService {
         return addressRepository.save(address);
     }
 
+    public Address getById(Long id){
+        return addressRepository.getById(id);
+    }
     public void deleteById(long id){
         addressRepository.deleteById(id);
     }
@@ -51,6 +54,19 @@ public class AddressService {
     }
     public boolean isExistsRegions(Address address){
         return 0 < addressRepository.countCountyWithRegions(address.getCountry());
+    }
+
+
+    public List<Address> searchAddressLikeAddress(Address address, Long numberPage){
+        return addressRepository.searchAddress(
+                "%" + (address.getCountry().isBlank() ? "" : address.getCountry()) + "%"
+                , "%" + (address.getRegion().isBlank() ? "" : address.getRegion()) + "%"
+                , "%" + (address.getCity().isBlank() ? "" : address.getCity()) + "%"
+                , "%" + (address.getStreet().isBlank() ? "" : address.getStreet()) + "%"
+                , "%" + (address.getHouse() == null ? "" : address.getHouse().toString()) + "%"
+                , "%" + (address.getBuilding() == null ? "" : address.getBuilding().toString()) + "%"
+                , "%" + (address.getFlat() == null ? "" : address.getFlat().toString()) + "%"
+                , ROW_COUNT, ROW_COUNT*(numberPage-1));
     }
 
     public ModelMap addNewAddress(Address address, ModelMap model){
