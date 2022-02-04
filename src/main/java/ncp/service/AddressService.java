@@ -58,15 +58,20 @@ public class AddressService {
 
 
     public List<Address> searchAddressLikeAddress(Address address, Long numberPage){
-        return addressRepository.searchAddress(
-                "%" + (address.getCountry().isBlank() ? "" : address.getCountry()) + "%"
-                , "%" + (address.getRegion().isBlank() ? "" : address.getRegion()) + "%"
-                , "%" + (address.getCity().isBlank() ? "" : address.getCity()) + "%"
-                , "%" + (address.getStreet().isBlank() ? "" : address.getStreet()) + "%"
+        List<Address> list = addressRepository.searchAddress(
+                "%" + (address.getCountry() == null || address.getCountry().isBlank()
+                        ? "" : address.getCountry()) + "%"
+                , "%" + (address.getRegion() == null || address.getRegion().isBlank()
+                        ? "" : address.getRegion()) + "%"
+                , "%" + (address.getCity() == null || address.getCity().isBlank()
+                        ? "" : address.getCity()) + "%"
+                , "%" + (address.getStreet() == null || address.getStreet().isBlank()
+                        ? "" : address.getStreet()) + "%"
                 , "%" + (address.getHouse() == null ? "" : address.getHouse().toString()) + "%"
                 , "%" + (address.getBuilding() == null ? "" : address.getBuilding().toString()) + "%"
                 , "%" + (address.getFlat() == null ? "" : address.getFlat().toString()) + "%"
                 , ROW_COUNT, ROW_COUNT*(numberPage-1));
+        return list;
     }
 
     public ModelMap addNewAddress(Address address, ModelMap model){
