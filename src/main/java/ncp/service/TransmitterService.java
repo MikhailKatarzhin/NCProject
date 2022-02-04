@@ -76,6 +76,9 @@ public class TransmitterService {
         transmitter.setAddress(addressService.getById(addressId));
         return transmitterRepository.save(transmitter);
     }
+    public void addAvailableAddress(Long transmitterId, Long addressId){
+        transmitterRepository.addAvailableAddressByTransmitterIdAndAddressId(transmitterId, addressId);
+    }
 
     public void deleteById(long id){
         transmitterRepository.deleteById(id);
@@ -87,6 +90,11 @@ public class TransmitterService {
 
     public List<Address> searchAddressByAddress(Address address, Long numberPage){
         return addressService.searchAddressLikeAddress(address, numberPage);
+    }
+
+    public List<Address> searchAddressByAddressUnconnectedToTransmitterId(
+            Address address, Long numberPage, Long transmitterId){
+        return addressService.searchAddressLikeAddressUnconnectedToTransmitterId(address, numberPage, transmitterId);
     }
 
 }

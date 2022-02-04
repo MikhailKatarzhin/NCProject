@@ -58,4 +58,17 @@ public interface AddressRepository extends JpaRepository<Address, Long> {
     )
     List<Address> searchAddress(String country, String region, String city, String street
             , String house, String building, String flat, Long limit, Long offset);
+
+
+    @Query(
+            value = "SELECT a.* FROM address a" +
+                    " LEFT JOIN transmitter_available_addresses taa on a.id = taa.available_addresses_id" +
+                    " WHERE a.country LIKE ?1 AND a.region LIKE ?2 AND a.city LIKE ?3 AND a.street LIKE ?4" +
+                    " AND a.house LIKE ?5 AND a.building LIKE ?6 AND a.flat LIKE ?7" +
+                    " AND (taa.transmitter_id <> ?10 OR taa.transmitter_id IS NULL )" +
+                    " LIMIT ?8 OFFSET ?9"
+            , nativeQuery = true
+    )
+    List<Address> searchAddressUnconnectedToTransmitterId(String country, String region, String city, String street
+            , String house, String building, String flat, Long limit, Long offset, Long transmitterId);
 }

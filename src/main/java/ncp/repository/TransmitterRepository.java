@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -18,9 +19,9 @@ public interface TransmitterRepository extends JpaRepository<Transmitter, Long> 
     List<Transmitter> selectByLimitOffset(Long limit, Long offset);
 
     @Query(
-            value = "SELECT a.* FROM transmitter t" +
-                    " INNER JOIN transmitter_available_addresses taa on t.id = taa.transmitter_id" +
-                    " INNER JOIN address a on t.address_id = a.id" +
+            value = "SELECT a.* FROM transmitter_available_addresses taa" +
+                    " INNER JOIN transmitter t ON taa.transmitter_id = t.id" +
+                    " INNER JOIN address a ON taa.available_addresses_id = a.id" +
                     " WHERE t.id=?3" +
                     " LIMIT ?1 OFFSET ?2"
             , nativeQuery = true
@@ -42,4 +43,12 @@ public interface TransmitterRepository extends JpaRepository<Transmitter, Long> 
             , nativeQuery = true
     )
     void removeAvailableAddressByTransmitterIdAndAddressId(Long tId, Long aId);
+
+    @Transactional
+    @Modifying
+    @Query(
+            value = "INSERT INTO transmitter_available_addresses(transmitter_id, available_addresses_id) VALUES (?1, ?2)"
+            , nativeQuery = true
+    )
+    void addAvailableAddressByTransmitterIdAndAddressId(Long tId, Long aId);
 }

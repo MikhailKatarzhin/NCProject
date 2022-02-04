@@ -94,7 +94,7 @@ public class TransmitterController {
         if (availableAddressPage > nPage)
             return "redirect:/transmitter/list/"+nPage;
         model.addAttribute("nPage", nPage);
-        List<Address> addressList = transmitterService.availableAddressListByNumberPageListAndTransmitterId(nPage, id);
+        List<Address> addressList = transmitterService.availableAddressListByNumberPageListAndTransmitterId(availableAddressPage, id);
         model.addAttribute("addresses", addressList);
         model.addAttribute("availableAddressPage", availableAddressPage);
         model.addAttribute("transmitter", transmitterService.getById(id));
@@ -143,6 +143,22 @@ public class TransmitterController {
         return "transmitter/setup_address";
     }
 
+    @GetMapping("/setup/{id}/availableAddress")
+    public String addAvailableAddress(@PathVariable Long id, ModelMap model){
+        return addAvailableAddress(id, new Address(), model);
+    }
+
+    @GetMapping("/setup/{id}/availableAddress/list")
+    public String addAvailableAddress(@PathVariable Long id, Address address, ModelMap model){
+        if (address==null)
+            address = new Address();
+        model.addAttribute("transmitterId", id);
+        model.addAttribute("searchAddress", address);
+        model.addAttribute("addresses"
+                , transmitterService.searchAddressByAddressUnconnectedToTransmitterId(address, 1L, id));
+        return "transmitter/add_available_address";
+    }
+
 ///********************! Pagination available addresses !********************
 
     @GetMapping("/setup/{id}/to_page")
@@ -171,6 +187,13 @@ public class TransmitterController {
     }
 
 ///********************! Available address management !********************
+
+    @PostMapping("/setup/{id}/availableAddress/{addressId}")
+    public String addAvailableAddress(@PathVariable Long id, @PathVariable Long addressId
+            , Address address, ModelMap model){
+        transmitterService.addAvailableAddress(id, addressId);
+        return addAvailableAddress(id,address,model);
+    }
 
     @PostMapping("/setup/{id}/{availableAddressPage}/removeAvailableAddress/{idAA}")
     public String removeAvailableAddressByTransmitterIdAndAddressId(@PathVariable Long id

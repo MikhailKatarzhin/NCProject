@@ -87,6 +87,11 @@
     <!-- Table for connected to this transmitter addresses -->
     <td><table class="m-auto text-center">
         <tr><td><h2>Available to this transmitter addresses</h2></td></tr>
+        <tr><td>
+            <form th:action="@{/transmitter/setup/__*{id}__/availableAddress}" method="get">
+                <button class="w-100 btn btn-primary" type="submit">Add available address</button>
+            </form>
+        </td></tr>
         <tr><td><table class="table table-striped table-sm table-responsive">
             <thead><tr>
                 <th scope="col">Id</th>

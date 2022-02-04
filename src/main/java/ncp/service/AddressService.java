@@ -73,6 +73,23 @@ public class AddressService {
                 , ROW_COUNT, ROW_COUNT*(numberPage-1));
     }
 
+    List<Address> searchAddressLikeAddressUnconnectedToTransmitterId(
+            Address address, Long numberPage, Long transmitterId){
+        return addressRepository.searchAddressUnconnectedToTransmitterId(
+                "%" + (address.getCountry() == null || address.getCountry().isBlank()
+                        ? "" : address.getCountry()) + "%"
+                , "%" + (address.getRegion() == null || address.getRegion().isBlank()
+                        ? "" : address.getRegion()) + "%"
+                , "%" + (address.getCity() == null || address.getCity().isBlank()
+                        ? "" : address.getCity()) + "%"
+                , "%" + (address.getStreet() == null || address.getStreet().isBlank()
+                        ? "" : address.getStreet()) + "%"
+                , "%" + (address.getHouse() == null ? "" : address.getHouse().toString()) + "%"
+                , "%" + (address.getBuilding() == null ? "" : address.getBuilding().toString()) + "%"
+                , "%" + (address.getFlat() == null ? "" : address.getFlat().toString()) + "%"
+                , ROW_COUNT, ROW_COUNT*(numberPage-1), transmitterId);
+    }
+
     public ModelMap addNewAddress(Address address, ModelMap model){
 
         if (address.getCountry().isBlank()){
