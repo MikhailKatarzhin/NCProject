@@ -58,6 +58,13 @@ public class TransmitterService {
         transmitter.setStatus(transmitterStatusService.getById(statusId));
         return transmitterRepository.save(transmitter);
     }
+
+    public Transmitter setDescription(long transmitterId, String description){
+        Transmitter transmitter = transmitterRepository.getById(transmitterId);
+        transmitter.setDescription(description);
+        return transmitterRepository.save(transmitter);
+    }
+
     public Transmitter getById(long id){
         return transmitterRepository.getById(id);
     }

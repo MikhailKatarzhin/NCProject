@@ -20,13 +20,13 @@
                                 th:selected="${tstatus}==*{status}"></option>
                     </select></form></td>
         </tr>
-        <tr><td>
+        <tr><td><form th:action="@{/transmitter/setup/__*{id}__/__${availableAddressPage}__/description}" method="post">
             <div class="form-floating">
-                <input type="text" class="form-control" aria-label="readonly input example" readonly
+                <input type="text" class="form-control" onchange="this.form.submit()" name="description"
                        id="description" placeholder="Description" th:value="*{description}">
                 <label for="description">Description</label>
             </div>
-        </td></tr>
+        </form></td></tr>
         <tr><td><h4>Transmitter address</h4></td></tr>
         <tr><td>
             <div class="form-floating">
