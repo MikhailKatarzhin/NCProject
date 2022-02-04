@@ -17,6 +17,8 @@ public class TransmitterService {
     private TransmitterRepository transmitterRepository;
     @Autowired
     private TransmitterStatusService transmitterStatusService;
+    @Autowired
+    private AddressService addressService;
 
     public long pageCount(){
         long nPage=transmitterRepository.count()/ROW_COUNT + (transmitterRepository.count()%ROW_COUNT == 0? 0:1);
@@ -69,10 +71,22 @@ public class TransmitterService {
         return transmitterRepository.getById(id);
     }
 
+    public Transmitter setAddress(Long transmitterId, Long addressId){
+        Transmitter transmitter = transmitterRepository.getById(transmitterId);
+        transmitter.setAddress(addressService.getById(addressId));
+        return transmitterRepository.save(transmitter);
+    }
+
     public void deleteById(long id){
         transmitterRepository.deleteById(id);
     }
+
     public void removeAvailableAddressByTransmitterIdAndAddressId(long tId, long aId){
         transmitterRepository.removeAvailableAddressByTransmitterIdAndAddressId(tId, aId);
     }
+
+    public List<Address> searchAddressByAddress(Address address, Long numberPage){
+        return addressService.searchAddressLikeAddress(address, numberPage);
+    }
+
 }

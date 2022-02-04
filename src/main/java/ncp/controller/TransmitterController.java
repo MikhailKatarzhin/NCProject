@@ -111,18 +111,36 @@ public class TransmitterController {
         return toAvailableAddressPage(availableAddressPage, id);
     }
 
-
-    @GetMapping("/setup/{id}/addressList/{numberPage}")
-    public String selectAddress(@PathVariable Long id, @PathVariable Long numberPage
-            , @RequestParam Address address, ModelMap model){
-        model.addAttribute("addresses", transmitterService.searchAddressByAddress(address, numberPage));
-        return "";
+    @PostMapping("/setup/{id}/{availableAddressPage}/description")
+    public String setDescriptionByTransmitterId(
+            @PathVariable Long id
+            , @PathVariable Long availableAddressPage
+            , @RequestParam String description){
+        transmitterService.setDescription(id, description);
+        return toAvailableAddressPage(availableAddressPage, id);
     }
 
     @PostMapping("/setup/{id}/address/{addressId}")
     public String setAddress(@PathVariable Long id, @PathVariable Long addressId){
         transmitterService.setAddress(id, addressId);
         return setupById(id);
+    }
+
+///********************! Search addresses !********************
+
+    @GetMapping("/setup/{id}/address")
+    public String selectAddress(@PathVariable Long id, ModelMap model){
+        return selectAddress(id, new Address(), model);
+    }
+
+    @GetMapping("/setup/{id}/address/list")
+    public String selectAddress(@PathVariable Long id, Address address, ModelMap model){
+        if (address==null)
+            address = new Address();
+        model.addAttribute("transmitterId", id);
+        model.addAttribute("searchAddress", address);
+        model.addAttribute("addresses", transmitterService.searchAddressByAddress(address, 1L));
+        return "transmitter/setup_address";
     }
 
 ///********************! Pagination available addresses !********************
