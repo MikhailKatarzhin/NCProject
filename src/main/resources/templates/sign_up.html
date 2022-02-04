@@ -21,24 +21,24 @@
     </div>
     <div class="form-floating">
         <input type="password" th:class="'form-control'+(${passwordsAreDifferent!=null}?' is-invalid':'')"
-               id="floatingPassword" name="password" placeholder="Password">
+               id="floatingPassword" name="password" placeholder="Password" required>
         <label for="floatingPassword"
                th:text="${passwordsAreDifferent==null}?'Password':${passwordsAreDifferent}"></label>
     </div>
     <div class="form-floating">
         <input type="password" th:class="'form-control'+(${passwordsAreDifferent!=null}?' is-invalid':'')"
-               id="floatingConfirmPassword" name="confirmPassword" placeholder="Confirm password">
+               id="floatingConfirmPassword" name="confirmPassword" placeholder="Confirm password" required>
         <label for="floatingConfirmPassword"
                th:text="${passwordsAreDifferent==null}?'Confirm password':${passwordsAreDifferent}"></label>
     </div>
     <div class="form-floating">
         <input type="email" th:class="'form-control'+(${emailExistsError!=null}?' is-invalid':'')"
-               id="floatingEmail" name="email" placeholder="Email">
+               id="floatingEmail" name="email" placeholder="Email" required>
         <label for="floatingEmail" th:text="${emailExistsError==null}?'Email':${emailExistsError}"></label>
     </div>
     <div th:class="'form-check form-switch'+(${roleRequired!=null}?' is-invalid':'')" th:each="role : ${roles}">
         <input type="checkbox" class="form-check-input" name="rolesId" id="flexSwitchCheckDefault"
-               th:value="${role.id}"> <!--th:checked="${#arrays.contains(__${selectedRoles}__, __${role.id}__)}"-->
+               th:value="${role.id}" th:checked="${#lists.contains(selectedRoles, role.id)}">
         <label class="form-check-label" for="flexSwitchCheckDefault" th:text="${role.name}"></label>
     </div>
     <div class="invalid-feedback" th:if="${roleRequired}" th:text="${roleRequired}"></div>

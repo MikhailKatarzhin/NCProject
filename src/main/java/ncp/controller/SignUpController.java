@@ -8,6 +8,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 @RequestMapping("/sign_up")
 @Controller
 public class SignUpController {
@@ -23,6 +26,7 @@ public class SignUpController {
         model.addAttribute("user", new User());
         model.addAttribute("roles"
                 , roleService.findAllExceptName("ADMINISTRATOR"));
+        model.addAttribute("selectedRoles", new ArrayList<Long>().add(0L));
         return "sign_up";
     }
 
@@ -43,7 +47,7 @@ public class SignUpController {
         if (model.size()>2){
             model.addAttribute("roles"
                     , roleService.findAllExceptName("ADMINISTRATOR"));
-            model.addAttribute("selectedRoles", rolesId);
+            model.addAttribute("selectedRoles", Arrays.asList(rolesId));
             return "sign_up";
         }
         userService.signUp(user, roleService.getRoleSetByIds(rolesId));
