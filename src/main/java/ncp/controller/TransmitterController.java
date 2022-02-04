@@ -56,12 +56,6 @@ public class TransmitterController {
         return "redirect:/transmitter/list/"+transmitterService.pageCount();
     }
 
-    @GetMapping("/add")
-    public String transmitterAddForm(ModelMap model){
-        model.addAttribute("transmitter", new Transmitter());
-        return "transmitter/add";
-    }
-
     @PostMapping("/add")
     public String transmitterAdd(@RequestParam String description){
         transmitterService.saveNew(description);

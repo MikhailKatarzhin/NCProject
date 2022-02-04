@@ -37,6 +37,7 @@ public class TransmitterService {
     public Transmitter save(Transmitter transmitter){
         return transmitterRepository.save(transmitter);
     }
+
     public Transmitter setStatus(long transmitterId, long statusId){
         Transmitter transmitter = transmitterRepository.getById(transmitterId);
         transmitter.setStatus(transmitterStatusService.getById(statusId));
@@ -45,6 +46,7 @@ public class TransmitterService {
     public Transmitter getById(long id){
         return transmitterRepository.getById(id);
     }
+
     public void deleteById(long id){
         transmitterRepository.deleteById(id);
     }
