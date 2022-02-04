@@ -58,7 +58,7 @@ public class AddressService {
 
 
     public List<Address> searchAddressLikeAddress(Address address, Long numberPage){
-        List<Address> list = addressRepository.searchAddress(
+        return addressRepository.searchAddress(
                 "%" + (address.getCountry() == null || address.getCountry().isBlank()
                         ? "" : address.getCountry()) + "%"
                 , "%" + (address.getRegion() == null || address.getRegion().isBlank()
@@ -71,7 +71,6 @@ public class AddressService {
                 , "%" + (address.getBuilding() == null ? "" : address.getBuilding().toString()) + "%"
                 , "%" + (address.getFlat() == null ? "" : address.getFlat().toString()) + "%"
                 , ROW_COUNT, ROW_COUNT*(numberPage-1));
-        return list;
     }
 
     public ModelMap addNewAddress(Address address, ModelMap model){
