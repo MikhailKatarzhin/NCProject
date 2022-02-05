@@ -19,16 +19,6 @@ public interface TransmitterRepository extends JpaRepository<Transmitter, Long> 
     List<Transmitter> selectByLimitOffset(Long limit, Long offset);
 
     @Query(
-            value = "SELECT a.* FROM transmitter_available_addresses taa" +
-                    " INNER JOIN transmitter t ON taa.transmitter_id = t.id" +
-                    " INNER JOIN address a ON taa.available_addresses_id = a.id" +
-                    " WHERE t.id=?3" +
-                    " LIMIT ?1 OFFSET ?2"
-            , nativeQuery = true
-    )
-    List<Address> selectAvailableAddressByLimitOffsetAndId(Long limit, Long offset, Long transmitterId);
-
-    @Query(
             value = "SELECT COUNT(*) FROM transmitter t" +
                     " INNER JOIN transmitter_available_addresses taa on t.id = taa.transmitter_id" +
                     " INNER JOIN address a on t.address_id = a.id" +
@@ -37,6 +27,7 @@ public interface TransmitterRepository extends JpaRepository<Transmitter, Long> 
     )
     Long countAvailableAddressById(Long id);
 
+    @Transactional
     @Modifying
     @Query(
             value = "DELETE FROM transmitter_available_addresses WHERE transmitter_id=?1 AND available_addresses_id=?2"

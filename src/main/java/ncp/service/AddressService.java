@@ -148,4 +148,12 @@ public class AddressService {
         save(address);
         return null;
     }
+
+    public List<Address> availableAddressListByNumberPageListAndTransmitterId(long numberPageList, Long transmitterId){
+        return addressRepository.selectAvailableAddressByLimitOffsetAndId(
+                transmitterId
+                , ROW_COUNT
+                , (numberPageList-1)*ROW_COUNT
+        );
+    }
 }

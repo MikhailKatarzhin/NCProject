@@ -25,25 +25,21 @@ public class TransmitterService {
         return nPage == 0? nPage+1 : nPage;
     }
 
-    public long availableAddressPageCount(long id){
+    public long availableAddressPageCount (long id){
         long nPage=transmitterRepository.countAvailableAddressById(id)/ROW_COUNT
                 + (transmitterRepository.countAvailableAddressById(id)%ROW_COUNT == 0? 0:1);
         return nPage == 0? nPage+1 : nPage;
     }
 
-    public List<Transmitter> transmitterListByNumberPageList(long numberPageList){
+    public List<Transmitter> transmitterListByNumberPageList (long numberPageList){
         return transmitterRepository.selectByLimitOffset(ROW_COUNT, (numberPageList-1)*ROW_COUNT);
     }
 
-    public List<Address> availableAddressListByNumberPageListAndTransmitterId(long numberPageList, Long transmitterId){
-        return transmitterRepository.selectAvailableAddressByLimitOffsetAndId(
-                ROW_COUNT
-                , (numberPageList-1)*ROW_COUNT
-                , transmitterId
-        );
+    public List<Address> availableAddressListByNumberPageListAndTransmitterId (long numberPageList, Long transmitterId){
+        return addressService.availableAddressListByNumberPageListAndTransmitterId (numberPageList, transmitterId);
     }
 
-    public Transmitter saveNew(String description){
+    public Transmitter saveNew (String description){
         Transmitter transmitter = new Transmitter();
         transmitter.setDescription(description);
         transmitter.setStatus(transmitterStatusService.getById(1));
@@ -51,32 +47,32 @@ public class TransmitterService {
         return transmitterRepository.save(transmitter);
     }
 
-    public Transmitter save(Transmitter transmitter){
+    public Transmitter save (Transmitter transmitter){
         return transmitterRepository.save(transmitter);
     }
 
-    public Transmitter setStatus(long transmitterId, long statusId){
+    public Transmitter setStatus (long transmitterId, long statusId){
         Transmitter transmitter = transmitterRepository.getById(transmitterId);
         transmitter.setStatus(transmitterStatusService.getById(statusId));
         return transmitterRepository.save(transmitter);
     }
 
-    public Transmitter setDescription(long transmitterId, String description){
+    public Transmitter setDescription (long transmitterId, String description){
         Transmitter transmitter = transmitterRepository.getById(transmitterId);
         transmitter.setDescription(description);
         return transmitterRepository.save(transmitter);
     }
 
-    public Transmitter getById(long id){
+    public Transmitter getById (long id){
         return transmitterRepository.getById(id);
     }
 
-    public Transmitter setAddress(Long transmitterId, Long addressId){
+    public Transmitter setAddress (Long transmitterId, Long addressId){
         Transmitter transmitter = transmitterRepository.getById(transmitterId);
         transmitter.setAddress(addressService.getById(addressId));
         return transmitterRepository.save(transmitter);
     }
-    public void addAvailableAddress(Long transmitterId, Long addressId){
+    public void addAvailableAddress (Long transmitterId, Long addressId){
         transmitterRepository.addAvailableAddressByTransmitterIdAndAddressId(transmitterId, addressId);
     }
 

@@ -62,13 +62,26 @@ public interface AddressRepository extends JpaRepository<Address, Long> {
 
     @Query(
             value = "SELECT a.* FROM address a" +
-                    " LEFT JOIN transmitter_available_addresses taa on a.id = taa.available_addresses_id" +
+                    " LEFT JOIN transmitter_available_addresses taa" +
+                    " on a.id = taa.available_addresses_id AND ?10 = taa.transmitter_id" +
                     " WHERE a.country LIKE ?1 AND a.region LIKE ?2 AND a.city LIKE ?3 AND a.street LIKE ?4" +
                     " AND a.house LIKE ?5 AND a.building LIKE ?6 AND a.flat LIKE ?7" +
-                    " AND (taa.transmitter_id <> ?10 OR taa.transmitter_id IS NULL )" +
+                    " AND taa.available_addresses_id IS NULL AND taa.transmitter_id IS NULL" +
                     " LIMIT ?8 OFFSET ?9"
             , nativeQuery = true
     )
     List<Address> searchAddressUnconnectedToTransmitterId(String country, String region, String city, String street
             , String house, String building, String flat, Long limit, Long offset, Long transmitterId);
+
+
+    @Query(
+            value = "SELECT a.*" +
+                    " FROM transmitter_available_addresses taa" +
+                    " INNER JOIN transmitter t ON taa.transmitter_id = t.id" +
+                    " INNER JOIN address a ON taa.available_addresses_id = a.id" +
+                    " WHERE t.id=?1" +
+                    " LIMIT ?2 OFFSET ?3"
+            , nativeQuery = true
+    )
+    List<Address> selectAvailableAddressByLimitOffsetAndId(Long transmitterId, Long limit, Long offset);
 }
