@@ -14,7 +14,7 @@
         <tr><td><h1 th:text="'Setup transmitter '+*{id}"></h1></td></tr>
         <tr><th>Status</th></tr>
         <tr><td><form th:action="@{/transmitter/setup/__*{id}__/__${availableAddressPage}__/status}" method="post">
-                    <select name="statusSelect" onchange="this.form.submit()" class="form-select"
+                    <select name="statusSelectId" onchange="this.form.submit()" class="form-select"
                             aria-label="Default select example">
                         <option th:each="tstatus : ${statusList}" th:value="${tstatus.id}" th:text="${tstatus.name}"
                                 th:selected="${tstatus}==*{status}"></option>
