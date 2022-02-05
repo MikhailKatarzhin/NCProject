@@ -3,6 +3,7 @@ package ncp.model;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Getter
@@ -29,9 +30,14 @@ public class Tariff {
     private TariffStatus status;
 
     @ManyToMany(cascade = CascadeType.ALL)
-    private Set<Transmitter> connectedTransmitters = new java.util.LinkedHashSet<>();
+    private Set<Transmitter> connectedTransmitters = new java.util.HashSet<>();
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn
-    private Set<Contract> signedContracts = new java.util.LinkedHashSet<>();
+    private Set<Contract> contracts = new HashSet<>();
+
+    @ManyToOne(optional = false)
+    @JoinColumn(nullable = false)
+    private User provider;
+
 }

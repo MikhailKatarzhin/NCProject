@@ -6,6 +6,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -34,16 +35,14 @@ public class User implements UserDetails {
     @PrimaryKeyJoinColumn
     private Personality personality;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(nullable = false)
-    private Set<Contract> contracts = new LinkedHashSet<>();
-
     @ManyToMany
     private Set<Role> roleSet = new LinkedHashSet<>();
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(nullable = false)
-    private Set<Tariff> tariffs = new LinkedHashSet<>();
+    @OneToMany(mappedBy = "provider", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Tariff> tariff = new HashSet<>();
+
+    @OneToMany(mappedBy = "consumer", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Contract> contract = new HashSet<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

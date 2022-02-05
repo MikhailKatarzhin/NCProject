@@ -17,7 +17,7 @@ public class Contract {
 
     private String description;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String title;
 
     @ManyToOne(optional = false, targetEntity = Address.class)
@@ -25,4 +25,13 @@ public class Contract {
 
     @Column(nullable = false)
     private Date contractExpirationDate;
+
+    @ManyToOne(cascade = CascadeType.ALL, optional = false)
+    @JoinColumn(nullable = false)
+    private Tariff tariff;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(nullable = false)
+    private User consumer;
+
 }
