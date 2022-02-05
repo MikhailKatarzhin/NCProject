@@ -49,7 +49,7 @@ public class TransmitterController {
         model.addAttribute("currentPage", numberPageList);
         List<Transmitter> transmitterList =transmitterService.transmitterListByNumberPageList(numberPageList);
         model.addAttribute("transmitters", transmitterList);
-        return "transmitter/transmitter_management";
+        return "transmitter/management";
     }
 
 ///********************! Pagination transmitters !********************

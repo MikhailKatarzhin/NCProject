@@ -33,7 +33,7 @@ public class AddressController {
         model.addAttribute("currentPage", numberPageList);
         List<Address> addressList =addressService.addressListByNumberPageList(numberPageList);
         model.addAttribute("addresses", addressList);
-        return "address/address_management";
+        return "address/management";
     }
 
     @GetMapping("/add")
