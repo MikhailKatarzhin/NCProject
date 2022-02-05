@@ -1,6 +1,7 @@
 package ncp.controller;
 
 import ncp.model.Address;
+import ncp.model.Contract;
 import ncp.model.Tariff;
 import ncp.model.Transmitter;
 import ncp.service.TariffService;
@@ -172,11 +173,40 @@ public class TariffController extends AbstractTwosomeSecondaryPagingController{
         return "/setup";
     }
 
+///********************! Contracts view !********************
+
+    @GetMapping("/contract/{id}")
+    public String contractsViewByTariffId(@PathVariable Long id){
+        return firstSecondSecondaryPage(id);
+    }
+
+    @GetMapping("/contract/{id}/list/{signedContractPage}")
+    public String contractsViewByTariffId(@PathVariable Long id, @PathVariable Long signedContractPage, ModelMap model){
+        if (signedContractPage < 1L)
+            return firstSecondSecondaryPage(id);
+        long nPage = tariffService.countSignedContractByTariffId(id);
+        if (signedContractPage > nPage)
+            return lastSecondSecondaryPage(id);
+        model.addAttribute("nPage", nPage);
+        model.addAttribute("primaryId", id);
+        List<Contract> contractList = tariffService.signedContractListsByTariffId(id, signedContractPage);
+        model.addAttribute("contracts", contractList);
+        model.addAttribute("signedContractPage", signedContractPage);
+        return "tariff/view_contracts";
+    }
+
+    @PostMapping("/contract/{id}/list/{signedContractPage}/terminate_contract/{contractId}")
+    public String terminateContractById(@PathVariable Long id, @PathVariable Long signedContractPage
+            , @PathVariable Long contractId){
+        tariffService.terminateContractById(contractId);
+        return toSecondSecondaryPage(signedContractPage, id);
+    }
+
 ///********************! Pagination contracts !********************
 
     @Override
     protected Long secondSecondaryPageCount(Long id) {
-        return null;
+        return tariffService.countSignedContractByTariffId(id);
     }
 
     @Override

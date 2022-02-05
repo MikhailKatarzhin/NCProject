@@ -1,6 +1,7 @@
 package ncp.service;
 
 import ncp.model.Address;
+import ncp.model.Contract;
 import ncp.model.Tariff;
 import ncp.model.Transmitter;
 import ncp.repository.TariffRepository;
@@ -15,6 +16,7 @@ import static ncp.config.ProjectConstants.ROW_COUNT;
 
 @Service
 public class TariffService {
+
     @Autowired
     private TariffRepository tariffRepository;
     @Autowired
@@ -23,6 +25,8 @@ public class TariffService {
     private TransmitterService transmitterService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private  ContractService contractService;
 
 ///********************! Tariff !********************
 
@@ -128,5 +132,18 @@ public class TariffService {
 
 ///********************! Signed Contracts !********************
 
+    public List<Contract> signedContractListsByTariffId(Long tariffId, Long numberPageList){
+        return contractService.selectByTariffIdAndNumberPageList(
+                tariffId, numberPageList);
+    }
 
+    public Long countSignedContractByTariffId(Long tariffId){
+        long nConnectedTransmitter = contractService.countSignedContractByTariffId(tariffId);
+        long nPage = nConnectedTransmitter / ROW_COUNT + (nConnectedTransmitter % ROW_COUNT == 0 ? 0 : 1);
+        return nPage == 0? nPage + 1 : nPage;
+    }
+
+    public void terminateContractById(Long contractId){
+        contractService.terminateContractById(contractId);
+    }
 }
