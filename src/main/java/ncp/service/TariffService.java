@@ -1,14 +1,13 @@
 package ncp.service;
 
+import ncp.model.Address;
 import ncp.model.Tariff;
 import ncp.model.Transmitter;
-import ncp.model.User;
 import ncp.repository.TariffRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.ModelMap;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
@@ -111,12 +110,20 @@ public class TariffService {
         return transmitterService.connectedTransmitterListByNumberPageListAndTransmitterId (numberPageList, tariffId);
     }
 
-    public void  addConnectedTransmitterByTransmitterIdAndTariffId(Long transmitterId, Long tariffId){
+    public void  addConnectedTransmitter(Long transmitterId, Long tariffId){
         tariffRepository.addConnectedTransmitterByTransmitterIdAndTariffId(transmitterId, tariffId);
     }
 
     public void removeConnectedTransmitterByTransmitterIdAndTariffId(Long transmitterId, Long tariffId){
         tariffRepository.removeConnectedTransmitterByTransmitterIdAndTariffId(transmitterId, tariffId);
+    }
+
+///********************! Search connectable Transmitters !********************
+
+    public List<Transmitter> searchTransmitterByTransmitterAvailableAddressIdWithoutConnectedTransmitterId(
+            Address address, Long numberPage, Long tariffId){
+        return transmitterService.searchTransmitterByTransmitterAvailableAddressIdWithoutConnectedTransmitterId(
+                address, numberPage, tariffId);
     }
 
 ///********************! Signed Contracts !********************

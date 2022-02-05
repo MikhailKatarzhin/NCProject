@@ -1,5 +1,6 @@
 package ncp.repository;
 
+import ncp.model.Address;
 import ncp.model.Transmitter;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -52,4 +53,21 @@ public interface TransmitterRepository extends JpaRepository<Transmitter, Long> 
             , nativeQuery = true
     )
     List<Transmitter> selectConnectedTransmitterByLimitOffsetAndId(Long tariffId, Long limit, Long offset);
+
+    @Query(
+            value = "SELECT t.* FROM transmitter t" +
+                    " LEFT JOIN tariff_connected_transmitters tct" +
+                    " ON t.id = tct.connected_transmitters_id AND (tct.tariff_id <> ?10 OR tct.tariff_id IS NULL)" +
+                    " INNER JOIN transmitter_available_addresses taa" +
+                    " ON t.id = taa.transmitter_id" +
+                    " INNER JOIN address a on a.id = taa.available_addresses_id" +
+                    " WHERE a.country = ?1 AND a.region = ?2 AND a.city = ?3 AND a.street = ?4" +
+                    " AND a.house = ?5 AND a.building = ?6 AND a.flat = ?7" +
+                    " LIMIT ?8 OFFSET ?9"
+            , nativeQuery = true
+    )
+    List<Transmitter> searchTransmitterByTransmitterAvailableAddressIdWithoutConnectedTransmitterId(
+            String country, String region, String city, String street
+            , String house, String building, String flat, Long limit
+            , Long offset, Long tariffId);
 }

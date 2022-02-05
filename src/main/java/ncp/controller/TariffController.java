@@ -1,5 +1,6 @@
 package ncp.controller;
 
+import ncp.model.Address;
 import ncp.model.Tariff;
 import ncp.model.Transmitter;
 import ncp.service.TariffService;
@@ -10,7 +11,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
@@ -21,8 +21,6 @@ public class TariffController extends AbstractTwosomeSecondaryPagingController{
     private TariffService tariffService;
     @Autowired
     private TariffStatusService tariffStatusService;
-    @Autowired
-    private HttpServletRequest httpServletRequest;
     @Autowired
     private UserService userService;
 
@@ -132,6 +130,34 @@ public class TariffController extends AbstractTwosomeSecondaryPagingController{
             , @PathVariable Long connectedTransmitterId){
         tariffService.removeConnectedTransmitterByTransmitterIdAndTariffId(connectedTransmitterId, id);
         return toSecondaryPage(connectedTransmitterPage, id);
+    }
+
+    @PostMapping("/setup/{id}/connectableTransmitters/{transmitterId}")
+    public String connectTransmitter(@PathVariable Long id, @PathVariable Long transmitterId
+            , Address address, ModelMap model){
+        model.addAttribute("tariffId", id);
+        model.addAttribute("searchAddress", address);
+        tariffService.addConnectedTransmitter(id, transmitterId);
+        return searchConnectableTransmitters(id,address,model);
+    }
+
+///********************! Search connectable Transmitters !********************
+
+    @GetMapping("/setup/{id}/connectableTransmitters")
+    public String searchConnectableTransmitters(@PathVariable Long id, ModelMap model){
+        return searchConnectableTransmitters(id, new Address(), model);
+    }
+
+    @GetMapping("/setup/{id}/connectableTransmitters/list")
+    public String searchConnectableTransmitters(@PathVariable Long id, Address address, ModelMap model){
+        if (address==null)
+            address = new Address();
+        model.addAttribute("tariffId", id);
+        model.addAttribute("searchAddress", address);
+        model.addAttribute("transmitters"
+                , tariffService.searchTransmitterByTransmitterAvailableAddressIdWithoutConnectedTransmitterId(
+                        address, 1L, id));
+        return "tariff/add_connectable_transmitter";
     }
 
 ///********************! Pagination Transmitters !********************

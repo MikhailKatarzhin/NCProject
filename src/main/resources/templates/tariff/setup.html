@@ -45,7 +45,7 @@
         <td><table class="m-auto text-center">
             <tr><td><h2>Connected transmitters to this tariff</h2></td></tr>
             <tr><td>
-                <form >
+                <form  th:action="@{/tariff/setup/__*{id}__/connectableTransmitters}" method="get">
                     <button class="w-100 btn btn-lg btn-primary" type="submit">Search connectable transmitter</button>
                 </form>
             </td></tr>
@@ -54,7 +54,7 @@
                     <th scope="col">Id</th>
                     <th scope="col">Status</th>
                     <th scope="col">Description</th>
-                    <th scope="col">Available addresses quantity</th>
+                    <th scope="col">Addresses quantity</th>
                     <th scope="col">Country</th>
                     <th scope="col">Region</th>
                     <th scope="col">City</th>
@@ -69,13 +69,13 @@
                     <td th:text="${transmitter.status.name}"></td>
                     <td th:text="${transmitter.description}"></td>
                     <td th:text="${transmitter.availableAddresses.size()}"></td>
-                    <td th:text="${transmitter.address.country}"></td>
-                    <td th:text="${transmitter.address.region}"></td>
-                    <td th:text="${transmitter.address.city}"></td>
-                    <td th:text="${transmitter.address.street}"></td>
-                    <td th:text="${transmitter.address.house}"></td>
-                    <td th:text="${transmitter.address.building}"></td>
-                    <td th:text="${transmitter.address.flat}"></td>
+                    <td th:text="${transmitter.address!=null}?${transmitter.address.country}:''"></td>
+                    <td th:text="${transmitter.address!=null}?${transmitter.address.region}:''"></td>
+                    <td th:text="${transmitter.address!=null}?${transmitter.address.city}:''"></td>
+                    <td th:text="${transmitter.address!=null}?${transmitter.address.street}:''"></td>
+                    <td th:text="${transmitter.address!=null}?${transmitter.address.house}:''"></td>
+                    <td th:text="${transmitter.address!=null}?${transmitter.address.building}:''"></td>
+                    <td th:text="${transmitter.address!=null}?${transmitter.address.flat}:''"></td>
                     <td><form th:action="@{/tariff/setup/__*{id}__/__${connectedTransmitterPage}__/disconnectTransmitter/__${transmitter.id}__}"
                               method="post">
                         <input type="submit" value="Disconnect" class="w-100 btn btn-sm btn-danger">
