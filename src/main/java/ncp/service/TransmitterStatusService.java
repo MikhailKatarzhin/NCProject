@@ -11,8 +11,9 @@ import java.util.List;
 public class TransmitterStatusService {
     @Autowired
     private TransmitterStatusRepository transmitterStatusRepository;
+
     public TransmitterStatus getByName(String name){
-        return transmitterStatusRepository.getByStatusName(name);
+        return transmitterStatusRepository.getByName(name);
     }
     public TransmitterStatus getById(long id){
         return transmitterStatusRepository.getById(id);

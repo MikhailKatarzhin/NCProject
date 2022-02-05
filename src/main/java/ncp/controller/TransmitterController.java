@@ -41,10 +41,10 @@ public class TransmitterController extends AbstractSecondaryPagingController{
     @GetMapping("/list/{numberPageList}")
     public String managementByOffset(@PathVariable Long numberPageList, ModelMap model){
         if (numberPageList < 1L)
-            return "redirect:/transmitter/list/1";
+            return firstPage();
         long nPage=transmitterService.pageCount();
         if (numberPageList > nPage)
-            return "redirect:/transmitter/list/"+nPage;
+            return lastPage();
         model.addAttribute("nPage", nPage);
         model.addAttribute("currentPage", numberPageList);
         List<Transmitter> transmitterList =transmitterService.transmitterListByNumberPageList(numberPageList);
@@ -75,10 +75,10 @@ public class TransmitterController extends AbstractSecondaryPagingController{
     @GetMapping("/setup/{id}/list/{availableAddressPage}")
     public String setupByIdAndPage(@PathVariable Long id, @PathVariable Long availableAddressPage, ModelMap model){
         if (availableAddressPage < 1L)
-            return "redirect:/transmitter/setup/"+id+"/1";
+            return firstSecondaryPage(id);
         long nPage=transmitterService.availableAddressPageCount(id);
         if (availableAddressPage > nPage)
-            return "redirect:/transmitter/list/"+nPage;
+            return lastSecondaryPage(id);
         model.addAttribute("nPage", nPage);
         List<Address> addressList = transmitterService.availableAddressListByNumberPageListAndTransmitterId(availableAddressPage, id);
         model.addAttribute("addresses", addressList);

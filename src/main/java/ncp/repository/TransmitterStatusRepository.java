@@ -11,5 +11,5 @@ public interface TransmitterStatusRepository extends JpaRepository<TransmitterSt
             value = "SELECT * FROM transmitter_status WHERE name =?"
             , nativeQuery = true
     )
-    TransmitterStatus getByStatusName(String statusName);
+    TransmitterStatus getByName(String statusName);
 }
