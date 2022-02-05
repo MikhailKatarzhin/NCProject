@@ -8,9 +8,15 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface TariffStatusRepository extends JpaRepository<TariffStatus, Long> {
     @Query(
-            value = "SELECT * FROM tariff_status WHERE name =?"
+            value = "SELECT * FROM tariff_status WHERE name = ?"
             , nativeQuery = true
     )
     TariffStatus getByName(String name);
+
+    @Query(
+            value = "SELECT * FROM tariff_status WHERE id = ?"
+            , nativeQuery = true
+    )
+    TariffStatus getById(Long id);
 
 }
