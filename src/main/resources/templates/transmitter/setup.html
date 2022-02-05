@@ -114,7 +114,7 @@
                 <td th:text="${address.flat}"></td>
                 <td><form th:action="@{/transmitter/setup/__*{id}__/__${availableAddressPage}__/removeAvailableAddress/__${address.id}__}"
                           method="post">
-                    <input type="submit" value="remove">
+                    <input type="submit" value="remove" class="w-100 btn btn-sm btn-danger">
                 </form></td>
             </tr>
         </table></td></tr>
