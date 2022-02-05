@@ -21,14 +21,15 @@ public class TransmitterService {
     private AddressService addressService;
 
     public long pageCount(){
-        long nPage=transmitterRepository.count()/ROW_COUNT + (transmitterRepository.count()%ROW_COUNT == 0? 0:1);
-        return nPage == 0? nPage+1 : nPage;
+        long nTransmitter = transmitterRepository.count();
+        long nPage = nTransmitter / ROW_COUNT + (nTransmitter % ROW_COUNT == 0 ? 0 : 1);
+        return nPage == 0? nPage + 1 : nPage;
     }
 
-    public long availableAddressPageCount (long id){
-        long nPage=transmitterRepository.countAvailableAddressById(id)/ROW_COUNT
-                + (transmitterRepository.countAvailableAddressById(id)%ROW_COUNT == 0? 0:1);
-        return nPage == 0? nPage+1 : nPage;
+    public long availableAddressPageCount (long availableAddressId){
+        long nAvailableAddress = transmitterRepository.countAvailableAddressById(availableAddressId);
+        long nPage = nAvailableAddress / ROW_COUNT + (nAvailableAddress % ROW_COUNT == 0 ? 0 : 1);
+        return nPage == 0? nPage + 1 : nPage;
     }
 
     public List<Transmitter> transmitterListByNumberPageList (long numberPageList){
@@ -91,6 +92,14 @@ public class TransmitterService {
     public List<Address> searchAddressByAddressUnconnectedToTransmitterId(
             Address address, Long numberPage, Long transmitterId){
         return addressService.searchAddressLikeAddressUnconnectedToTransmitterId(address, numberPage, transmitterId);
+    }
+
+    public List<Transmitter> connectedTransmitterListByNumberPageListAndTransmitterId(long numberPageList, Long tariffId){
+        return transmitterRepository.selectConnectedTransmitterByLimitOffsetAndId(
+                tariffId
+                , ROW_COUNT
+                , (numberPageList-1)*ROW_COUNT
+        );
     }
 
 }

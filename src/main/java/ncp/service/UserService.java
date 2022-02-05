@@ -2,6 +2,7 @@ package ncp.service;
 
 import ncp.model.Personality;
 import ncp.model.Role;
+import ncp.model.Tariff;
 import ncp.model.User;
 import ncp.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Service
@@ -61,8 +61,6 @@ public class UserService implements UserDetailsService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRoleSet(roleSet);
         user.setPersonality(new Personality());
-        user.setTariffs(new LinkedHashSet<>());
-        user.setContracts(new LinkedHashSet<>());
         return userRepository.save(user);
     }
 
