@@ -13,7 +13,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/transmitter")
-public class TransmitterController {
+public class TransmitterController extends AbstractSecondaryPagingController{
     @Autowired
     private TransmitterService transmitterService;
     @Autowired
@@ -54,36 +54,22 @@ public class TransmitterController {
 
 ///********************! Pagination transmitters !********************
 
-    @GetMapping("/to_page")
-    public String toPage(@RequestParam("toPage") Long toPage){
-        return "redirect:/transmitter/list/" + toPage;
+
+    @Override
+    protected Long primaryPageCount() {
+        return transmitterService.pageCount();
     }
 
-    @GetMapping("/first_page")
-    public String firstPage(){
-        return toPage(1L);
-    }
-
-    @GetMapping("/list/{numberPageList}/next_page")
-    public String nextPage(@PathVariable Long numberPageList){
-        return toPage(numberPageList+1L);
-    }
-
-    @GetMapping("/list/{numberPageList}/preview_page")
-    public String previewPage(@PathVariable Long numberPageList){
-        return toPage(numberPageList-1L);
-    }
-
-    @GetMapping("/last_page")
-    public String lastPage(){
-        return toPage(transmitterService.pageCount());
+    @Override
+    protected String getPrimaryPrefix() {
+        return "/transmitter";
     }
 
 ///********************! Setup of Transmitter !********************
 
     @GetMapping("/setup/{id}")
     public String setupById(@PathVariable Long id){
-        return firstAvailableAddressPage(id);
+        return firstSecondaryPage(id);
     }
 
     @GetMapping("/setup/{id}/list/{availableAddressPage}")
@@ -108,7 +94,7 @@ public class TransmitterController {
             , @PathVariable Long availableAddressPage
             , @RequestParam long statusSelect){
         transmitterService.setStatus(id, statusSelect);
-        return toAvailableAddressPage(availableAddressPage, id);
+        return toSecondaryPage(availableAddressPage, id);
     }
 
     @PostMapping("/setup/{id}/{availableAddressPage}/description")
@@ -117,7 +103,7 @@ public class TransmitterController {
             , @PathVariable Long availableAddressPage
             , @RequestParam String description){
         transmitterService.setDescription(id, description);
-        return toAvailableAddressPage(availableAddressPage, id);
+        return toSecondaryPage(availableAddressPage, id);
     }
 
     @PostMapping("/setup/{id}/address/{addressId}")
@@ -161,29 +147,14 @@ public class TransmitterController {
 
 ///********************! Pagination available addresses !********************
 
-    @GetMapping("/setup/{id}/to_page")
-    public String toAvailableAddressPage(@RequestParam("toPage") Long toPage, @PathVariable Long id){
-        return "redirect:/transmitter/setup/"+id+"/list/"+toPage;
+    @Override
+    protected Long secondaryPageCount(Long id) {
+        return transmitterService.availableAddressPageCount(id);
     }
 
-    @GetMapping("/setup/{id}/first_page")
-    public String firstAvailableAddressPage(@PathVariable Long id){
-        return toAvailableAddressPage(1L, id);
-    }
-
-    @GetMapping("/setup/{id}/list/{availableAddressPage}/next_page")
-    public String nextAvailableAddressPage(@PathVariable Long id, @PathVariable Long availableAddressPage){
-        return toAvailableAddressPage(availableAddressPage+1L, id);
-    }
-
-    @GetMapping("/setup/{id}/list/{availableAddressPage}/preview_page")
-    public String previewAvailableAddressPage(@PathVariable Long id, @PathVariable Long availableAddressPage){
-        return toAvailableAddressPage(availableAddressPage-1L, id);
-    }
-
-    @GetMapping("/setup/{id}/last_page")
-    public String lastAvailableAddressPage(@PathVariable Long id){
-        return toAvailableAddressPage(transmitterService.availableAddressPageCount(id), id);
+    @Override
+    protected String getSecondaryPrefix() {
+        return "/setup";
     }
 
 ///********************! Available address management !********************
@@ -199,7 +170,7 @@ public class TransmitterController {
     public String removeAvailableAddressByTransmitterIdAndAddressId(@PathVariable Long id
             , @PathVariable Long availableAddressPage, @PathVariable Long idAA){
         transmitterService.removeAvailableAddressByTransmitterIdAndAddressId(id, idAA);
-        return toAvailableAddressPage(availableAddressPage, id);
+        return toSecondaryPage(availableAddressPage, id);
     }
 
 }

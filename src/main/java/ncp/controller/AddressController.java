@@ -11,7 +11,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/address")
-public class AddressController {
+public class AddressController extends AbstractPrimaryPagingController {
     @Autowired
     private AddressService addressService;
 
@@ -56,30 +56,16 @@ public class AddressController {
         addressService.deleteById(id);
         return "redirect:/address/list/"+numberPageList;
     }
+
 ///********************! Pagination addresses !********************
 
-    @GetMapping("/to_page")
-    public String toPage(@RequestParam("toPage") Long toPage){
-        return "redirect:/address/list/"+toPage;
+    @Override
+    protected Long pageCount() {
+        return addressService.pageCount();
     }
 
-    @GetMapping("/first_page")
-    public String firstPage(){
-        return toPage(1L);
-    }
-
-    @GetMapping("/list/{numberPageList}/next_page")
-    public String nextPage(@PathVariable Long numberPageList){
-        return toPage(numberPageList+1L);
-    }
-
-    @GetMapping("/list/{numberPageList}/preview_page")
-    public String previewPage(@PathVariable Long numberPageList){
-        return toPage(numberPageList-1L);
-    }
-
-    @GetMapping("/last_page")
-    public String lastPage(){
-        return toPage(addressService.pageCount());
+    @Override
+    protected String getPrefix() {
+        return "/address";
     }
 }
