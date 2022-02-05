@@ -21,7 +21,6 @@ public abstract class AbstractSecondaryPagingController extends AbstractPrimaryP
         return getPrimaryPrefix();
     }
 
-
     @GetMapping("/secondary/{primaryId}/to_page")
     public String toSecondaryPage(@RequestParam("toPage") Long toPage, @PathVariable Long primaryId){
         return "redirect:" + getPrimaryPrefix() + getSecondaryPrefix() + "/" + primaryId + "/list/"+toPage;
@@ -38,7 +37,7 @@ public abstract class AbstractSecondaryPagingController extends AbstractPrimaryP
     }
 
     @GetMapping("/secondary/{primaryId}/list/{numberPageList}/preview_page")
-    public String previewSecondaryPage(@PathVariable Long primaryId, @PathVariable Long numberPageList){
+    public String previousSecondaryPage(@PathVariable Long primaryId, @PathVariable Long numberPageList){
         return toSecondaryPage(numberPageList-1L, primaryId);
     }
 

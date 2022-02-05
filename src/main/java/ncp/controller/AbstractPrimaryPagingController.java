@@ -24,7 +24,7 @@ public abstract class AbstractPrimaryPagingController {
     }
 
     @GetMapping("/list/{numberPageList}/preview_page")
-    public String previewPage(@PathVariable Long numberPageList){
+    public String previousPage(@PathVariable Long numberPageList){
         return toPage(numberPageList-1L);
     }
 
