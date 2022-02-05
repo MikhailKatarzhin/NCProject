@@ -29,13 +29,13 @@ public class TransmitterController extends AbstractSecondaryPagingController{
     @PostMapping("/add")
     public String transmitterAdd(@RequestParam String description){
         transmitterService.saveNew(description);
-        return "redirect:/transmitter/list/1";
+        return firstPage();
     }
 
     @PostMapping("/list/{numberPageList}/{id}/remove")
     public String removeById(@PathVariable Long numberPageList, @PathVariable Long id){
         transmitterService.deleteById(id);
-        return "redirect:/transmitter/list/"+numberPageList;
+        return toPage(numberPageList);
     }
 
     @GetMapping("/list/{numberPageList}")
@@ -53,7 +53,6 @@ public class TransmitterController extends AbstractSecondaryPagingController{
     }
 
 ///********************! Pagination transmitters !********************
-
 
     @Override
     protected Long primaryPageCount() {
@@ -92,8 +91,8 @@ public class TransmitterController extends AbstractSecondaryPagingController{
     public String setStatusByTransmitterId(
             @PathVariable Long id
             , @PathVariable Long availableAddressPage
-            , @RequestParam long statusSelect){
-        transmitterService.setStatus(id, statusSelect);
+            , @RequestParam long statusSelectId){
+        transmitterService.setStatus(id, statusSelectId);
         return toSecondaryPage(availableAddressPage, id);
     }
 
