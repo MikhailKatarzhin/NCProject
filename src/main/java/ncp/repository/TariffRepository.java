@@ -46,10 +46,10 @@ public interface TariffRepository extends JpaRepository<Tariff, Long> {
     @Transactional
     @Modifying
     @Query(
-            value = "INSERT INTO tariff_connected_transmitters(tariff_id, connected_transmitters_id) VALUES (?2, ?1)"
+            value = "INSERT INTO tariff_connected_transmitters(tariff_id, connected_transmitters_id) VALUES (?1, ?2)"
             , nativeQuery = true
     )
-    void addConnectedTransmitterByTransmitterIdAndTariffId(Long transmitterId, Long tariffId);
+    void InsertTariffConnectedTransmitters(Long tariffId, Long transmitterId);
 
     @Query(
             value = "SELECT * FROM tariff WHERE title = ?"

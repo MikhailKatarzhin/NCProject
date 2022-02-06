@@ -32,7 +32,7 @@ public class SignUpController {
 
     @PostMapping
     public String addUser(@RequestParam Long[] rolesId, @RequestParam String confirmPassword, User user, ModelMap model){
-        if (userService.getUserByUsername(user.getUsername()) != null){
+        if (userService.getByUsername(user.getUsername()) != null){
             model.addAttribute("usernameExistsError", "Username already exists");
         }
         if (!user.getPassword().equals(confirmPassword)){

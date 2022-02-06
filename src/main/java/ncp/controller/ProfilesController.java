@@ -26,7 +26,7 @@ public class ProfilesController {
 
     @GetMapping("/{id}")
     public String viewProfileById(@PathVariable Long id, ModelMap model){
-        User user = userService.getUserById(id);
+        User user = userService.getById(id);
         if (user == null)
             return myProfile();
         model.addAttribute("user", user);

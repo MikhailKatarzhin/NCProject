@@ -49,11 +49,11 @@ public class UserService implements UserDetailsService {
         return getRemoteUser().getPersonality();
     }
 
-    public User getUserById(long id){
+    public User getById(long id){
         return userRepository.findById(id).orElse(null);
     }
 
-    public User getUserByUsername(String username){
+    public User getByUsername(String username){
         return userRepository.findByUsername(username);
     }
 

@@ -114,8 +114,8 @@ public class TariffService {
         return transmitterService.connectedTransmitterListByNumberPageListAndTransmitterId (numberPageList, tariffId);
     }
 
-    public void  addConnectedTransmitter(Long transmitterId, Long tariffId){
-        tariffRepository.addConnectedTransmitterByTransmitterIdAndTariffId(transmitterId, tariffId);
+    public void  addConnectedTransmitter(Long tariffId, Long transmitterId){
+        tariffRepository.InsertTariffConnectedTransmitters(tariffId, transmitterId);
     }
 
     public void removeConnectedTransmitterByTransmitterIdAndTariffId(Long transmitterId, Long tariffId){
@@ -133,12 +133,12 @@ public class TariffService {
 ///********************! Signed Contracts !********************
 
     public List<Contract> signedContractListsByTariffId(Long tariffId, Long numberPageList){
-        return contractService.selectByTariffIdAndNumberPageList(
+        return contractService.contractListByTariffIdAndNumberPageList(
                 tariffId, numberPageList);
     }
 
-    public Long countSignedContractByTariffId(Long tariffId){
-        long nConnectedTransmitter = contractService.countSignedContractByTariffId(tariffId);
+    public Long countContractByTariffId(Long tariffId){
+        long nConnectedTransmitter = contractService.countContractByTariffId(tariffId);
         long nPage = nConnectedTransmitter / ROW_COUNT + (nConnectedTransmitter % ROW_COUNT == 0 ? 0 : 1);
         return nPage == 0? nPage + 1 : nPage;
     }

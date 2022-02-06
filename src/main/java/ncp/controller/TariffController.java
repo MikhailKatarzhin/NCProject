@@ -207,7 +207,7 @@ public class TariffController extends AbstractTwosomeSecondaryPagingController {
 
     @Override
     protected Long secondSecondaryPageCount(Long id) {
-        return tariffService.countSignedContractByTariffId(id);
+        return tariffService.countContractByTariffId(id);
     }
 
     @Override
