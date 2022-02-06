@@ -1,4 +1,4 @@
-package ncp.service;
+package ncp.service.implementations;
 
 import ncp.model.Address;
 import ncp.model.Contract;
@@ -26,7 +26,7 @@ public class TariffService {
     @Autowired
     private UserService userService;
     @Autowired
-    private  ContractService contractService;
+    private ContractServiceImp contractService;
 
 ///********************! Tariff !********************
 

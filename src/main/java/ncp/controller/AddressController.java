@@ -2,7 +2,7 @@ package ncp.controller;
 
 import ncp.controller.paging.AbstractPrimaryPagingController;
 import ncp.model.Address;
-import ncp.service.AddressService;
+import ncp.service.implementations.AddressServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -13,9 +13,13 @@ import java.util.List;
 @Controller
 @RequestMapping("/address")
 public class AddressController extends AbstractPrimaryPagingController {
-    @Autowired
-    private AddressService addressService;
 
+    private final AddressServiceImp addressService;
+
+    @Autowired
+    public AddressController(AddressServiceImp addressService){
+        this.addressService = addressService;
+    }
 ///********************! Address management !********************
 
     @GetMapping

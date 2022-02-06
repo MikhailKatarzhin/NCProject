@@ -5,9 +5,9 @@ import ncp.model.Address;
 import ncp.model.Contract;
 import ncp.model.Tariff;
 import ncp.model.Transmitter;
-import ncp.service.TariffService;
-import ncp.service.TariffStatusService;
-import ncp.service.UserService;
+import ncp.service.implementations.TariffService;
+import ncp.service.implementations.TariffStatusService;
+import ncp.service.implementations.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -120,7 +120,7 @@ public class TariffController extends AbstractTwosomeSecondaryPagingController {
     public String setPriceByTariffId(
             @PathVariable Long id
             , @PathVariable Long connectedTransmitterPage
-            , @RequestParam long price){
+            , @RequestParam Long price){
         tariffService.setPrice(id, price);
         return toSecondaryPage(connectedTransmitterPage, id);
     }

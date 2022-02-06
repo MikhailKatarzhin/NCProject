@@ -1,4 +1,4 @@
-package ncp.service;
+package ncp.service.implementations;
 
 import ncp.model.Address;
 import ncp.model.Transmitter;
@@ -18,7 +18,7 @@ public class TransmitterService {
     @Autowired
     private TransmitterStatusService transmitterStatusService;
     @Autowired
-    private AddressService addressService;
+    private AddressServiceImp addressService;
 
     public long pageCount(){
         long nTransmitter = transmitterRepository.count();

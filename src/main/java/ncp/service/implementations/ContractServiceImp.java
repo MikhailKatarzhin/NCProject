@@ -1,18 +1,28 @@
-package ncp.service;
+package ncp.service.implementations;
 
+import ncp.model.Address;
 import ncp.model.Contract;
+import ncp.model.Tariff;
+import ncp.model.User;
 import ncp.repository.ContractRepository;
+import ncp.service.interfaces.ContractService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
 import java.util.List;
 
 import static ncp.config.ProjectConstants.ROW_COUNT;
 
 @Service
-public class ContractService {
+public class ContractServiceImp implements ContractService {
+
+    private final ContractRepository contractRepository;
+
     @Autowired
-    private ContractRepository contractRepository;
+    public ContractServiceImp(ContractRepository contractRepository){
+        this.contractRepository = contractRepository;
+    }
 
 ///********************! Contract !********************
 
@@ -42,5 +52,18 @@ public class ContractService {
 
     public void terminateContractById(Long contractId){
         contractRepository.deleteById(contractId);
+    }
+
+    @Override
+    public Contract signContract(Tariff tariff, User consumer, Address address) {
+        Contract contract = new Contract();
+        contract.setTariff(tariff);
+        contract.setAddress(address);
+        contract.setConsumer(consumer);
+        contract.setTitle(tariff.getTitle());
+        contract.setContractExpirationDate(new Date(System.currentTimeMillis()));
+        contract.setDescription("Signed: " + contract.getContractExpirationDate().toString()
+        + ". Tariff description: " + tariff.getDescription() + ".");
+        return contractRepository.save(contract);
     }
 }

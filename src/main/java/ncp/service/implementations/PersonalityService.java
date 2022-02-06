@@ -1,4 +1,4 @@
-package ncp.service;
+package ncp.service.implementations;
 
 import ncp.model.Personality;
 import ncp.repository.PersonalityRepository;
