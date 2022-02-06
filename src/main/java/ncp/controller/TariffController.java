@@ -183,7 +183,7 @@ public class TariffController extends AbstractTwosomeSecondaryPagingController {
     public String contractsViewByTariffId(@PathVariable Long id, @PathVariable Long signedContractPage, ModelMap model){
         if (signedContractPage < 1L)
             return firstSecondSecondaryPage(id);
-        long nPage = tariffService.countContractByTariffId(id);
+        long nPage = tariffService.countPageContractByTariffId(id);
         if (signedContractPage > nPage)
             return lastSecondSecondaryPage(id);
         model.addAttribute("nPage", nPage);
@@ -205,7 +205,7 @@ public class TariffController extends AbstractTwosomeSecondaryPagingController {
 
     @Override
     protected Long secondSecondaryPageCount(Long id) {
-        return tariffService.countContractByTariffId(id);
+        return tariffService.countPageContractByTariffId(id);
     }
 
     @Override

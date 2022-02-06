@@ -133,7 +133,7 @@ public class TariffService {
                 tariffId, numberPageList);
     }
 
-    public Long countContractByTariffId(Long tariffId){
+    public Long countPageContractByTariffId(Long tariffId){
         long nConnectedTransmitter = contractService.countContractByTariffId(tariffId);
         long nPage = nConnectedTransmitter / ROW_COUNT + (nConnectedTransmitter % ROW_COUNT == 0 ? 0 : 1);
         return nPage == 0? nPage + 1 : nPage;
@@ -157,4 +157,10 @@ public class TariffService {
         return tariffRepository.countByAvailableAddressIdAndTransmitterStatusAndTariffStatus(
                 availableAddressId, "turned on", "active");
     }
-}
+
+    public Long countPageByAvailableAddressIdAndTurnedOnTransmitterAndActiveTariff(Long availableAddressId){
+        long nRow = tariffRepository.countByAvailableAddressIdAndTransmitterStatusAndTariffStatus(
+                availableAddressId, "turned on", "active");
+        long nPage = nRow / ROW_COUNT + (nRow % ROW_COUNT == 0 ? 0 : 1);
+        return nPage == 0? nPage + 1 : nPage;
+    }}

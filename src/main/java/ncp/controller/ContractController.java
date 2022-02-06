@@ -61,11 +61,10 @@ public class ContractController extends AbstractSecondaryPagingController {
         return "redirect:/address/list/"+currentPage;
     }
 
-    @PostMapping("/list/{currentPage}/signContract/{tariffId}")
-    public String signContract(@PathVariable Long tariffId, @RequestParam Long addressId, @PathVariable Long currentPage){
-        Address address = new Address();
+    @PostMapping("/signContract/{tariffId}/to_address/{addressId}")
+    public String signContract(@PathVariable Long tariffId, @PathVariable Long addressId){
         contractService.signContract(
-                tariffService.getById(tariffId), userService.getRemoteUser(), address);
+                tariffService.getById(tariffId), userService.getRemoteUser(), addressService.getById(addressId));
         return firstPage();
     }
 
@@ -97,9 +96,9 @@ public class ContractController extends AbstractSecondaryPagingController {
         return "contract/select_address";
     }
 
-    @GetMapping("/select_tariff/{addressId}/list")
+    @GetMapping("/select_tariff/{addressId}")
     public String selectTariff(@PathVariable Long addressId, ModelMap model){
-        return selectTariff(addressId, 1L,new Tariff(), model);
+        return selectTariff(addressId, 1L, new Tariff(), model);
     }
 
     @GetMapping("/select_tariff/{addressId}/list/{currentPage}")
@@ -107,9 +106,13 @@ public class ContractController extends AbstractSecondaryPagingController {
             , Tariff tariff, ModelMap model){
         if (tariff==null)
             tariff = new Tariff();
+        model.addAttribute("currentPage", currentPage);
+        model.addAttribute("addressId", addressId);
         model.addAttribute("searchTariff", tariff);
-        model.addAttribute("tariffs",
-                tariffService.selectByLimitOffsetAndAvailableAddressIdAndTurnedOnTransmitterAndActiveTariff(
+        model.addAttribute("nPage"
+                , tariffService.countPageByAvailableAddressIdAndTurnedOnTransmitterAndActiveTariff(addressId));
+        model.addAttribute("tariffs"
+                , tariffService.selectByLimitOffsetAndAvailableAddressIdAndTurnedOnTransmitterAndActiveTariff(
                         currentPage, addressId));
         return "contract/select_tariff";
     }
