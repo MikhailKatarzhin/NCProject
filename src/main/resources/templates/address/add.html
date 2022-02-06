@@ -41,7 +41,7 @@
     </div>
     <div class="form-floating">
         <input type="number" th:class="'form-control'+(${BuildingError!=null}?' is-invalid':'')"
-               id="building" th:field="*{building}" placeholder="Building" min="1">
+               id="building" th:field="*{building}" placeholder="Building" required min="1">
         <label for="building" th:text="${BuildingError==null}?'Building':${BuildingError}"></label>
     </div>
     <div class="form-floating">
