@@ -142,4 +142,19 @@ public class TariffService {
     public void terminateContractById(Long contractId){
         contractService.terminateContractById(contractId);
     }
+
+
+///********************! Active tariffs with turned on  transmitters by available address !********************
+
+
+    public List<Tariff> selectByLimitOffsetAndAvailableAddressIdAndTurnedOnTransmitterAndActiveTariff(
+            Long numberPage, Long availableAddressId){
+        return tariffRepository.selectByLimitOffsetAndAvailableAddressIdAndTurnedOnTransmitterAndActiveTariff(
+                ROW_COUNT, (numberPage - 1) * ROW_COUNT, availableAddressId);
+    }
+
+    public Long countByAvailableAddressIdAndTurnedOnTransmitterAndActiveTariff(Long availableAddressId){
+        return tariffRepository.countByAvailableAddressIdAndTransmitterStatusAndTariffStatus(
+                availableAddressId, "turned on", "active");
+    }
 }
