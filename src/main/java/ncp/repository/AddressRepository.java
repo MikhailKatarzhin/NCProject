@@ -48,7 +48,7 @@ public interface AddressRepository extends JpaRepository<Address, Long> {
             value = "SELECT COUNT(*) FROM address a WHERE a.country =? AND a.region IS NOT NULL"
             , nativeQuery = true
     )
-    Long countCountyWithRegions(String country);
+    Long countCountryWithRegions(String country);
 
     @Query(
             value = "SELECT * FROM address WHERE country LIKE ?1 AND region LIKE ?2 AND city LIKE ?3 AND street LIKE ?4" +
