@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface ContractService {
 
-    long pageCount ();
+    Long pageCount(Long consumerId);
 
     List<Contract> contractListByTariffIdAndNumberPageList(Long tariffId, Long numberPageList);
 
