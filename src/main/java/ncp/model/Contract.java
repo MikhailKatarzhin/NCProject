@@ -15,23 +15,25 @@ public class Contract {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(updatable = false)
     private String description;
 
-    @Column(nullable = false)
+    @Column(nullable = false, updatable = false)
     private String title;
 
     @ManyToOne(optional = false, targetEntity = Address.class)
+    @JoinColumn(nullable = false, updatable = false)
     private Address address;
 
     @Column(nullable = false)
     private Date contractExpirationDate;
 
     @ManyToOne(cascade = CascadeType.ALL, optional = false)
-    @JoinColumn(nullable = false)
+    @JoinColumn(nullable = false, updatable = false)
     private Tariff tariff;
 
     @ManyToOne(optional = false)
-    @JoinColumn(nullable = false)
+    @JoinColumn(nullable = false, updatable = false)
     private User consumer;
 
 }
