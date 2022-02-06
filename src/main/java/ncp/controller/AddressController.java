@@ -1,5 +1,6 @@
 package ncp.controller;
 
+import ncp.controller.paging.AbstractPrimaryPagingController;
 import ncp.model.Address;
 import ncp.service.AddressService;
 import org.springframework.beans.factory.annotation.Autowired;

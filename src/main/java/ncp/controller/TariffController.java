@@ -1,5 +1,6 @@
 package ncp.controller;
 
+import ncp.controller.paging.AbstractTwosomeSecondaryPagingController;
 import ncp.model.Address;
 import ncp.model.Contract;
 import ncp.model.Tariff;
@@ -16,7 +17,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/tariff")
-public class TariffController extends AbstractTwosomeSecondaryPagingController{
+public class TariffController extends AbstractTwosomeSecondaryPagingController {
 
     @Autowired
     private TariffService tariffService;

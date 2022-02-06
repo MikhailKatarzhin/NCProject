@@ -1,5 +1,6 @@
 package ncp.controller;
 
+import ncp.controller.paging.AbstractSecondaryPagingController;
 import ncp.model.Address;
 import ncp.model.Transmitter;
 import ncp.service.TransmitterService;
@@ -13,7 +14,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/transmitter")
-public class TransmitterController extends AbstractSecondaryPagingController{
+public class TransmitterController extends AbstractSecondaryPagingController {
     @Autowired
     private TransmitterService transmitterService;
     @Autowired
