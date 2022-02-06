@@ -34,7 +34,7 @@ public class ContractServiceImp implements ContractService {
 
     public List<Contract> contractListByTariffIdAndNumberPageList(Long tariffId, Long numberPageList){
         return contractRepository.selectByTariffIdLimitOffset(
-                tariffId, ROW_COUNT, (numberPageList-1)*ROW_COUNT);
+                tariffId, ROW_COUNT, (numberPageList - 1) * ROW_COUNT);
     }
 
     public Long countContractByTariffId(Long tariffId){
@@ -43,7 +43,7 @@ public class ContractServiceImp implements ContractService {
 
     public List<Contract> contractListByConsumerIdAndNumberPageList(Long consumerId, Long numberPageList){
         return contractRepository.selectByTariffIdLimitOffset(
-                consumerId, ROW_COUNT, (numberPageList-1)*ROW_COUNT);
+                consumerId, ROW_COUNT, (numberPageList - 1) * ROW_COUNT);
     }
 
     public Long countContractByConsumerId(Long consumerId){
