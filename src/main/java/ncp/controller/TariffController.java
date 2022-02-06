@@ -137,8 +137,6 @@ public class TariffController extends AbstractTwosomeSecondaryPagingController {
     @PostMapping("/setup/{id}/connectableTransmitters/{transmitterId}")
     public String connectTransmitter(@PathVariable Long id, @PathVariable Long transmitterId
             , Address address, ModelMap model){
-        model.addAttribute("tariffId", id);
-        model.addAttribute("searchAddress", address);
         tariffService.addConnectedTransmitter(id, transmitterId);
         return searchConnectableTransmitters(id,address,model);
     }
@@ -185,7 +183,7 @@ public class TariffController extends AbstractTwosomeSecondaryPagingController {
     public String contractsViewByTariffId(@PathVariable Long id, @PathVariable Long signedContractPage, ModelMap model){
         if (signedContractPage < 1L)
             return firstSecondSecondaryPage(id);
-        long nPage = tariffService.countSignedContractByTariffId(id);
+        long nPage = tariffService.countContractByTariffId(id);
         if (signedContractPage > nPage)
             return lastSecondSecondaryPage(id);
         model.addAttribute("nPage", nPage);

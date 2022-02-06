@@ -60,10 +60,6 @@ public class TariffService {
         return model;
     }
 
-    public Tariff save(Tariff tariff){
-        return tariffRepository.save(tariff);
-    }
-
     public Tariff saveNew(Tariff tariff){
         if (tariff == null)
             return null;

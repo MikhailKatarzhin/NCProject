@@ -30,7 +30,7 @@ public class Tariff {
     private TariffStatus status;
 
     @ManyToMany(cascade = CascadeType.ALL)
-    private Set<Transmitter> connectedTransmitters = new java.util.HashSet<>();
+    private Set<Transmitter> connectedTransmitters = new HashSet<>();
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn

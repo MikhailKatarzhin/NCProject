@@ -2,13 +2,9 @@ package ncp.service;
 
 import ncp.model.Personality;
 import ncp.model.Role;
-import ncp.model.Tariff;
 import ncp.model.User;
 import ncp.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Set;
 
 @Service
-public class UserService implements UserDetailsService {
+public class UserService{
 
     @Autowired
     private UserRepository userRepository;
@@ -24,14 +20,6 @@ public class UserService implements UserDetailsService {
     private HttpServletRequest httpServletRequest;
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
-
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByUsername(username);
-        if (user == null)
-            throw new UsernameNotFoundException("User not found");
-        return user;
-    }
 
     public User getRemoteUser(){
         return userRepository.findByUsername(httpServletRequest.getRemoteUser());
