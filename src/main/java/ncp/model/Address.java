@@ -37,6 +37,8 @@ public class Address {
     /**
      * null - there is no separation into building
      */
+
+    @Column(nullable = false)
     private Long building;
 
     /**
