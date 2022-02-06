@@ -44,7 +44,7 @@
             <td th:text="${contract.address.house}"></td>
             <td th:text="${contract.address.building}"></td>
             <td th:text="${contract.address.flat}"></td>
-            <td><form  method="post">
+            <td><form th:action="@{/contract/terminate/__${currentPage}__/__${contract.id}__}" method="post">
                 <input class="w-100 btn btn-sm btn-danger" type="submit" value="Terminate contract">
             </form></td>
         </tr>

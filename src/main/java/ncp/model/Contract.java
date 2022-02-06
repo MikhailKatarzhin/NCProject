@@ -28,7 +28,7 @@ public class Contract {
     @Column(nullable = false)
     private Date contractExpirationDate;
 
-    @ManyToOne(cascade = CascadeType.ALL, optional = false)
+    @ManyToOne(optional = false)
     @JoinColumn(nullable = false, updatable = false)
     private Tariff tariff;
 

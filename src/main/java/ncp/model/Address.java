@@ -34,10 +34,6 @@ public class Address {
     @Column(nullable = false)
     private Long house;
 
-    /**
-     * null - there is no separation into building
-     */
-
     @Column(nullable = false)
     private Long building;
 

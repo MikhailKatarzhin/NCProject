@@ -29,7 +29,7 @@ public class Tariff {
     @JoinColumn(nullable = false)
     private TariffStatus status;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany
     private Set<Transmitter> connectedTransmitters = new HashSet<>();
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)

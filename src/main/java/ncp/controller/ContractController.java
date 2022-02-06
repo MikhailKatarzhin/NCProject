@@ -55,10 +55,10 @@ public class ContractController extends AbstractSecondaryPagingController {
         return "contract/management";
     }
 
-    @PostMapping("/list/{currentPage}/{id}/remove")
-    public String removeById(@PathVariable Long currentPage, @PathVariable Long id){
+    @PostMapping("/terminate/{currentPage}/{id}")
+    public String terminateById(@PathVariable Long currentPage, @PathVariable Long id){
         contractService.terminateContractById(id);
-        return "redirect:/address/list/"+currentPage;
+        return toPage(currentPage);
     }
 
     @PostMapping("/signContract/{tariffId}/to_address/{addressId}")
