@@ -27,16 +27,16 @@ public class AddressController extends AbstractPrimaryPagingController {
         return "redirect:/address/list/1";
     }
 
-    @GetMapping("/list/{numberPageList}")
-    public String managementByOffset(@PathVariable Long numberPageList, ModelMap model){
-        if (numberPageList < 1L)
+    @GetMapping("/list/{currentPage}")
+    public String managementByOffset(@PathVariable Long currentPage, ModelMap model){
+        if (currentPage < 1L)
             return "redirect:/address/list/1";
         long nPage=addressService.pageCount();
-        if (numberPageList > nPage)
+        if (currentPage > nPage)
             return "redirect:/address/list/"+nPage;
         model.addAttribute("nPage", nPage);
-        model.addAttribute("currentPage", numberPageList);
-        List<Address> addressList =addressService.addressListByNumberPageList(numberPageList);
+        model.addAttribute("currentPage", currentPage);
+        List<Address> addressList =addressService.addressListByNumberPageList(currentPage);
         model.addAttribute("addresses", addressList);
         return "address/management";
     }
@@ -56,10 +56,10 @@ public class AddressController extends AbstractPrimaryPagingController {
         return "redirect:/address/list/1";
     }
 
-    @PostMapping("/list/{numberPageList}/{id}/remove")
-    public String removeById(@PathVariable Long numberPageList, @PathVariable Long id){
+    @PostMapping("/list/{currentPage}/{id}/remove")
+    public String removeById(@PathVariable Long currentPage, @PathVariable Long id){
         addressService.deleteById(id);
-        return "redirect:/address/list/"+numberPageList;
+        return "redirect:/address/list/"+currentPage;
     }
 
 ///********************! Pagination addresses !********************
