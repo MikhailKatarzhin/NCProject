@@ -31,5 +31,12 @@ public interface ContractRepository extends JpaRepository<Contract, Long> {
                     " WHERE tariff_id = ?"
             , nativeQuery = true
     )
-    Long countSignedContractByTariffId(Long tariffId);
+    Long countByTariffId(Long tariffId);
+
+    @Query(
+            value = "SELECT COUNT(*) FROM contract" +
+                    " WHERE consumer_id = ?"
+            , nativeQuery = true
+    )
+    Long countByConsumerId(Long tariffId);
 }
