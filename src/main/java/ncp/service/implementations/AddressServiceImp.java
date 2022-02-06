@@ -13,18 +13,33 @@ import static ncp.config.ProjectConstants.ROW_COUNT;
 
 @Service
 public class AddressServiceImp implements AddressService {
-    @Autowired
+
     AddressRepository addressRepository;
 
+    @Autowired
+    public AddressServiceImp(AddressRepository addressRepository){
+        this.addressRepository = addressRepository;
+    }
+
     public boolean addressExists(Address address) {
+        if (address.getFlat() == null)
+            return addressRepository.countByBuildingAndHouseAndStreetAndCityAndRegionAndCountryFlatIsNull(
+                    address.getBuilding(), address.getHouse()
+                    , address.getStreet() == null ? "" : address.getStreet()
+                    , address.getCity()
+                    , address.getRegion() == null ? "" : address.getRegion()
+                    , address.getCountry()) != 0;
         return addressRepository.countByFlatAndBuildingAndHouseAndStreetAndCityAndRegionAndCountry(
-                address.getFlat(), address.getBuilding(), address.getHouse(), address.getStreet()
-                , address.getCity(), address.getRegion(), address.getCountry()) != 0;
+                address.getFlat(), address.getBuilding(), address.getHouse()
+                , address.getStreet() == null ? "" : address.getStreet()
+                , address.getCity()
+                , address.getRegion() == null ? "" : address.getRegion()
+                , address.getCountry()) != 0;
     }
 
     public long pageCount(){
-        long nPage=addressRepository.count()/ROW_COUNT + (addressRepository.count()%ROW_COUNT == 0? 0:1);
-        return nPage == 0? nPage+1 : nPage;
+        long nPage = addressRepository.count() / ROW_COUNT + (addressRepository.count() % ROW_COUNT == 0 ? 0 : 1);
+        return nPage == 0? nPage + 1 : nPage;
     }
 
     public List<Address> addressListByNumberPageList(long numberPageList){
@@ -57,8 +72,9 @@ public class AddressServiceImp implements AddressService {
         return 0 < addressRepository.countCountryWithRegions(address.getCountry());
     }
 
-
     public List<Address> searchAddressLikeAddress(Address address, Long numberPage){
+        if (address.getFlat() == null)
+            return searchAddressLikeAddressFlatIsNull(address, numberPage);
         return addressRepository.searchAddress(
                 "%" + (address.getCountry() == null || address.getCountry().isBlank()
                         ? "" : address.getCountry()) + "%"
@@ -71,6 +87,21 @@ public class AddressServiceImp implements AddressService {
                 , "%" + (address.getHouse() == null ? "" : address.getHouse().toString()) + "%"
                 , "%" + (address.getBuilding() == null ? "" : address.getBuilding().toString()) + "%"
                 , "%" + (address.getFlat() == null ? "" : address.getFlat().toString()) + "%"
+                , ROW_COUNT, ROW_COUNT*(numberPage-1));
+    }
+
+    public List<Address> searchAddressLikeAddressFlatIsNull(Address address, Long numberPage){
+        return addressRepository.searchAddressLikeAddressFlatIsNull(
+                "%" + (address.getCountry() == null || address.getCountry().isBlank()
+                        ? "" : address.getCountry()) + "%"
+                , "%" + (address.getRegion() == null || address.getRegion().isBlank()
+                        ? "" : address.getRegion()) + "%"
+                , "%" + (address.getCity() == null || address.getCity().isBlank()
+                        ? "" : address.getCity()) + "%"
+                , "%" + (address.getStreet() == null || address.getStreet().isBlank()
+                        ? "" : address.getStreet()) + "%"
+                , "%" + (address.getHouse() == null ? "" : address.getHouse().toString()) + "%"
+                , "%" + (address.getBuilding() == null ? "" : address.getBuilding().toString()) + "%"
                 , ROW_COUNT, ROW_COUNT*(numberPage-1));
     }
 
@@ -135,7 +166,10 @@ public class AddressServiceImp implements AddressService {
             return model;
         }
         if (address.getBuilding() == null){
-            address.setBuilding(1L);
+            if (isExistsBuildings(address)) {
+                model.addAttribute("BuildingError", "Building is required");
+                return model;
+            }
         }else if(address.getBuilding() < 1){
             model.addAttribute("BuildingError", "Building number must be more 0");
             return model;
@@ -161,7 +195,7 @@ public class AddressServiceImp implements AddressService {
         return addressRepository.selectAvailableAddressByLimitOffsetAndId(
                 transmitterId
                 , ROW_COUNT
-                , (numberPageList-1)*ROW_COUNT
+                , (numberPageList - 1) * ROW_COUNT
         );
     }
 }
