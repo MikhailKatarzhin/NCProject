@@ -19,8 +19,7 @@ public interface TariffRepository extends JpaRepository<Tariff, Long> {
 
     @Query(
             value = "SELECT * FROM tariff t" +
-                    " INNER JOIN user u on t.provider_id = u.id" +
-                    " ORDER BY t.id" +
+                    " WHERE t.provider_id = ?3" +
                     " LIMIT ?1 OFFSET ?2"
             , nativeQuery = true
     )
