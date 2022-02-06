@@ -107,26 +107,7 @@ public class TransmitterService {
     public List<Transmitter> searchTransmitterByTransmitterAvailableAddressIdWithoutConnectedTransmitterId(
             Address address, Long numberPage, Long tariffId){
         return transmitterRepository.searchTransmitterByTransmitterAvailableAddressIdWithoutConnectedTransmitterId(
-        /*//  Поиск, содержащий введённый адресс
-                "%" + (address.getCountry() == null || address.getCountry().isBlank()
-                ? "" : address.getCountry()) + "%"
-                , "%" + (address.getRegion() == null || address.getRegion().isBlank()
-                ? "" : address.getRegion()) + "%"
-                , "%" + (address.getCity() == null || address.getCity().isBlank()
-                ? "" : address.getCity()) + "%"
-                , "%" + (address.getStreet() == null || address.getStreet().isBlank()
-                ? "" : address.getStreet()) + "%"
-                , "%" + (address.getHouse() == null ? "" : address.getHouse().toString()) + "%"
-                , "%" + (address.getBuilding() == null ? "" : address.getBuilding().toString()) + "%"
-                , "%" + (address.getFlat() == null ? "" : address.getFlat().toString()) + "%"
-         */
-        /*//  Строгий поиск
 
-                address.getCountry(), address.getRegion(), address.getCity(), address.getStreet()
-                , address.getHouse().toString(), address.getBuilding().toString(), address.getFlat().toString()
-
-        */
-        //  Поиск с любыми значениями на месте пустых полей
                 (address.getCountry() == null || address.getCountry().isBlank()
                         ? "%" : address.getCountry())
                 , (address.getRegion() == null || address.getRegion().isBlank()
@@ -135,7 +116,7 @@ public class TransmitterService {
                         ? "%" : address.getCity())
                 , (address.getStreet() == null || address.getStreet().isBlank()
                         ? "%" : address.getStreet())
-                , (address.getHouse() == null ? ("%"+""+"%") : address.getHouse().toString())
+                , (address.getHouse() == null ? "%" : address.getHouse().toString())
                 , (address.getBuilding() == null ? "%" : address.getBuilding().toString())
                 , (address.getFlat() == null ? "%" : address.getFlat().toString())
 

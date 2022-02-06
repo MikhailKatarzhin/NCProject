@@ -55,15 +55,15 @@ public interface TransmitterRepository extends JpaRepository<Transmitter, Long> 
     List<Transmitter> selectConnectedTransmitterByLimitOffsetAndId(Long tariffId, Long limit, Long offset);
 
     @Query(
-            value = "SELECT t.* FROM transmitter t" +
-                    " LEFT JOIN tariff_connected_transmitters tct" +
-                    " ON t.id = tct.connected_transmitters_id AND (tct.tariff_id <> ?10 OR tct.tariff_id IS NULL)" +
-                    " INNER JOIN transmitter_available_addresses taa" +
-                    " ON t.id = taa.transmitter_id" +
-                    " INNER JOIN address a on a.id = taa.available_addresses_id" +
-                    " WHERE a.country = ?1 AND a.region = ?2 AND a.city = ?3 AND a.street = ?4" +
-                    " AND a.house = ?5 AND a.building = ?6 AND a.flat = ?7" +
-                    " LIMIT ?8 OFFSET ?9"
+            value = "SELECT DISTINCT t.* FROM transmitter t\n" +
+                    "    LEFT JOIN tariff_connected_transmitters tct\n" +
+                    "        ON t.id = tct.connected_transmitters_id AND tct.tariff_id = ?10\n" +
+                    "    INNER JOIN transmitter_available_addresses taa ON t.id = taa.transmitter_id\n" +
+                    "    INNER JOIN address a on a.id = taa.available_addresses_id\n" +
+                    "WHERE tct.connected_transmitters_id IS NULL AND tct.tariff_id IS NULL\n" +
+                    "  AND a.country LIKE ?1 AND a.region LIKE ?2 AND a.city LIKE ?3 AND a.street LIKE ?4\n" +
+                    "  AND a.house LIKE ?5 AND a.building LIKE ?6 AND a.flat LIKE ?7\n" +
+                    "LIMIT ?8 OFFSET ?9"
             , nativeQuery = true
     )
     List<Transmitter> searchTransmitterByTransmitterAvailableAddressIdWithoutConnectedTransmitterId(
