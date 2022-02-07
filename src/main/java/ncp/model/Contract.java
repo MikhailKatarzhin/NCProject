@@ -30,10 +30,10 @@ public class Contract {
 
     @ManyToOne(optional = false)
     @JoinColumn(nullable = false, updatable = false)
-    private Tariff tariff;
+    private User consumer;
 
     @ManyToOne(optional = false)
-    @JoinColumn(nullable = false, updatable = false)
-    private User consumer;
+    @JoinColumn(nullable = false)
+    private Tariff tariff;
 
 }

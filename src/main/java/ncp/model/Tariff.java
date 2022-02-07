@@ -32,12 +32,11 @@ public class Tariff {
     @ManyToMany
     private Set<Transmitter> connectedTransmitters = new HashSet<>();
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn
-    private Set<Contract> contracts = new HashSet<>();
-
     @ManyToOne(optional = false)
     @JoinColumn(nullable = false)
     private User provider;
+
+    @OneToMany(mappedBy = "tariff", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Contract> contracts = new HashSet<>();
 
 }
