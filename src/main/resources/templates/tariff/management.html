@@ -13,7 +13,7 @@
 <table class="m-auto text-center">
     <tr><td><h1>Tariff management</h1></td></tr>
     <tr><td><form th:action="@{/tariff/add}" method="post" th:object="${tariffForm}"><table><tr>
-        <td width="600">
+        <td>
             <div class="form-floating">
                 <input type="text" class="form-control row-1" required
                        id="title" th:field="*{title}" placeholder="New tariff title">
