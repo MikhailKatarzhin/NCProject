@@ -10,38 +10,36 @@
 </head>
 <body>
 <div th:insert="~{fragments/navigation_fragments  :: navbar}"></div>
-<table>
-    <caption><h1>Change personality</h1></caption>
-    <tr><td><form th:action="@{/profile/change_personality}" th:object="${personality}" method="post">
+<div>
+    <form th:action="@{/profile/change_personality}" th:object="${personality}" method="post" class="m-auto col-3 text-center">
+        <h1 class="h3 mb-3 fw-normal">Change your personality</h1>
+
         <input type="hidden" th:field="*{id}">
-        <table>
-            <tr>
-                <td th:text="'Current first name: '+*{firstName}"></td>
-                <td>
-                    <label for="firstName">New first name: </label>
-                    <input type="text" id="firstName" th:field="*{firstName}">
-                </td>
-            </tr>
-            <tr>
-                <td th:text="'Current last name: '+*{lastName}"></td>
-                <td>
-                    <label for="lastName">New first name: </label>
-                    <input type="text" id="lastName" th:field="*{lastName}">
-                </td>
-            </tr>
-            <tr>
-                <td th:text="'Current patronymic: '+*{patronymic}"></td>
-                <td>
-                    <label for="patronymic">New first name: </label>
-                    <input type="text" id="patronymic" th:field="*{patronymic}">
-                </td>
-            </tr>
-            <tr>
-                <td><input type="submit" value="Change"></td>
-            </tr>
-        </table>
-    </form></td></tr>
-</table>
+
+        <h5 th:text="'Current first name: '+*{firstName}"></h5>
+        <div class="form-floating">
+            <input type="text" class="form-control"
+                   id="firstName" th:field="*{firstName}" placeholder="New first name" required>
+            <label for="firstName" th:text="'New first name'"></label>
+        </div>
+
+        <h5 th:text="'Current last name: '+*{lastName}"></h5>
+        <div class="form-floating">
+            <input type="text" class="form-control"
+                   id="lastName" th:field="*{lastName}" placeholder="New last name" required>
+            <label for="lastName" th:text="'New last name'"></label>
+        </div>
+
+        <h5 th:text="'Current patronymic: '+*{firstName}"></h5>
+        <div class="form-floating">
+            <input type="text" class="form-control"
+                   id="patronymic" th:field="*{patronymic}" placeholder="New patronymic" required>
+            <label for="patronymic" th:text="'New patronymic'"></label>
+        </div>
+
+        <button class="w-100 btn btn-lg btn-dark" type="submit">Confirm change</button>
+    </form>
+</div>
 <script type="text/javascript"
         src="/webjars/jquery/3.6.0/jquery.min.js"></script>
 
