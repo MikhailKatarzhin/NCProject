@@ -15,7 +15,7 @@ public class TariffStatusService {
     public TariffStatus getByName(String name){
         return tariffStatusRepository.getByName(name);
     }
-    public TariffStatus getById(long id){
+    public TariffStatus getById(Long id){
         return tariffStatusRepository.getById(id);
     }
     public List<TariffStatus> getAll(){

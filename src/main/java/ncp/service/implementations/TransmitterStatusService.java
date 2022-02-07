@@ -15,7 +15,7 @@ public class TransmitterStatusService {
     public TransmitterStatus getByName(String name){
         return transmitterStatusRepository.getByName(name);
     }
-    public TransmitterStatus getById(long id){
+    public TransmitterStatus getById(Long id){
         return transmitterStatusRepository.getById(id);
     }
     public List<TransmitterStatus> getAll(){

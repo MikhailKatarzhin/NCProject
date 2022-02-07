@@ -43,7 +43,7 @@ public class TransmitterController extends AbstractSecondaryPagingController {
     public String managementByOffset(@PathVariable Long numberPageList, ModelMap model){
         if (numberPageList < 1L)
             return firstPage();
-        long nPage=transmitterService.pageCount();
+        Long nPage=transmitterService.pageCount();
         if (numberPageList > nPage)
             return lastPage();
         model.addAttribute("nPage", nPage);
@@ -76,7 +76,7 @@ public class TransmitterController extends AbstractSecondaryPagingController {
     public String setupByIdAndPage(@PathVariable Long id, @PathVariable Long availableAddressPage, ModelMap model){
         if (availableAddressPage < 1L)
             return firstSecondaryPage(id);
-        long nPage=transmitterService.availableAddressPageCount(id);
+        Long nPage=transmitterService.availableAddressPageCount(id);
         if (availableAddressPage > nPage)
             return lastSecondaryPage(id);
         model.addAttribute("nPage", nPage);
@@ -92,7 +92,7 @@ public class TransmitterController extends AbstractSecondaryPagingController {
     public String setStatusByTransmitterId(
             @PathVariable Long id
             , @PathVariable Long availableAddressPage
-            , @RequestParam long statusSelectId){
+            , @RequestParam Long statusSelectId){
         transmitterService.setStatus(id, statusSelectId);
         return toSecondaryPage(availableAddressPage, id);
     }

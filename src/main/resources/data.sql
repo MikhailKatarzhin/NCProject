@@ -24,9 +24,32 @@ INSERT INTO user_role_set(user_id, role_set_id) VALUES (2, 2);
 
 INSERT INTO address(id, building, city, country, flat, house, region, street) VALUES (1, 1, 'test', 'test', 1, 1, 'test', 'test');
 
-SELECT * FROM address WHERE country LIKE 'test' AND region LIKE 'test' AND city LIKE 'test' AND street LIKE 'test' AND house LIKE 1 AND building LIKE 1 AND flat LIKE '%%' LIMIT 10 OFFSET 10;
+SELECT DISTINCT t.* FROM transmitter t
+    LEFT JOIN tariff_connected_transmitters tct
+        ON t.id = tct.connected_transmitters_id AND tct.tariff_id = ?10
+    INNER JOIN transmitter_available_addresses taa ON t.id = taa.transmitter_id
+    INNER JOIN address a on a.id = taa.available_addresses_id
+WHERE tct.connected_transmitters_id IS NULL AND tct.tariff_id IS NULL
+  AND a.country LIKE ?1 AND a.region LIKE ?2 AND a.city LIKE ?3 AND a.street LIKE ?4
+  AND a.house LIKE ?5 AND a.building LIKE ?6 AND a.flat LIKE ?7
+LIMIT ?8 OFFSET ?9;
 
-SELECT a.* FROM address a LEFT JOIN transmitter_available_addresses taa on 3 = taa.transmitter_id AND a.id = taa.available_addresses_id
-WHERE taa.available_addresses_id IS NULL AND taa.transmitter_id IS NULL LIMIT 10 OFFSET 0;
+SELECT count(*) FROM Address
+    WHERE flat = ?1 AND building = ?2 AND house = ?3
+    AND street = ?4 AND city = ?5 AND region = ?6 AND country = ?7;
 
-SELECT a.* FROM transmitter_available_addresses taa INNER JOIN transmitter t ON taa.transmitter_id = t.id INNER JOIN address a ON taa.available_addresses_id = a.id WHERE t.id=2 LIMIT 10 OFFSET 0;
+SELECT t.* FROM tariff t
+    INNER JOIN tariff_connected_transmitters tct
+        ON t.id = tct.tariff_id
+    INNER JOIN transmitter t2
+        ON t2.id = tct.connected_transmitters_id
+    INNER JOIN transmitter_status ts
+        ON t2.status_id = ts.id
+    INNER JOIN transmitter_available_addresses taa
+        ON tct.connected_transmitters_id = taa.transmitter_id
+    INNER JOIN address a
+        ON taa.available_addresses_id = a.id
+    INNER JOIN tariff_status s
+        ON t.status_id = s.id
+WHERE a.id = ?3 AND ts.name = 'turned on' AND s.name = 'active'
+LIMIT ?1 OFFSET ?2

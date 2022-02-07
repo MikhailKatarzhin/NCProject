@@ -37,14 +37,14 @@ public interface AddressRepository extends JpaRepository<Address, Long> {
                     " AND house=?5 AND building=?6 AND flat IS NOT NULL"
             , nativeQuery = true
     )
-    Long countCountyRegionCityStreetHouseBuildingsWithFlats(String country, String region, String city, String street, long house, long building);
+    Long countCountyRegionCityStreetHouseBuildingsWithFlats(String country, String region, String city, String street, Long house, Long building);
 
     @Query(
             value = "SELECT COUNT(*) FROM address WHERE country =?1 AND region =?2 AND city=?3 AND street=?4" +
                     " AND house=?5 AND building IS NOT NULL"
             , nativeQuery = true
     )
-    Long countCountyRegionCityStreetHouseWithBuildings(String country, String region, String city, String street, long house);
+    Long countCountyRegionCityStreetHouseWithBuildings(String country, String region, String city, String street, Long house);
 
     @Query(
             value = "SELECT COUNT(*) FROM address WHERE country =?1 AND region =?2 AND city=?3" +

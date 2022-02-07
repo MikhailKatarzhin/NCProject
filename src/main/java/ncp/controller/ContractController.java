@@ -44,7 +44,7 @@ public class ContractController extends AbstractSecondaryPagingController {
     public String managementByOffset(@PathVariable Long currentPage, ModelMap model){
         if (currentPage < 1L)
             return firstPage();
-        long nPage=contractService.pageCount(userService.getRemoteUserId());
+        Long nPage=contractService.pageCount(userService.getRemoteUserId());
         if (currentPage > nPage)
             return lastPage();
         model.addAttribute("nPage", nPage);

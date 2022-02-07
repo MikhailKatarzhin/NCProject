@@ -12,33 +12,33 @@ public interface TariffService {
 
 ///********************! Tariff !********************
 
-    long pageCount ();
+    Long pageCount ();
 
-    List<Tariff> tariffListByNumberPageList (long numberPageList);
+    List<Tariff> tariffListByNumberPageList (Long numberPageList);
 
-    List<Tariff> ownTariffListByNumberPageList (long numberPageList, Long userId);
+    List<Tariff> ownTariffListByNumberPageList (Long numberPageList, Long userId);
 
     ModelMap validateNewTariff(Tariff tariff, ModelMap model);
 
     Tariff saveNew(Tariff tariff);
 
-    void deleteById(long id);
+    void deleteById(Long id);
 
-    Tariff getById(long id);
+    Tariff getById(Long id);
 
     ///********************! Tariff sets !********************
 
-    Tariff setDescription (long tariffId, String description);
+    Tariff setDescription (Long tariffId, String description);
 
-    Tariff setPrice (long tariffId, long price);
+    Tariff setPrice (Long tariffId, Long price);
 
-    Tariff setStatus (long tariffId, long statusId);
+    Tariff setStatus (Long tariffId, Long statusId);
 
 ///********************! Connected Transmitter !********************
 
-    long connectedTransmitterPageCount (long transmitterId);
+    Long connectedTransmitterPageCount (Long transmitterId);
 
-    List<Transmitter> connectedTransmitterListByNumberPageListAndTariffId (long numberPageList, Long tariffId);
+    List<Transmitter> connectedTransmitterListByNumberPageListAndTariffId (Long numberPageList, Long tariffId);
 
     void  addConnectedTransmitter(Long tariffId, Long transmitterId);
 

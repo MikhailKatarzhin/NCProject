@@ -37,12 +37,12 @@ public class AddressServiceImp implements AddressService {
                 , address.getCountry()) != 0;
     }
 
-    public long pageCount(){
-        long nPage = addressRepository.count() / ROW_COUNT + (addressRepository.count() % ROW_COUNT == 0 ? 0 : 1);
+    public Long pageCount(){
+        Long nPage = addressRepository.count() / ROW_COUNT + (addressRepository.count() % ROW_COUNT == 0 ? 0 : 1);
         return nPage == 0? nPage + 1 : nPage;
     }
 
-    public List<Address> addressListByNumberPageList(long numberPageList){
+    public List<Address> addressListByNumberPageList(Long numberPageList){
         return addressRepository.selectByLimitOffset(ROW_COUNT, (numberPageList-1)*ROW_COUNT);
     }
 
@@ -191,7 +191,7 @@ public class AddressServiceImp implements AddressService {
         return null;
     }
 
-    public List<Address> availableAddressListByNumberPageListAndTransmitterId(long numberPageList, Long transmitterId){
+    public List<Address> availableAddressListByNumberPageListAndTransmitterId(Long numberPageList, Long transmitterId){
         return addressRepository.selectAvailableAddressByLimitOffsetAndId(
                 transmitterId
                 , ROW_COUNT

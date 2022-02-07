@@ -9,9 +9,9 @@ public interface AddressService {
 
     boolean addressExists(Address address);
 
-    long pageCount();
+    Long pageCount();
 
-    List<Address> addressListByNumberPageList(long numberPageList);
+    List<Address> addressListByNumberPageList(Long numberPageList);
 
     Address save(Address address);
 
@@ -34,5 +34,5 @@ public interface AddressService {
 
     ModelMap addNewAddress(Address address, ModelMap model);
 
-    List<Address> availableAddressListByNumberPageListAndTransmitterId(long numberPageList, Long transmitterId);
+    List<Address> availableAddressListByNumberPageListAndTransmitterId(Long numberPageList, Long transmitterId);
 }

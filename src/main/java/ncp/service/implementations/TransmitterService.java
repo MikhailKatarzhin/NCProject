@@ -20,30 +20,30 @@ public class TransmitterService {
     @Autowired
     private AddressServiceImp addressService;
 
-    public long pageCount(){
-        long nTransmitter = transmitterRepository.count();
-        long nPage = nTransmitter / ROW_COUNT + (nTransmitter % ROW_COUNT == 0 ? 0 : 1);
+    public Long pageCount(){
+        Long nTransmitter = transmitterRepository.count();
+        Long nPage = nTransmitter / ROW_COUNT + (nTransmitter % ROW_COUNT == 0 ? 0 : 1);
         return nPage == 0? nPage + 1 : nPage;
     }
 
-    public long availableAddressPageCount (long availableAddressId){
-        long nAvailableAddress = transmitterRepository.countAvailableAddressById(availableAddressId);
-        long nPage = nAvailableAddress / ROW_COUNT + (nAvailableAddress % ROW_COUNT == 0 ? 0 : 1);
+    public Long availableAddressPageCount (Long availableAddressId){
+        Long nAvailableAddress = transmitterRepository.countAvailableAddressById(availableAddressId);
+        Long nPage = nAvailableAddress / ROW_COUNT + (nAvailableAddress % ROW_COUNT == 0 ? 0 : 1);
         return nPage == 0? nPage + 1 : nPage;
     }
 
-    public List<Transmitter> transmitterListByNumberPageList (long numberPageList){
+    public List<Transmitter> transmitterListByNumberPageList (Long numberPageList){
         return transmitterRepository.selectByLimitOffset(ROW_COUNT, (numberPageList-1)*ROW_COUNT);
     }
 
-    public List<Address> availableAddressListByNumberPageListAndTransmitterId (long numberPageList, Long transmitterId){
+    public List<Address> availableAddressListByNumberPageListAndTransmitterId (Long numberPageList, Long transmitterId){
         return addressService.availableAddressListByNumberPageListAndTransmitterId (numberPageList, transmitterId);
     }
 
     public Transmitter saveNew (String description){
         Transmitter transmitter = new Transmitter();
         transmitter.setDescription(description);
-        transmitter.setStatus(transmitterStatusService.getById(1));
+        transmitter.setStatus(transmitterStatusService.getById(1L));
         transmitter.setAvailableAddresses(new HashSet<>());
         return transmitterRepository.save(transmitter);
     }
@@ -52,19 +52,19 @@ public class TransmitterService {
         return transmitterRepository.save(transmitter);
     }
 
-    public Transmitter setStatus (long transmitterId, long statusId){
+    public Transmitter setStatus (Long transmitterId, Long statusId){
         Transmitter transmitter = transmitterRepository.getById(transmitterId);
         transmitter.setStatus(transmitterStatusService.getById(statusId));
         return transmitterRepository.save(transmitter);
     }
 
-    public Transmitter setDescription (long transmitterId, String description){
+    public Transmitter setDescription (Long transmitterId, String description){
         Transmitter transmitter = transmitterRepository.getById(transmitterId);
         transmitter.setDescription(description);
         return transmitterRepository.save(transmitter);
     }
 
-    public Transmitter getById (long id){
+    public Transmitter getById (Long id){
         return transmitterRepository.getById(id);
     }
 
@@ -77,11 +77,11 @@ public class TransmitterService {
         transmitterRepository.addAvailableAddressByTransmitterIdAndAddressId(transmitterId, addressId);
     }
 
-    public void deleteById(long id){
+    public void deleteById(Long id){
         transmitterRepository.deleteById(id);
     }
 
-    public void removeAvailableAddressByTransmitterIdAndAddressId(long tId, long aId){
+    public void removeAvailableAddressByTransmitterIdAndAddressId(Long tId, Long aId){
         transmitterRepository.removeAvailableAddressByTransmitterIdAndAddressId(tId, aId);
     }
 
@@ -94,7 +94,7 @@ public class TransmitterService {
         return addressService.searchAddressLikeAddressUnconnectedToTransmitterId(address, numberPage, transmitterId);
     }
 
-    public List<Transmitter> connectedTransmitterListByNumberPageListAndTransmitterId(long numberPageList, Long tariffId){
+    public List<Transmitter> connectedTransmitterListByNumberPageListAndTransmitterId(Long numberPageList, Long tariffId){
         return transmitterRepository.selectConnectedTransmitterByLimitOffsetAndId(
                 tariffId
                 , ROW_COUNT

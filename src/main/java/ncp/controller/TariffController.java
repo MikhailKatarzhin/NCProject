@@ -51,7 +51,7 @@ public class TariffController extends AbstractTwosomeSecondaryPagingController {
     public String managementByOffset(@PathVariable Long numberPageList, ModelMap model){
         if (numberPageList < 1L)
             return firstPage();
-        long nPage=tariffService.pageCount();
+        Long nPage=tariffService.pageCount();
         if (numberPageList > nPage)
             return lastPage();
         model.addAttribute("nPage", nPage);
@@ -85,7 +85,7 @@ public class TariffController extends AbstractTwosomeSecondaryPagingController {
     public String setupByIdAndPage(@PathVariable Long id, @PathVariable Long connectedTransmitterPage, ModelMap model){
         if (connectedTransmitterPage < 1L)
             return firstSecondaryPage(id);
-        long nPage=tariffService.connectedTransmitterPageCount(id);
+        Long nPage=tariffService.connectedTransmitterPageCount(id);
         if (connectedTransmitterPage > nPage)
             return lastSecondaryPage(id);
         model.addAttribute("nPage", nPage);
@@ -183,7 +183,7 @@ public class TariffController extends AbstractTwosomeSecondaryPagingController {
     public String contractsViewByTariffId(@PathVariable Long id, @PathVariable Long signedContractPage, ModelMap model){
         if (signedContractPage < 1L)
             return firstSecondSecondaryPage(id);
-        long nPage = tariffService.countPageContractByTariffId(id);
+        Long nPage = tariffService.countPageContractByTariffId(id);
         if (signedContractPage > nPage)
             return lastSecondSecondaryPage(id);
         model.addAttribute("nPage", nPage);

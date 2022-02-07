@@ -31,7 +31,7 @@ public class AddressController extends AbstractPrimaryPagingController {
     public String managementByOffset(@PathVariable Long currentPage, ModelMap model){
         if (currentPage < 1L)
             return "redirect:/address/list/1";
-        long nPage=addressService.pageCount();
+        Long nPage=addressService.pageCount();
         if (currentPage > nPage)
             return "redirect:/address/list/"+nPage;
         model.addAttribute("nPage", nPage);
