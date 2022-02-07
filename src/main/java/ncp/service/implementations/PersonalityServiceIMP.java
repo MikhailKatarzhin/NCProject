@@ -6,9 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class PersonalityService {
-    @Autowired
+public class PersonalityServiceIMP {
+
     PersonalityRepository personalityRepository;
+
+    @Autowired
+    public PersonalityServiceIMP(PersonalityRepository personalityRepository){
+        this.personalityRepository = personalityRepository;
+    }
 
     public Personality save(Personality personality){
         return personalityRepository.save(personality);

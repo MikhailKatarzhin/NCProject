@@ -3,7 +3,7 @@ package ncp.controller;
 import lombok.AllArgsConstructor;
 import ncp.model.Personality;
 import ncp.model.User;
-import ncp.service.implementations.PersonalityService;
+import ncp.service.interfaces.PersonalityService;
 import ncp.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
