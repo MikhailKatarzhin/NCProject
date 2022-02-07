@@ -3,6 +3,7 @@ package ncp.service.implementations;
 import ncp.model.Address;
 import ncp.model.Transmitter;
 import ncp.repository.TransmitterRepository;
+import ncp.service.interfaces.TransmitterStatusService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

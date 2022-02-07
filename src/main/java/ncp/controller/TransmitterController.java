@@ -4,7 +4,7 @@ import ncp.controller.paging.AbstractSecondaryPagingController;
 import ncp.model.Address;
 import ncp.model.Transmitter;
 import ncp.service.implementations.TransmitterService;
-import ncp.service.implementations.TransmitterStatusService;
+import ncp.service.interfaces.TransmitterStatusService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
