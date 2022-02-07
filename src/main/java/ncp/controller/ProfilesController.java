@@ -12,12 +12,15 @@ import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("/profile")
 @Controller
-@AllArgsConstructor
 public class ProfilesController {
+    private final PersonalityService personalityService;
+    private final UserService userService;
+
     @Autowired
-    private PersonalityService personalityService;
-    @Autowired
-    private UserService userService;
+    public ProfilesController(PersonalityService personalityService, UserService userService){
+        this.personalityService = personalityService;
+        this.userService = userService;
+    }
 
     @GetMapping
     public String myProfile(){
