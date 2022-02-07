@@ -44,6 +44,7 @@ public class ProfilesController {
     @PostMapping("/change_email")
     public String changeEmail(@RequestParam("email") String email, ModelMap model){
         if (userService.emailExists(email)){
+            model.addAttribute("currentEmail", userService.getRemoteUserEmail());
             model.addAttribute("emailExistsError", "Email already exists");
             return "profile/change_email";
         }
