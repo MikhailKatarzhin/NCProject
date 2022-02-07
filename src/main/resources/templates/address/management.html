@@ -40,6 +40,9 @@
                 <input class="w-100 btn btn-sm btn-danger" type="submit" value="remove">
             </form></td>
         </tr>
+        <tr th:if="${addresses.isEmpty()}"><td colspan="8" class="text-center">
+            <h5>Addresses not exists!</h5>
+        </td></tr>
     </table></td></tr>
     <tr>
         <td th:insert="~{fragments/navigation_fragments  :: paging ('address', ${currentPage}, ${nPage})}"></td>
