@@ -14,10 +14,15 @@ import java.util.Arrays;
 @RequestMapping("/sign_up")
 @Controller
 public class SignUpController {
+
+    private final UserService userService;
+    private final RoleService roleService;
+
     @Autowired
-    private UserService userService;
-    @Autowired
-    private RoleService roleService;
+    public SignUpController(UserService userService, RoleService roleService){
+        this.userService = userService;
+        this.roleService = roleService;
+    }
 
     @GetMapping
     public String signUp(ModelMap model){
