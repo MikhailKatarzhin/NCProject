@@ -53,6 +53,9 @@
                 <input type="submit" value="Terminate" class="w-100 btn btn-sm btn-danger">
             </form></td>
         </tr>
+        <tr th:if="${contracts.isEmpty()}"><td colspan="13" class="text-center">
+            <h5>Contracts not found!</h5>
+        </td></tr>
     </table></td></tr>
     <tr>
         <td th:insert="~{fragments/navigation_fragments  :: paging ('tariff/second_secondary/'+${primaryId},
