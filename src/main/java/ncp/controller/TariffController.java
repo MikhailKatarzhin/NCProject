@@ -19,12 +19,16 @@ import java.util.List;
 @RequestMapping("/tariff")
 public class TariffController extends AbstractTwosomeSecondaryPagingController {
 
+    private final TariffService tariffService;
+    private final TariffStatusService tariffStatusService;
+    private final UserService userService;
+
     @Autowired
-    private TariffService tariffService;
-    @Autowired
-    private TariffStatusService tariffStatusService;
-    @Autowired
-    private UserService userService;
+    public TariffController(TariffStatusService tariffStatusService, TariffService tariffService, UserService userService){
+        this.tariffStatusService = tariffStatusService;
+        this.tariffService = tariffService;
+        this.userService = userService;
+    }
 
 ///********************! Transmitter management !********************
 
