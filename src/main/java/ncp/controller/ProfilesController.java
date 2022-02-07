@@ -52,6 +52,34 @@ public class ProfilesController {
         return "redirect:/profile";
     }
 
+    @GetMapping("/change_password")
+    public String changePassword(){
+        return "profile/change_password";
+    }
+
+    @PostMapping("/change_password")
+    public String changePassword(
+            @RequestParam("newPassword") String newPassword
+            , @RequestParam("currentPassword") String currentPassword
+            , @RequestParam("confirmPassword") String confirmPassword, ModelMap model
+    ){
+        if (!userService.checkRemoteUserPassword(currentPassword)){
+            model.addAttribute("InvalidPasswordError", "Invalid password");
+            return "profile/change_password";
+        }
+        if (newPassword.isBlank()){
+            model.addAttribute("passwordIsBlankError", "New password must be not null!");
+            return "profile/change_password";
+        }
+        if (!confirmPassword.equals(newPassword)){
+            model.addAttribute("currentPassword", currentPassword);
+            model.addAttribute("passwordIsDifferentError", "Passwords are different");
+            return "profile/change_password";
+        }
+        userService.savePassword(newPassword);
+        return "redirect:/profile";
+    }
+
     @GetMapping("/change_personality")
     public String changePersonality(ModelMap model){
         model.addAttribute("personality", userService.getRemoteUserPersonality());

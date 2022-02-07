@@ -17,6 +17,8 @@ public interface UserService {
 
     Personality getRemoteUserPersonality();
 
+    boolean checkRemoteUserPassword(String password);
+
     User getById(Long id);
 
     User getByUsername(String username);
@@ -27,4 +29,5 @@ public interface UserService {
 
     User saveEmail(String email);
 
+    User savePassword(String password);
 }

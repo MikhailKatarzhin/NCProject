@@ -14,11 +14,16 @@ import javax.sql.DataSource;
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-    @Autowired
-    private DataSource  dataSource;
+
+    private final DataSource  dataSource;
+
     @Bean
-    public BCryptPasswordEncoder encoder() {
+    public static BCryptPasswordEncoder encoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    public WebSecurityConfig(DataSource dataSource){
+        this.dataSource = dataSource;
     }
 
     @Override

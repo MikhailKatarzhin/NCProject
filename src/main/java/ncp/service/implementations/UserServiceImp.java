@@ -1,5 +1,6 @@
 package ncp.service.implementations;
 
+import ncp.config.WebSecurityConfig;
 import ncp.model.Personality;
 import ncp.model.Role;
 import ncp.model.User;
@@ -43,6 +44,10 @@ public class UserServiceImp implements UserService {
         return getRemoteUser().getPersonality();
     }
 
+    public boolean checkRemoteUserPassword(String password){
+        return WebSecurityConfig.encoder().matches(password , getRemoteUser().getPassword());
+    }
+
     public User getById(Long id){
         return userRepository.findById(id).orElse(null);
     }
@@ -68,4 +73,9 @@ public class UserServiceImp implements UserService {
         return userRepository.save(user);
     }
 
+    @Override
+    public User savePassword(String password) {
+        User user = getRemoteUser();
+        user.setPassword(WebSecurityConfig.encoder().encode(password));
+        return userRepository.save(user);    }
 }

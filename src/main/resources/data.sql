@@ -13,7 +13,7 @@ insert into transmitter_status (name) values('being repaired');
 
 INSERT INTO personality (id, first_name, last_name, patronymic) VALUES (1,'','','');
 INSERT INTO user (email, password, username)
-VALUES ('maikl.1997@mail.ru', '$2a$10$O9gJ0LzfKTwnV.udAG3oHOqtE5YXElvz.aSDKOFY39Jfc9ls5DfqW', 'admin');
+VALUES ('admin@mail.ru', '$2a$10$O9gJ0LzfKTwnV.udAG3oHOqtE5YXElvz.aSDKOFY39Jfc9ls5DfqW', 'admin');
 INSERT INTO user_role_set(user_id, role_set_id) VALUES (1, 3);
 
 INSERT INTO personality (id,first_name, last_name, patronymic) VALUES (2,'Тестер','Тестеров','Тестирович');
@@ -21,6 +21,26 @@ INSERT INTO user (email, password, username)
 VALUES ('tester@mail.ru', '$2a$10$O9gJ0LzfKTwnV.udAG3oHOqtE5YXElvz.aSDKOFY39Jfc9ls5DfqW', 'tester');
 INSERT INTO user_role_set(user_id, role_set_id) VALUES (2, 1);
 INSERT INTO user_role_set(user_id, role_set_id) VALUES (2, 2);
+
+INSERT INTO personality (id, first_name, last_name, patronymic) VALUES (3,'','','');
+INSERT INTO user (email, password, username)
+VALUES ('provider@mail.ru', '$2a$10$O9gJ0LzfKTwnV.udAG3oHOqtE5YXElvz.aSDKOFY39Jfc9ls5DfqW', 'provider');
+INSERT INTO user_role_set(user_id, role_set_id) VALUES (3, 2);
+
+INSERT INTO personality (id, first_name, last_name, patronymic) VALUES (4,'','','');
+INSERT INTO user (email, password, username)
+VALUES ('consumer@mail.ru', '$2a$10$O9gJ0LzfKTwnV.udAG3oHOqtE5YXElvz.aSDKOFY39Jfc9ls5DfqW', 'consumer');
+INSERT INTO user_role_set(user_id, role_set_id) VALUES (4, 1);
+
+INSERT INTO personality (id, first_name, last_name, patronymic) VALUES (5,'','','');
+INSERT INTO user (email, password, username)
+VALUES ('provider2@mail.ru', '$2a$10$O9gJ0LzfKTwnV.udAG3oHOqtE5YXElvz.aSDKOFY39Jfc9ls5DfqW', 'provider2');
+INSERT INTO user_role_set(user_id, role_set_id) VALUES (5, 2);
+
+INSERT INTO personality (id, first_name, last_name, patronymic) VALUES (6,'','','');
+INSERT INTO user (email, password, username)
+VALUES ('consumer2@mail.ru', '$2a$10$O9gJ0LzfKTwnV.udAG3oHOqtE5YXElvz.aSDKOFY39Jfc9ls5DfqW', 'consumer2');
+INSERT INTO user_role_set(user_id, role_set_id) VALUES (6, 1);
 
 INSERT INTO address(id, building, city, country, flat, house, region, street) VALUES (1, 1, 'test', 'test', 1, 1, 'test', 'test');
 
