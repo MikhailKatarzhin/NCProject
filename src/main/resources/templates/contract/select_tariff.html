@@ -30,6 +30,9 @@
                 <input class="w-100 btn btn-sm btn-primary" type="submit" value="Sign contract">
             </form></td>
         </tr>
+        <tr th:if="${tariffs.isEmpty()}"><td colspan="5" class="text-center">
+            <h5>Active Tariffs for selected address not found!</h5>
+        </td></tr>
     </table></td></tr>
     <tr>
         <td th:insert="~{fragments/navigation_fragments  :: paging ('contract/secondary'+${addressId}, ${currentPage}, ${nPage})}"></td>
