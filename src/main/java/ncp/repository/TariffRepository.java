@@ -71,6 +71,7 @@ public interface TariffRepository extends JpaRepository<Tariff, Long> {
                     "INNER JOIN tariff_status s " +
                     "ON t.status_id = s.id " +
                     "WHERE a.id = ?3 AND ts.name = 'turned on' AND s.name = 'active' " +
+                    "ORDER BY t.provider_id " +
                     "LIMIT ?1 OFFSET ?2"
             , nativeQuery = true
     )
