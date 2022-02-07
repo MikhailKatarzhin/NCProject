@@ -4,6 +4,7 @@ import ncp.model.Personality;
 import ncp.model.Role;
 import ncp.model.User;
 import ncp.repository.UserRepository;
+import ncp.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -12,14 +13,19 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Set;
 
 @Service
-public class UserService{
+public class UserServiceIMP implements UserService {
+
+    private final UserRepository userRepository;
+    private final HttpServletRequest httpServletRequest;
+    private final BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private HttpServletRequest httpServletRequest;
-    @Autowired
-    private BCryptPasswordEncoder passwordEncoder;
+    public UserServiceIMP(UserRepository userRepository, HttpServletRequest httpServletRequest
+            , BCryptPasswordEncoder passwordEncoder){
+        this.userRepository = userRepository;
+        this.httpServletRequest = httpServletRequest;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     public User getRemoteUser(){
         return userRepository.findByUsername(httpServletRequest.getRemoteUser());
@@ -37,7 +43,7 @@ public class UserService{
         return getRemoteUser().getPersonality();
     }
 
-    public User getById(long id){
+    public User getById(Long id){
         return userRepository.findById(id).orElse(null);
     }
 

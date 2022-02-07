@@ -5,6 +5,8 @@ import ncp.model.Contract;
 import ncp.model.Tariff;
 import ncp.model.Transmitter;
 import ncp.repository.TariffRepository;
+import ncp.service.interfaces.UserService;
+import ncp.service.interfaces.ContractService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.ModelMap;
@@ -17,16 +19,21 @@ import static ncp.config.ProjectConstants.ROW_COUNT;
 @Service
 public class TariffService {
 
+    private final TariffRepository tariffRepository;
+    private final TariffStatusService tariffStatusService;
+    private final TransmitterService transmitterService;
+    private final UserService userService;
+    private final ContractService contractService;
+
     @Autowired
-    private TariffRepository tariffRepository;
-    @Autowired
-    private TariffStatusService tariffStatusService;
-    @Autowired
-    private TransmitterService transmitterService;
-    @Autowired
-    private UserService userService;
-    @Autowired
-    private ContractServiceImp contractService;
+    TariffService(TariffRepository tariffRepository, TariffStatusService tariffStatusService
+            , TransmitterService transmitterService, UserService userService, ContractService contractService){
+        this.tariffStatusService = tariffStatusService;
+        this.transmitterService = transmitterService;
+        this.tariffRepository = tariffRepository;
+        this.contractService = contractService;
+        this.userService = userService;
+    }
 
 ///********************! Tariff !********************
 

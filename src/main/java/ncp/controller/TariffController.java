@@ -7,7 +7,7 @@ import ncp.model.Tariff;
 import ncp.model.Transmitter;
 import ncp.service.implementations.TariffService;
 import ncp.service.implementations.TariffStatusService;
-import ncp.service.implementations.UserService;
+import ncp.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;

@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import ncp.model.Personality;
 import ncp.model.User;
 import ncp.service.implementations.PersonalityService;
-import ncp.service.implementations.UserService;
+import ncp.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
