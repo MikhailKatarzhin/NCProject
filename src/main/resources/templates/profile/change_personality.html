@@ -30,7 +30,7 @@
             <label for="lastName" th:text="'New last name'"></label>
         </div>
 
-        <h5 th:text="'Current patronymic: '+*{firstName}"></h5>
+        <h5 th:text="'Current patronymic: '+*{patronymic}"></h5>
         <div class="form-floating">
             <input type="text" class="form-control"
                    id="patronymic" th:field="*{patronymic}" placeholder="New patronymic" required>
