@@ -122,7 +122,7 @@
             <td th:insert="~{fragments/navigation_fragments  :: paging ('transmitter/secondary/'+*{id},
              ${availableAddressPage}, ${nPage})}"></td>
         </tr>
-        <tr th:if="${addresses.isEmpty()}"><td colspan="10" class="text-center">
+        <tr th:if="${addresses.isEmpty()}"><td colspan="8" class="text-center">
             <h5>Connected addresses not found!</h5>
         </td></tr>
     </table></td></tr>

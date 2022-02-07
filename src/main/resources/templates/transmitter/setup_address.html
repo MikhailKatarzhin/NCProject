@@ -93,6 +93,9 @@
                 <input class="w-100 btn btn-sm btn-dark" type="submit" value="Select address">
             </form></td>
         </tr>
+        <tr th:if="${addresses.isEmpty()}"><td colspan="8" class="text-center">
+            <h5>Addresses not exists!</h5>
+        </td></tr>
     </table>
 
 </td></tr></table>
