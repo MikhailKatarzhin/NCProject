@@ -22,6 +22,7 @@
         </tr></thead>
         <tr th:each="tariff : ${tariffs}">
             <td th:text="${tariff.id}"></td>
+            <td th:text="${tariff.provider.username}"></td>
             <td th:text="${tariff.title}"></td>
             <td th:text="${tariff.price}"></td>
             <td th:text="${tariff.description}"></td>
@@ -30,7 +31,7 @@
                 <input class="w-100 btn btn-sm btn-primary" type="submit" value="Sign contract">
             </form></td>
         </tr>
-        <tr th:if="${tariffs.isEmpty()}"><td colspan="5" class="text-center">
+        <tr th:if="${tariffs.isEmpty()}"><td colspan="6" class="text-center">
             <h5>Active Tariffs for selected address not found!</h5>
         </td></tr>
     </table></td></tr>
