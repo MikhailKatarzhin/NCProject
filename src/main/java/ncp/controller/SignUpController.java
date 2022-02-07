@@ -1,7 +1,7 @@
 package ncp.controller;
 
 import ncp.model.User;
-import ncp.service.implementations.RoleService;
+import ncp.service.interfaces.RoleService;
 import ncp.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

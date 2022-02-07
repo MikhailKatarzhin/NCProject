@@ -13,14 +13,14 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Set;
 
 @Service
-public class UserServiceIMP implements UserService {
+public class UserServiceImp implements UserService {
 
     private final UserRepository userRepository;
     private final HttpServletRequest httpServletRequest;
     private final BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserServiceIMP(UserRepository userRepository, HttpServletRequest httpServletRequest
+    public UserServiceImp(UserRepository userRepository, HttpServletRequest httpServletRequest
             , BCryptPasswordEncoder passwordEncoder){
         this.userRepository = userRepository;
         this.httpServletRequest = httpServletRequest;

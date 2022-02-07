@@ -2,6 +2,7 @@ package ncp.service.implementations;
 
 import ncp.model.Role;
 import ncp.repository.RoleRepository;
+import ncp.service.interfaces.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,10 +11,14 @@ import java.util.List;
 import java.util.Set;
 
 @Service
-public class RoleService {
+public class RoleServiceImp implements RoleService {
+
+    private final RoleRepository roleRepository;
 
     @Autowired
-    RoleRepository roleRepository;
+    public RoleServiceImp(RoleRepository roleRepository){
+        this.roleRepository = roleRepository;
+    }
 
     public List<Role> findAllExceptName(String exceptingName){
         return roleRepository.findAllExceptName(exceptingName);
