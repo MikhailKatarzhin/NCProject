@@ -56,6 +56,9 @@
                 <input class="w-100 btn btn-sm btn-dark" type="submit" value="setup">
             </form></td>
         </tr>
+        <tr th:if="${transmitters.isEmpty()}"><td colspan="10" class="text-center">
+            <h5>Transmitters not exists!</h5>
+        </td></tr>
     </table></td></tr>
     <tr>
         <td th:insert="~{fragments/navigation_fragments  :: paging ('transmitter', ${currentPage}, ${nPage})}"></td>
