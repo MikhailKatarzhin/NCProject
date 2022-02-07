@@ -8,43 +8,37 @@
 </head>
 <body>
 <div th:insert="~{fragments/navigation_fragments  :: navbar}"></div>
-<table>
-    <caption><h1 th:text="'Profile of ' + ${user.getUsername()}"></h1></caption>
-    <tr>
-        <th>Roles</th>
-        <th>Email</th>
-        <th>Personality</th>
-    </tr>
-    <tr>
-        <td><table>
-            <tr th:each="role:${user.getRoleSet()}"><td th:text="${role.name}"></td></tr>
-        </table></td>
-        <td><table>
-            <tr><td th:text="${user.getEmail()}"></td></tr>
-        </table></td>
-        <td><table>
-            <tr>
-                <td>First name: </td>
-                <td th:text="${user.getPersonality().getFirstName()}"></td>
-            </tr>
-            <tr>
-                <td>Last name: </td>
-                <td th:text="${user.getPersonality().getLastName()}"></td>
-            </tr>
-            <tr>
-                <td>Patronymic: </td>
-                <td th:text="${user.getPersonality().getPatronymic()}"></td>
-            </tr>
-        </table></td>
-    </tr><tr>
-    <td align="center"><form th:action="@{/profile/change_email}" method="get">
-        <input type="submit" value="Change email">
-    </form></td>
-    <td align="center"><form th:action="@{/profile/change_personality}" method="get">
-        <input type="submit" value="Change personality">
-    </form></td>
-    </tr>
-</table>
+    <h1 th:text="'Profile of ' + ${user.getUsername()}"></h1>
+    <table class="table table-striped table-sm table-responsive">
+        <tr>
+            <th scope="col">Roles</th>
+            <th scope="col">Email address</th>
+            <th scope="col">Personality</th>
+        </tr>
+
+        <tr>
+            <td><div th:each="role : ${user.getRoleSet()}">
+                <span th:text="${role.name}"></span>
+            </div></td>
+
+            <td th:text="${user.email}"></td>
+
+            <td>
+                <div><span th:text="${user.personality.firstName}"></span></div>
+                <div><span th:text="${user.personality.lastName}"></span></div>
+                <div><span th:text="${user.personality.patronymic}"></span></div>
+            </td>
+        </tr>
+
+        <tr>
+            <td><form th:action="@{/profile/change_email}" method="get">
+                <input type="submit" value="Change email" class="w-100 btn btn-sm btn-dark">
+            </form></td>
+            <td><form th:action="@{/profile/change_personality}" method="get">
+                <input type="submit" value="Change personality" class="w-100 btn btn-sm btn-dark">
+            </form></td>
+        </tr>
+    </table>
 <script type="text/javascript"
         src="/webjars/jquery/3.6.0/jquery.min.js"></script>
 
