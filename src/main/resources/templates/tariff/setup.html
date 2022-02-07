@@ -17,7 +17,7 @@
             <select name="statusSelectId" onchange="this.form.submit()" class="form-select"
                     aria-label="Default select example">
                 <option th:each="tstatus : ${statusList}" th:value="${tstatus.id}" th:text="${tstatus.name}"
-                        th:selected="${tstatus}==*{status}"></option>
+                        th:selected="${tstatus}==*{status}" th:hidden="${tstatus}==*{status}or${tstatus.name}=='inactive'"></option>
             </select></form></td>
         </tr>
         <tr><td><form th:action="@{/tariff/setup/__*{id}__/__${connectedTransmitterPage}__/price}" method="post">
