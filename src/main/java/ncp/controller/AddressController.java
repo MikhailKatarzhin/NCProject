@@ -20,6 +20,7 @@ public class AddressController extends AbstractPrimaryPagingController {
     public AddressController(AddressServiceImp addressService){
         this.addressService = addressService;
     }
+
 ///********************! Address management !********************
 
     @GetMapping
