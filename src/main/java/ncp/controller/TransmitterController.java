@@ -15,10 +15,15 @@ import java.util.List;
 @Controller
 @RequestMapping("/transmitter")
 public class TransmitterController extends AbstractSecondaryPagingController {
+
+    private final TransmitterService transmitterService;
+    private final TransmitterStatusService transmitterStatusService;
+
     @Autowired
-    private TransmitterService transmitterService;
-    @Autowired
-    private TransmitterStatusService transmitterStatusService;
+    public TransmitterController(TransmitterService transmitterService, TransmitterStatusService transmitterStatusService){
+        this.transmitterStatusService = transmitterStatusService;
+        this.transmitterService = transmitterService;
+    }
 
 ///********************! Transmitter management !********************
 
