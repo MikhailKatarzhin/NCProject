@@ -107,7 +107,7 @@ public class ContractController extends AbstractSecondaryPagingController {
         if (tariff==null)
             tariff = new Tariff();
         model.addAttribute("currentPage", currentPage);
-        model.addAttribute("addressId", addressId);
+        model.addAttribute("address", addressService.getById(addressId));
         model.addAttribute("searchTariff", tariff);
         model.addAttribute("nPage"
                 , tariffService.countPageByAvailableAddressIdAndTurnedOnTransmitterAndActiveTariff(addressId));
