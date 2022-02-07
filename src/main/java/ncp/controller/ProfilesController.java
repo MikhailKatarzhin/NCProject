@@ -1,6 +1,5 @@
 package ncp.controller;
 
-import lombok.AllArgsConstructor;
 import ncp.model.Personality;
 import ncp.model.User;
 import ncp.service.interfaces.PersonalityService;
