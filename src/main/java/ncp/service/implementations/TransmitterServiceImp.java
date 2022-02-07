@@ -3,6 +3,7 @@ package ncp.service.implementations;
 import ncp.model.Address;
 import ncp.model.Transmitter;
 import ncp.repository.TransmitterRepository;
+import ncp.service.interfaces.TransmitterService;
 import ncp.service.interfaces.TransmitterStatusService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,13 +14,19 @@ import java.util.List;
 import static ncp.config.ProjectConstants.ROW_COUNT;
 
 @Service
-public class TransmitterService {
+public class TransmitterServiceImp implements TransmitterService {
+
+    private final TransmitterStatusService transmitterStatusService;
+    private final TransmitterRepository transmitterRepository;
+    private final AddressServiceImp addressService;
+
     @Autowired
-    private TransmitterRepository transmitterRepository;
-    @Autowired
-    private TransmitterStatusService transmitterStatusService;
-    @Autowired
-    private AddressServiceImp addressService;
+    public TransmitterServiceImp(TransmitterRepository transmitterRepository
+            , TransmitterStatusService transmitterStatusService, AddressServiceImp addressService){
+        this.transmitterStatusService = transmitterStatusService;
+        this.transmitterRepository = transmitterRepository;
+        this.addressService = addressService;
+    }
 
     public Long pageCount(){
         Long nTransmitter = transmitterRepository.count();
