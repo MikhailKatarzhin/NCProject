@@ -23,13 +23,7 @@
             <th scope="col">Description</th>
             <th scope="col">Expiration Date</th>
             <th scope="col">Price</th>
-            <th scope="col">Country</th>
-            <th scope="col">Region</th>
-            <th scope="col">City</th>
-            <th scope="col">Street</th>
-            <th scope="col">House</th>
-            <th scope="col">Building</th>
-            <th scope="col">Flat</th>
+            <th scope="col">Address</th>
         </tr></thead>
         <tr th:each="contract : ${contracts}">
             <td th:text="${contract.id}"></td>
@@ -37,13 +31,7 @@
             <td th:text="${contract.description}"></td>
             <td th:text="${contract.contractExpirationDate}"></td>
             <td th:text="${contract.tariff.price}"></td>
-            <td th:text="${contract.address.country}"></td>
-            <td th:text="${contract.address.region}"></td>
-            <td th:text="${contract.address.city}"></td>
-            <td th:text="${contract.address.street}"></td>
-            <td th:text="${contract.address.house}"></td>
-            <td th:text="${contract.address.building}"></td>
-            <td th:text="${contract.address.flat}"></td>
+            <td th:text="${contract.address.toString()}"></td>
             <td><form th:action="@{/contract/terminate/__${currentPage}__/__${contract.id}__}" method="post">
                 <input class="w-100 btn btn-sm btn-danger" type="submit" value="Terminate contract">
             </form></td>

@@ -41,4 +41,16 @@ public class Address {
      * null - there is no separation into flats
      */
     private Long flat;
+
+    @Override
+    public String toString() {
+        return  country +
+                (region.isBlank() ? "" : (", rg " + region)) +
+                ", " + city +
+                (street.isBlank() ? "" : (", st " + street)) +
+                ", hse " + house +
+                "/" + building +
+                (flat == null ? "" : (", ste " + flat))
+                ;
+    }
 }

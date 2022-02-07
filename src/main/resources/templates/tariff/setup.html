@@ -55,13 +55,7 @@
                     <th scope="col">Status</th>
                     <th scope="col">Description</th>
                     <th scope="col">Addresses quantity</th>
-                    <th scope="col">Country</th>
-                    <th scope="col">Region</th>
-                    <th scope="col">City</th>
-                    <th scope="col">Street</th>
-                    <th scope="col">House</th>
-                    <th scope="col">Building</th>
-                    <th scope="col">Flat</th>
+                    <th scope="col">Transmitter Address</th>
                     <th scope="col">Disconnect Transmitter</th>
                 </tr></thead>
                 <tr th:each="transmitter : ${transmitters}">
@@ -69,13 +63,7 @@
                     <td th:text="${transmitter.status.name}"></td>
                     <td th:text="${transmitter.description}"></td>
                     <td th:text="${transmitter.availableAddresses.size()}"></td>
-                    <td th:text="${transmitter.address!=null}?${transmitter.address.country}:''"></td>
-                    <td th:text="${transmitter.address!=null}?${transmitter.address.region}:''"></td>
-                    <td th:text="${transmitter.address!=null}?${transmitter.address.city}:''"></td>
-                    <td th:text="${transmitter.address!=null}?${transmitter.address.street}:''"></td>
-                    <td th:text="${transmitter.address!=null}?${transmitter.address.house}:''"></td>
-                    <td th:text="${transmitter.address!=null}?${transmitter.address.building}:''"></td>
-                    <td th:text="${transmitter.address!=null}?${transmitter.address.flat}:''"></td>
+                    <td th:text="${transmitter.address!=null}?${transmitter.address.toString()}:''"></td>
                     <td><form th:action="@{/tariff/setup/__*{id}__/__${connectedTransmitterPage}__/disconnectTransmitter/__${transmitter.id}__}"
                               method="post">
                         <input type="submit" value="Disconnect" class="w-100 btn btn-sm btn-danger">

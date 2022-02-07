@@ -25,13 +25,7 @@
             <th scope="col">Expiration Date</th>
             <th scope="col">Username</th>
             <th scope="col">Email address</th>
-            <th scope="col">Country</th>
-            <th scope="col">Region</th>
-            <th scope="col">City</th>
-            <th scope="col">Street</th>
-            <th scope="col">House</th>
-            <th scope="col">Building</th>
-            <th scope="col">Flat</th>
+            <th scope="col">Address</th>
             <th scope="col">Terminate contract</th>
         </tr></thead>
         <tr th:each="contract : ${contracts}">
@@ -41,13 +35,7 @@
             <td th:text="${contract.contractExpirationDate}"></td>
             <td th:text="${contract.consumer.username}"></td>
             <td th:text="${contract.consumer.email}"></td>
-            <td th:text="${contract.address.country}"></td>
-            <td th:text="${contract.address.region}"></td>
-            <td th:text="${contract.address.city}"></td>
-            <td th:text="${contract.address.street}"></td>
-            <td th:text="${contract.address.house}"></td>
-            <td th:text="${contract.address.building}"></td>
-            <td th:text="${contract.address.flat}"></td>
+            <td th:text="${contract.address.toString()}"></td>
             <td><form th:action="@{/tariff/contract/__${primaryId}__/list/__${signedContractPage}__/terminate_contract/__${contract.id}__}"
                       method="post">
                 <input type="submit" value="Terminate" class="w-100 btn btn-sm btn-danger">
