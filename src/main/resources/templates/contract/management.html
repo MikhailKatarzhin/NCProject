@@ -19,6 +19,8 @@
     <tr><td><table class="table table-striped table-sm table-responsive">
         <thead><tr>
             <th scope="col">Id</th>
+            <th scope="col">Provider name</th>
+            <th scope="col">Provider email</th>
             <th scope="col">Title</th>
             <th scope="col">Description</th>
             <th scope="col">Expiration Date</th>
@@ -27,6 +29,8 @@
         </tr></thead>
         <tr th:each="contract : ${contracts}">
             <td th:text="${contract.id}"></td>
+            <td th:text="${contract.tariff.provider.username}"></td>
+            <td th:text="${contract.tariff.provider.email}"></td>
             <td th:text="${contract.title}"></td>
             <td th:text="${contract.description}"></td>
             <td th:text="${contract.contractExpirationDate}"></td>
