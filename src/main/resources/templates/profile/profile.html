@@ -13,6 +13,7 @@
         <tr>
             <th scope="col">Roles</th>
             <th scope="col">Email address</th>
+            <th scope="col">Balance:</th>
             <th scope="col">Personality</th>
         </tr>
 
@@ -22,6 +23,8 @@
             </div></td>
 
             <td th:text="${user.email}"></td>
+
+            <td th:text="${user.wallet.balance}"></td>
 
             <td>
                 <div><span th:text="${user.personality.firstName}"></span></div>
@@ -37,6 +40,7 @@
             <td><form th:action="@{/profile/change_email}" method="get">
                 <input type="submit" value="Change email" class="w-100 btn btn-sm btn-dark">
             </form></td>
+            <td>/td>
             <td><form th:action="@{/profile/change_personality}" method="get">
                 <input type="submit" value="Change personality" class="w-100 btn btn-sm btn-dark">
             </form></td>
