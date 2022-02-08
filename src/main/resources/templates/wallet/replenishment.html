@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Replenishment balance</title>
+    <link rel="stylesheet" type="text/css"
+          href="/webjars/bootstrap/5.1.1/css/bootstrap.min.css" />
+</head>
+<body>
+<div th:insert="~{fragments/navigation_fragments  :: navbar}"></div>
+<div>
+    <form th:action="@{/wallet/replenishment}" method="post" class="m-auto col-3 text-center">
+        <h1 class="h3 mb-3 fw-normal">Replenishment your balance</h1>
+
+        <h5 th:text="'Your balance: '+${balance}"></h5>
+        <div class="form-floating">
+            <input type="number" class="form-control" min="50" required max="1000000"
+                   id="incomeFounds" name="incomeFounds" placeholder="Income founds:">
+            <label for="incomeFounds" th:text="'Income founds:'"></label>
+        </div>
+        <div th:if="${replenishmentFailed}" th:text="${replenishmentFailed}"></div>
+        <button class="w-100 btn btn-lg btn-primary" type="submit">Confirm replenishment</button>
+        <button class="w-100 btn btn-lg btn-dark" th:href="@{/profile}">Cancel replenishment</button>
+    </form>
+</div>
+<script type="text/javascript"
+        src="/webjars/jquery/3.6.0/jquery.min.js"></script>
+
+<script type="text/javascript"
+        src="/webjars/bootstrap/5.1.1/js/bootstrap.min.js"></script>
+</body>
+</html>
