@@ -35,6 +35,7 @@ public class User implements UserDetails {
     @PrimaryKeyJoinColumn
     private Personality personality;
 
+
     @ManyToMany
     private Set<Role> roleSet = new LinkedHashSet<>();
 
@@ -43,6 +44,10 @@ public class User implements UserDetails {
 
     @OneToMany(mappedBy = "consumer", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Contract> contract = new HashSet<>();
+
+    @OneToOne(cascade = CascadeType.ALL, optional = false, orphanRemoval = true)
+    @JoinColumn(nullable = false)
+    private Wallet wallet;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
