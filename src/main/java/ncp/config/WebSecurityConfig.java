@@ -22,6 +22,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
+    @Autowired
     public WebSecurityConfig(DataSource dataSource){
         this.dataSource = dataSource;
     }
