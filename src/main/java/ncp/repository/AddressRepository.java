@@ -68,16 +68,6 @@ public interface AddressRepository extends JpaRepository<Address, Long> {
     List<Address> searchAddress(String country, String region, String city, String street
             , String house, String building, String flat, Long limit, Long offset);
 
-
-    @Query(
-            value = "SELECT * FROM address WHERE country LIKE ?1 AND region LIKE ?2 AND city LIKE ?3 AND street LIKE ?4" +
-                    " AND house LIKE ?5 AND building LIKE ?6 AND flat IS NULL" +
-                    " LIMIT ?7 OFFSET ?8"
-            , nativeQuery = true
-    )
-    List<Address> searchAddressFlatIsNull(String country, String region, String city, String street
-            , String house, String building, Long limit, Long offset);
-
     @Query(
             value = "SELECT * FROM address WHERE country LIKE ?1 AND region LIKE ?2 AND city LIKE ?3 AND street LIKE ?4" +
                     " AND house LIKE ?5 AND building LIKE ?6" +
