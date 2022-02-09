@@ -61,7 +61,7 @@ public class ContractServiceImp implements ContractService {
         contract.setAddress(address);
         contract.setConsumer(consumer);
         contract.setTitle(tariff.getTitle());
-        contract.setContractExpirationDate(new Date(System.currentTimeMillis()));
+        contract.setContractExpirationDate(new Date(System.currentTimeMillis() + 2_592_000_000L));
         contract.setDescription("Signed: " + contract.getContractExpirationDate().toString()
                 + ". Tariff description: " + tariff.getDescription() + ".");
         return contractRepository.save(contract);

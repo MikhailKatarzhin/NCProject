@@ -1,13 +1,12 @@
 package ncp.controller;
 
 import ncp.controller.paging.AbstractSecondaryPagingController;
-import ncp.model.Address;
-import ncp.model.Contract;
-import ncp.model.Tariff;
+import ncp.model.*;
 import ncp.service.implementations.ContractServiceImp;
 import ncp.service.interfaces.TariffService;
 import ncp.service.interfaces.UserService;
 import ncp.service.interfaces.AddressService;
+import ncp.service.interfaces.WalletService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -21,14 +20,16 @@ public class ContractController extends AbstractSecondaryPagingController {
 
     private final ContractServiceImp contractService;
     private final AddressService addressService;
+    private final WalletService walletService;
     private final TariffService tariffService;
     private final UserService userService;
 
     @Autowired
     public ContractController(ContractServiceImp contractService, TariffService tariffService
-            , UserService userService, AddressService addressService) {
+            , WalletService walletService, UserService userService, AddressService addressService) {
         this.contractService = contractService;
         this.addressService = addressService;
+        this.walletService = walletService;
         this.tariffService = tariffService;
         this.userService = userService;
     }
@@ -62,10 +63,17 @@ public class ContractController extends AbstractSecondaryPagingController {
     }
 
     @PostMapping("/signContract/{tariffId}/to_address/{addressId}")
-    public String signContract(@PathVariable Long tariffId, @PathVariable Long addressId) {
-        contractService.signContract(
-                tariffService.getById(tariffId), userService.getRemoteUser(), addressService.getById(addressId));
-        return firstPage();
+    public String signContract(@PathVariable Long tariffId, @PathVariable Long addressId, ModelMap model) {
+        User user = userService.getRemoteUser();
+        Tariff tariff = tariffService.getById(tariffId);
+        if (walletService.debitingFunds(tariff.getPrice(), user.getId())){
+            contractService.signContract(tariff, user, addressService.getById(addressId));
+            walletService.replenishmentFunds(tariff.getPrice(), tariff.getProvider().getId());
+            return firstPage();
+        }
+        model.addAttribute("paymentError"
+                , "Your founds not enough for pay to sign contract with selected tariff");
+        return selectTariff(addressId, model);
     }
 
 ///********************! Pagination Contract !********************
