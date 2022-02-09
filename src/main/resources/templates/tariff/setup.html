@@ -9,6 +9,13 @@
 </head>
 <body>
 <div th:insert="~{fragments/navigation_fragments  :: navbar}"></div>
+
+<div th:if ="${paymentError}" class="alert alert-danger d-flex align-items-center alert-dismissible" role="alert">
+    <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
+    <span th:text="${paymentError}"></span>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+
 <table th:object="${tariff}" class="text-center m-auto">
     <tr><td><table class="text-center m-auto">
         <tr><td><h1 th:text="'Setup tariff ' + *{title} + ' [id:' + *{id} + ']'"></h1></td></tr>

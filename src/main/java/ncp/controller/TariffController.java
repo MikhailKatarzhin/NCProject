@@ -1,10 +1,7 @@
 package ncp.controller;
 
 import ncp.controller.paging.AbstractTwosomeSecondaryPagingController;
-import ncp.model.Address;
-import ncp.model.Contract;
-import ncp.model.Tariff;
-import ncp.model.Transmitter;
+import ncp.model.*;
 import ncp.service.interfaces.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -109,7 +106,16 @@ public class TariffController extends AbstractTwosomeSecondaryPagingController {
     public String setStatusByTariffId(
             @PathVariable Long id
             , @PathVariable Long connectedTransmitterPage
-            , @RequestParam Long statusSelectId) {
+            , @RequestParam Long statusSelectId, ModelMap model) {
+        if (tariffService.getById(id).getStatus().getName().equals("inactive")){
+            Wallet wallet = tariffService.getById(id).getProvider().getWallet();
+            Long payment = tariffService.countConnectedAddressByTariffId(id);
+            if (!wallet.debitingFunds(payment)){
+                model.addAttribute("paymentError"
+                        , "Your funds are not enough to activate this tariff");
+                return setupByIdAndPage(id, connectedTransmitterPage, model);
+            }
+        }
         tariffService.setStatus(id, statusSelectId);
         return toSecondaryPage(connectedTransmitterPage, id);
     }
