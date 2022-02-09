@@ -18,19 +18,19 @@ public class WalletController {
     private final UserService userService;
 
     @Autowired
-    public WalletController(WalletService walletService, UserService userService){
+    public WalletController(WalletService walletService, UserService userService) {
         this.walletService = walletService;
         this.userService = userService;
     }
 
     @GetMapping("/replenishment")
-    public String replenishment(ModelMap model){
+    public String replenishment(ModelMap model) {
         model.addAttribute("balance", walletService.getBalance(userService.getRemoteUserId()));
         return "wallet/replenishment";
     }
 
     @PostMapping("/replenishment")
-    public String replenishment(@RequestParam Long incomeFounds, ModelMap model){
+    public String replenishment(@RequestParam Long incomeFounds, ModelMap model) {
         if (walletService.replenishmentFunds(incomeFounds, userService.getRemoteUserId())) {
             return "redirect:/profile";
         }

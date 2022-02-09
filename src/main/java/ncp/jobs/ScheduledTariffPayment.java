@@ -44,7 +44,7 @@ public class ScheduledTariffPayment {
                 for (Long y = nTransmitterPage; y > 0; y--) {
                     List<Transmitter> transmitterList = transmitterRepository
                             .selectConnectedTransmitterByLimitOffsetAndId(
-                            tariff.getId(), rowInPage, rowInPage * (i - 1L));
+                                    tariff.getId(), rowInPage, rowInPage * (i - 1L));
                     for (Transmitter transmitter : transmitterList) {
                         price += addressRepository.countConnectedAddressByTransmitterId(transmitter.getId());
                     }

@@ -26,7 +26,7 @@ public class ContractController extends AbstractSecondaryPagingController {
 
     @Autowired
     public ContractController(ContractServiceImp contractService, TariffService tariffService
-            , UserService userService, AddressService addressService){
+            , UserService userService, AddressService addressService) {
         this.contractService = contractService;
         this.addressService = addressService;
         this.tariffService = tariffService;
@@ -36,33 +36,33 @@ public class ContractController extends AbstractSecondaryPagingController {
 ///********************! Contract management !********************
 
     @GetMapping
-    public String management(){
+    public String management() {
         return firstPage();
     }
 
     @GetMapping("/list/{currentPage}")
-    public String managementByOffset(@PathVariable Long currentPage, ModelMap model){
+    public String managementByOffset(@PathVariable Long currentPage, ModelMap model) {
         if (currentPage < 1L)
             return firstPage();
-        Long nPage=contractService.pageCount(userService.getRemoteUserId());
+        Long nPage = contractService.pageCount(userService.getRemoteUserId());
         if (currentPage > nPage)
             return lastPage();
         model.addAttribute("nPage", nPage);
         model.addAttribute("currentPage", currentPage);
-        List<Contract> contractList =contractService.contractListByConsumerIdAndNumberPageList(
+        List<Contract> contractList = contractService.contractListByConsumerIdAndNumberPageList(
                 userService.getRemoteUserId(), currentPage);
         model.addAttribute("contracts", contractList);
         return "contract/management";
     }
 
     @PostMapping("/terminate/{currentPage}/{id}")
-    public String terminateById(@PathVariable Long currentPage, @PathVariable Long id){
+    public String terminateById(@PathVariable Long currentPage, @PathVariable Long id) {
         contractService.terminateContractById(id);
         return toPage(currentPage);
     }
 
     @PostMapping("/signContract/{tariffId}/to_address/{addressId}")
-    public String signContract(@PathVariable Long tariffId, @PathVariable Long addressId){
+    public String signContract(@PathVariable Long tariffId, @PathVariable Long addressId) {
         contractService.signContract(
                 tariffService.getById(tariffId), userService.getRemoteUser(), addressService.getById(addressId));
         return firstPage();
@@ -83,13 +83,13 @@ public class ContractController extends AbstractSecondaryPagingController {
 ///********************! Tariff searching !********************
 
     @GetMapping("/select_address")
-    public String selectAddress(ModelMap model){
+    public String selectAddress(ModelMap model) {
         return selectAddress(new Address(), model);
     }
 
     @GetMapping("/select_address/list")
-    public String selectAddress(Address address, ModelMap model){
-        if (address==null)
+    public String selectAddress(Address address, ModelMap model) {
+        if (address == null)
             address = new Address();
         model.addAttribute("searchAddress", address);
         model.addAttribute("addresses", addressService.searchAddressLikeAddress(address, 1L));
@@ -97,15 +97,13 @@ public class ContractController extends AbstractSecondaryPagingController {
     }
 
     @GetMapping("/select_tariff/{addressId}")
-    public String selectTariff(@PathVariable Long addressId, ModelMap model){
+    public String selectTariff(@PathVariable Long addressId, ModelMap model) {
         return selectTariff(addressId, 1L, new Tariff(), model);
     }
 
     @GetMapping("/select_tariff/{addressId}/list/{currentPage}")
     public String selectTariff(@PathVariable Long addressId, @PathVariable Long currentPage
-            , Tariff tariff, ModelMap model){
-        if (tariff==null)
-            tariff = new Tariff();
+            , Tariff tariff, ModelMap model) {
         model.addAttribute("currentPage", currentPage);
         model.addAttribute("address", addressService.getById(addressId));
         model.addAttribute("searchTariff", tariff);

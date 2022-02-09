@@ -20,37 +20,37 @@ public class ContractServiceImp implements ContractService {
     private final ContractRepository contractRepository;
 
     @Autowired
-    public ContractServiceImp(ContractRepository contractRepository){
+    public ContractServiceImp(ContractRepository contractRepository) {
         this.contractRepository = contractRepository;
     }
 
 ///********************! Contract !********************
 
-    public Long pageCount(Long consumerId){
+    public Long pageCount(Long consumerId) {
         Long nRow = countContractByConsumerId(consumerId);
         Long nPage = nRow / ROW_COUNT + (nRow % ROW_COUNT == 0 ? 0 : 1);
         return nPage == 0 ? nPage + 1 : nPage;
     }
 
-    public List<Contract> contractListByTariffIdAndNumberPageList(Long tariffId, Long numberPageList){
+    public List<Contract> contractListByTariffIdAndNumberPageList(Long tariffId, Long numberPageList) {
         return contractRepository.selectByTariffIdLimitOffset(
                 tariffId, ROW_COUNT, (numberPageList - 1) * ROW_COUNT);
     }
 
-    public Long countContractByTariffId(Long tariffId){
+    public Long countContractByTariffId(Long tariffId) {
         return contractRepository.countByTariffId(tariffId);
     }
 
-    public List<Contract> contractListByConsumerIdAndNumberPageList(Long consumerId, Long numberPageList){
+    public List<Contract> contractListByConsumerIdAndNumberPageList(Long consumerId, Long numberPageList) {
         return contractRepository.selectByConsumerIdLimitOffset(
                 consumerId, ROW_COUNT, (numberPageList - 1) * ROW_COUNT);
     }
 
-    public Long countContractByConsumerId(Long consumerId){
+    public Long countContractByConsumerId(Long consumerId) {
         return contractRepository.countByConsumerId(consumerId);
     }
 
-    public void terminateContractById(Long contractId){
+    public void terminateContractById(Long contractId) {
         contractRepository.deleteById(contractId);
     }
 
@@ -63,7 +63,7 @@ public class ContractServiceImp implements ContractService {
         contract.setTitle(tariff.getTitle());
         contract.setContractExpirationDate(new Date(System.currentTimeMillis()));
         contract.setDescription("Signed: " + contract.getContractExpirationDate().toString()
-        + ". Tariff description: " + tariff.getDescription() + ".");
+                + ". Tariff description: " + tariff.getDescription() + ".");
         return contractRepository.save(contract);
     }
 }

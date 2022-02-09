@@ -16,17 +16,17 @@ public class RoleServiceImp implements RoleService {
     private final RoleRepository roleRepository;
 
     @Autowired
-    public RoleServiceImp(RoleRepository roleRepository){
+    public RoleServiceImp(RoleRepository roleRepository) {
         this.roleRepository = roleRepository;
     }
 
-    public List<Role> findAllExceptName(String exceptingName){
+    public List<Role> findAllExceptName(String exceptingName) {
         return roleRepository.findAllExceptName(exceptingName);
     }
 
-    public Set<Role> getRoleSetByIds(Long[] ids){
+    public Set<Role> getRoleSetByIds(Long[] ids) {
         Set<Role> roleSet = new LinkedHashSet<>();
-        for (Long roleId: ids) {
+        for (Long roleId : ids) {
             roleRepository.findById(roleId).ifPresent(roleSet::add);
         }
         return roleSet;

@@ -14,17 +14,19 @@ public class TariffStatusServiceImp implements TariffStatusService {
     TariffStatusRepository tariffStatusRepository;
 
     @Autowired
-    public TariffStatusServiceImp(TariffStatusRepository tariffStatusRepository){
+    public TariffStatusServiceImp(TariffStatusRepository tariffStatusRepository) {
         this.tariffStatusRepository = tariffStatusRepository;
     }
 
-    public TariffStatus getByName(String name){
+    public TariffStatus getByName(String name) {
         return tariffStatusRepository.getByName(name);
     }
-    public TariffStatus getById(Long id){
+
+    public TariffStatus getById(Long id) {
         return tariffStatusRepository.getById(id);
     }
-    public List<TariffStatus> getAll(){
+
+    public List<TariffStatus> getAll() {
         return tariffStatusRepository.findAll();
     }
 }

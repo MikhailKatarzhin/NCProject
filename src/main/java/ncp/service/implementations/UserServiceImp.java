@@ -22,52 +22,52 @@ public class UserServiceImp implements UserService {
 
     @Autowired
     public UserServiceImp(UserRepository userRepository, HttpServletRequest httpServletRequest
-            , BCryptPasswordEncoder passwordEncoder){
+            , BCryptPasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.httpServletRequest = httpServletRequest;
         this.passwordEncoder = passwordEncoder;
     }
 
-    public User getRemoteUser(){
+    public User getRemoteUser() {
         return userRepository.findByUsername(httpServletRequest.getRemoteUser());
     }
 
-    public Long getRemoteUserId(){
+    public Long getRemoteUserId() {
         return getRemoteUser().getId();
     }
 
-    public String getRemoteUserEmail(){
+    public String getRemoteUserEmail() {
         return getRemoteUser().getEmail();
     }
 
-    public Personality getRemoteUserPersonality(){
+    public Personality getRemoteUserPersonality() {
         return getRemoteUser().getPersonality();
     }
 
-    public boolean checkRemoteUserPassword(String password){
-        return WebSecurityConfig.encoder().matches(password , getRemoteUser().getPassword());
+    public boolean checkRemoteUserPassword(String password) {
+        return WebSecurityConfig.encoder().matches(password, getRemoteUser().getPassword());
     }
 
-    public User getById(Long id){
+    public User getById(Long id) {
         return userRepository.findById(id).orElse(null);
     }
 
-    public User getByUsername(String username){
+    public User getByUsername(String username) {
         return userRepository.findByUsername(username);
     }
 
-    public User signUp(User user, Set<Role> roleSet){
+    public User signUp(User user, Set<Role> roleSet) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRoleSet(roleSet);
         user.setPersonality(new Personality());
         return userRepository.save(user);
     }
 
-    public boolean emailExists(String email){
+    public boolean emailExists(String email) {
         return userRepository.countByEmail(email) != 0;
     }
 
-    public User saveEmail(String email){
+    public User saveEmail(String email) {
         User user = getRemoteUser();
         user.setEmail(email);
         return userRepository.save(user);
@@ -77,5 +77,6 @@ public class UserServiceImp implements UserService {
     public User savePassword(String password) {
         User user = getRemoteUser();
         user.setPassword(WebSecurityConfig.encoder().encode(password));
-        return userRepository.save(user);    }
+        return userRepository.save(user);
+    }
 }

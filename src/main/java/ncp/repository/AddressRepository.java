@@ -11,11 +11,11 @@ import java.util.List;
 public interface AddressRepository extends JpaRepository<Address, Long> {
     @Query(
             value = "SELECT count(*) FROM Address WHERE flat = ?1 AND building = ?2 AND house = ?3 "
-            + "AND street = ?4 AND city = ?5 AND region = ?6 AND country = ?7"
+                    + "AND street = ?4 AND city = ?5 AND region = ?6 AND country = ?7"
             , nativeQuery = true
     )
     Long countByFlatAndBuildingAndHouseAndStreetAndCityAndRegionAndCountry(Long flat, Long building, Long house
-                                                , String street, String city, String region, String country);
+            , String street, String city, String region, String country);
 
     @Query(
             value = "SELECT count(*) FROM Address WHERE flat IS NULL AND building = ?1 AND house = ?2 "
@@ -27,7 +27,7 @@ public interface AddressRepository extends JpaRepository<Address, Long> {
 
     @Query(
             value = "SELECT * FROM address ORDER BY country, region, city, street, house, building, flat"
-            + " LIMIT ?1 OFFSET ?2"
+                    + " LIMIT ?1 OFFSET ?2"
             , nativeQuery = true
     )
     List<Address> selectByLimitOffset(Long limit, Long offset);

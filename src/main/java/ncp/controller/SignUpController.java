@@ -19,14 +19,14 @@ public class SignUpController {
     private final RoleService roleService;
 
     @Autowired
-    public SignUpController(UserService userService, RoleService roleService){
+    public SignUpController(UserService userService, RoleService roleService) {
         this.userService = userService;
         this.roleService = roleService;
     }
 
     @GetMapping
-    public String signUp(ModelMap model){
-        if (userService.getRemoteUser()!=null)
+    public String signUp(ModelMap model) {
+        if (userService.getRemoteUser() != null)
             return "redirect:/profile";
         model.addAttribute("user", new User());
         model.addAttribute("roles"
@@ -36,20 +36,20 @@ public class SignUpController {
     }
 
     @PostMapping
-    public String addUser(@RequestParam Long[] rolesId, @RequestParam String confirmPassword, User user, ModelMap model){
-        if (userService.getByUsername(user.getUsername()) != null){
+    public String addUser(@RequestParam Long[] rolesId, @RequestParam String confirmPassword, User user, ModelMap model) {
+        if (userService.getByUsername(user.getUsername()) != null) {
             model.addAttribute("usernameExistsError", "Username already exists");
         }
-        if (!user.getPassword().equals(confirmPassword)){
+        if (!user.getPassword().equals(confirmPassword)) {
             model.addAttribute("passwordsAreDifferent", "Passwords are different");
         }
-        if (userService.emailExists(user.getEmail())){
+        if (userService.emailExists(user.getEmail())) {
             model.addAttribute("emailExistsError", "Email already exists");
         }
-        if (rolesId.length==0){
+        if (rolesId.length == 0) {
             model.addAttribute("roleRequired", "Required at least 1 role");
         }
-        if (model.size()>2){
+        if (model.size() > 2) {
             model.addAttribute("roles"
                     , roleService.findAllExceptName("ADMINISTRATOR"));
             model.addAttribute("selectedRoles", Arrays.asList(rolesId));

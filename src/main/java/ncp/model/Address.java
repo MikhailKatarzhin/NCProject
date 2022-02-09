@@ -44,7 +44,7 @@ public class Address {
 
     @Override
     public String toString() {
-        return  country +
+        return country +
                 (region.isBlank() ? "" : (", rg " + region)) +
                 ", " + city +
                 (street.isBlank() ? "" : (", st " + street)) +

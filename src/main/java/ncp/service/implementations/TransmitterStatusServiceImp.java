@@ -13,17 +13,19 @@ public class TransmitterStatusServiceImp implements TransmitterStatusService {
     private final TransmitterStatusRepository transmitterStatusRepository;
 
     @Autowired
-    public TransmitterStatusServiceImp(TransmitterStatusRepository transmitterStatusRepository){
+    public TransmitterStatusServiceImp(TransmitterStatusRepository transmitterStatusRepository) {
         this.transmitterStatusRepository = transmitterStatusRepository;
     }
 
-    public TransmitterStatus getByName(String name){
+    public TransmitterStatus getByName(String name) {
         return transmitterStatusRepository.getByName(name);
     }
-    public TransmitterStatus getById(Long id){
+
+    public TransmitterStatus getById(Long id) {
         return transmitterStatusRepository.getById(id);
     }
-    public List<TransmitterStatus> getAll(){
+
+    public List<TransmitterStatus> getAll() {
         return transmitterStatusRepository.findAll();
     }
 }

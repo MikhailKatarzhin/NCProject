@@ -12,11 +12,11 @@ public class PersonalityServiceImp implements PersonalityService {
     PersonalityRepository personalityRepository;
 
     @Autowired
-    public PersonalityServiceImp(PersonalityRepository personalityRepository){
+    public PersonalityServiceImp(PersonalityRepository personalityRepository) {
         this.personalityRepository = personalityRepository;
     }
 
-    public Personality save(Personality personality){
+    public Personality save(Personality personality) {
         return personalityRepository.save(personality);
     }
 }

@@ -30,7 +30,7 @@ public class TariffServiceImp implements TariffService {
 
     @Autowired
     TariffServiceImp(TariffRepository tariffRepository, TariffStatusService tariffStatusService
-            , TransmitterService transmitterService, UserService userService, ContractService contractService){
+            , TransmitterService transmitterService, UserService userService, ContractService contractService) {
         this.tariffStatusService = tariffStatusService;
         this.transmitterService = transmitterService;
         this.tariffRepository = tariffRepository;
@@ -40,26 +40,26 @@ public class TariffServiceImp implements TariffService {
 
 ///********************! Tariff !********************
 
-    public Long pageCount (){
+    public Long pageCount() {
         Long nTariff = tariffRepository.count();
         Long nPage = nTariff / ROW_COUNT + (nTariff % ROW_COUNT == 0 ? 0 : 1);
         return nPage == 0 ? nPage + 1 : nPage;
     }
 
-    public List<Tariff> tariffListByNumberPageList (Long numberPageList){
-        return tariffRepository.selectByLimitOffset(ROW_COUNT, (numberPageList-1)*ROW_COUNT);
+    public List<Tariff> tariffListByNumberPageList(Long numberPageList) {
+        return tariffRepository.selectByLimitOffset(ROW_COUNT, (numberPageList - 1) * ROW_COUNT);
     }
 
-    public List<Tariff> ownTariffListByNumberPageList (Long numberPageList, Long userId){
+    public List<Tariff> ownTariffListByNumberPageList(Long numberPageList, Long userId) {
         return tariffRepository.selectByLimitOffsetAndProviderId(
-                ROW_COUNT, (numberPageList-1)*ROW_COUNT, userId);
+                ROW_COUNT, (numberPageList - 1) * ROW_COUNT, userId);
     }
 
-    public ModelMap validateNewTariff(Tariff tariff, ModelMap model){
-        if (tariffRepository.getByTitle(tariff.getTitle()) != null){
+    public ModelMap validateNewTariff(Tariff tariff, ModelMap model) {
+        if (tariffRepository.getByTitle(tariff.getTitle()) != null) {
             model.addAttribute("titleError", "Title already exist");
             model.addAttribute("hasError", true);
-        }else if(tariff.getTitle().isBlank()){
+        } else if (tariff.getTitle().isBlank()) {
             model.addAttribute("titleError", "Title is blank");
             model.addAttribute("hasError", true);
         }
@@ -70,7 +70,7 @@ public class TariffServiceImp implements TariffService {
         return model;
     }
 
-    public Tariff saveNew(Tariff tariff){
+    public Tariff saveNew(Tariff tariff) {
         if (tariff == null)
             return null;
         tariff.setStatus(tariffStatusService.getById(1L));
@@ -80,29 +80,29 @@ public class TariffServiceImp implements TariffService {
         return tariff;
     }
 
-    public void deleteById(Long id){
+    public void deleteById(Long id) {
         tariffRepository.deleteById(id);
     }
 
-    public Tariff getById(Long id){
+    public Tariff getById(Long id) {
         return tariffRepository.getById(id);
     }
 
     ///********************! Tariff sets !********************
 
-    public Tariff setDescription (Long tariffId, String description){
+    public Tariff setDescription(Long tariffId, String description) {
         Tariff tariff = tariffRepository.getById(tariffId);
         tariff.setDescription(description);
         return tariffRepository.save(tariff);
     }
 
-    public Tariff setPrice (Long tariffId, Long price){
+    public Tariff setPrice(Long tariffId, Long price) {
         Tariff tariff = tariffRepository.getById(tariffId);
         tariff.setPrice(price);
         return tariffRepository.save(tariff);
     }
 
-    public Tariff setStatus (Long tariffId, Long statusId){
+    public Tariff setStatus(Long tariffId, Long statusId) {
         Tariff tariff = tariffRepository.getById(tariffId);
         tariff.setStatus(tariffStatusService.getById(statusId));
         return tariffRepository.save(tariff);
@@ -110,46 +110,46 @@ public class TariffServiceImp implements TariffService {
 
 ///********************! Connected Transmitter !********************
 
-    public Long connectedTransmitterPageCount (Long transmitterId){
+    public Long connectedTransmitterPageCount(Long transmitterId) {
         Long nConnectedTransmitter = tariffRepository.countConnectedTransmitterById(transmitterId);
         Long nPage = nConnectedTransmitter / ROW_COUNT + (nConnectedTransmitter % ROW_COUNT == 0 ? 0 : 1);
-        return nPage == 0? nPage + 1 : nPage;
+        return nPage == 0 ? nPage + 1 : nPage;
     }
 
-    public List<Transmitter> connectedTransmitterListByNumberPageListAndTariffId (Long numberPageList, Long tariffId){
-        return transmitterService.connectedTransmitterListByNumberPageListAndTransmitterId (numberPageList, tariffId);
+    public List<Transmitter> connectedTransmitterListByNumberPageListAndTariffId(Long numberPageList, Long tariffId) {
+        return transmitterService.connectedTransmitterListByNumberPageListAndTransmitterId(numberPageList, tariffId);
     }
 
-    public void  addConnectedTransmitter(Long tariffId, Long transmitterId){
+    public void addConnectedTransmitter(Long tariffId, Long transmitterId) {
         tariffRepository.InsertTariffConnectedTransmitters(tariffId, transmitterId);
     }
 
-    public void removeConnectedTransmitterByTransmitterIdAndTariffId(Long transmitterId, Long tariffId){
+    public void removeConnectedTransmitterByTransmitterIdAndTariffId(Long transmitterId, Long tariffId) {
         tariffRepository.removeConnectedTransmitterByTransmitterIdAndTariffId(transmitterId, tariffId);
     }
 
 ///********************! Search connectable Transmitters !********************
 
     public List<Transmitter> searchTransmitterByTransmitterAvailableAddressIdWithoutConnectedTransmitterId(
-            Address address, Long numberPage, Long tariffId){
+            Address address, Long numberPage, Long tariffId) {
         return transmitterService.searchTransmitterByTransmitterAvailableAddressIdWithoutConnectedTransmitterId(
                 address, numberPage, tariffId);
     }
 
 ///********************! Signed Contracts !********************
 
-    public List<Contract> signedContractListsByTariffId(Long tariffId, Long numberPageList){
+    public List<Contract> signedContractListsByTariffId(Long tariffId, Long numberPageList) {
         return contractService.contractListByTariffIdAndNumberPageList(
                 tariffId, numberPageList);
     }
 
-    public Long countPageContractByTariffId(Long tariffId){
+    public Long countPageContractByTariffId(Long tariffId) {
         Long nConnectedTransmitter = contractService.countContractByTariffId(tariffId);
         Long nPage = nConnectedTransmitter / ROW_COUNT + (nConnectedTransmitter % ROW_COUNT == 0 ? 0 : 1);
-        return nPage == 0? nPage + 1 : nPage;
+        return nPage == 0 ? nPage + 1 : nPage;
     }
 
-    public void terminateContractById(Long contractId){
+    public void terminateContractById(Long contractId) {
         contractService.terminateContractById(contractId);
     }
 
@@ -158,19 +158,20 @@ public class TariffServiceImp implements TariffService {
 
 
     public List<Tariff> selectByLimitOffsetAndAvailableAddressIdAndTurnedOnTransmitterAndActiveTariff(
-            Long numberPage, Long availableAddressId){
+            Long numberPage, Long availableAddressId) {
         return tariffRepository.selectByLimitOffsetAndAvailableAddressIdAndTurnedOnTransmitterAndActiveTariff(
                 ROW_COUNT, (numberPage - 1) * ROW_COUNT, availableAddressId);
     }
 
-    public Long countByAvailableAddressIdAndTurnedOnTransmitterAndActiveTariff(Long availableAddressId){
+    public Long countByAvailableAddressIdAndTurnedOnTransmitterAndActiveTariff(Long availableAddressId) {
         return tariffRepository.countByAvailableAddressIdAndTransmitterStatusAndTariffStatus(
                 availableAddressId, "turned on", "active");
     }
 
-    public Long countPageByAvailableAddressIdAndTurnedOnTransmitterAndActiveTariff(Long availableAddressId){
+    public Long countPageByAvailableAddressIdAndTurnedOnTransmitterAndActiveTariff(Long availableAddressId) {
         Long nRow = tariffRepository.countByAvailableAddressIdAndTransmitterStatusAndTariffStatus(
                 availableAddressId, "turned on", "active");
         Long nPage = nRow / ROW_COUNT + (nRow % ROW_COUNT == 0 ? 0 : 1);
-        return nPage == 0? nPage + 1 : nPage;
-    }}
+        return nPage == 0 ? nPage + 1 : nPage;
+    }
+}

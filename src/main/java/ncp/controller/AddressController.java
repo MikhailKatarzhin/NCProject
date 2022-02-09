@@ -17,39 +17,39 @@ public class AddressController extends AbstractPrimaryPagingController {
     private final AddressServiceImp addressService;
 
     @Autowired
-    public AddressController(AddressServiceImp addressService){
+    public AddressController(AddressServiceImp addressService) {
         this.addressService = addressService;
     }
 
 ///********************! Address management !********************
 
     @GetMapping
-    public String managementByOffset(){
+    public String managementByOffset() {
         return "redirect:/address/list/1";
     }
 
     @GetMapping("/list/{currentPage}")
-    public String managementByOffset(@PathVariable Long currentPage, ModelMap model){
+    public String managementByOffset(@PathVariable Long currentPage, ModelMap model) {
         if (currentPage < 1L)
             return "redirect:/address/list/1";
-        Long nPage=addressService.pageCount();
+        Long nPage = addressService.pageCount();
         if (currentPage > nPage)
-            return "redirect:/address/list/"+nPage;
+            return "redirect:/address/list/" + nPage;
         model.addAttribute("nPage", nPage);
         model.addAttribute("currentPage", currentPage);
-        List<Address> addressList =addressService.addressListByNumberPageList(currentPage);
+        List<Address> addressList = addressService.addressListByNumberPageList(currentPage);
         model.addAttribute("addresses", addressList);
         return "address/management";
     }
 
     @GetMapping("/add")
-    public String addressAddForm(ModelMap model){
+    public String addressAddForm(ModelMap model) {
         model.addAttribute("address", new Address());
         return "address/add";
     }
 
     @PostMapping("/add")
-    public String addressAdd(@ModelAttribute Address address, ModelMap model){
+    public String addressAdd(@ModelAttribute Address address, ModelMap model) {
 
         model = addressService.addNewAddress(address, model);
         if (model != null)
@@ -58,9 +58,9 @@ public class AddressController extends AbstractPrimaryPagingController {
     }
 
     @PostMapping("/list/{currentPage}/{id}/remove")
-    public String removeById(@PathVariable Long currentPage, @PathVariable Long id){
+    public String removeById(@PathVariable Long currentPage, @PathVariable Long id) {
         addressService.deleteById(id);
-        return "redirect:/address/list/"+currentPage;
+        return "redirect:/address/list/" + currentPage;
     }
 
 ///********************! Pagination addresses !********************

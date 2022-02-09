@@ -24,7 +24,7 @@ public class TariffController extends AbstractTwosomeSecondaryPagingController {
     private final UserService userService;
 
     @Autowired
-    public TariffController(TariffStatusService tariffStatusService, TariffService tariffService, UserService userService){
+    public TariffController(TariffStatusService tariffStatusService, TariffService tariffService, UserService userService) {
         this.tariffStatusService = tariffStatusService;
         this.tariffService = tariffService;
         this.userService = userService;
@@ -33,12 +33,12 @@ public class TariffController extends AbstractTwosomeSecondaryPagingController {
 ///********************! Transmitter management !********************
 
     @GetMapping
-    public String management(){
+    public String management() {
         return firstPage();
     }
 
     @PostMapping("/add")
-    public String tariffAdd(Tariff tariff, ModelMap model){
+    public String tariffAdd(Tariff tariff, ModelMap model) {
         model = tariffService.validateNewTariff(tariff, model);
         if (!model.containsAttribute("hasError"))
             tariffService.saveNew(tariff);
@@ -46,22 +46,22 @@ public class TariffController extends AbstractTwosomeSecondaryPagingController {
     }
 
     @PostMapping("/list/{numberPageList}/{id}/remove")
-    public String removeById(@PathVariable Long numberPageList, @PathVariable Long id){
+    public String removeById(@PathVariable Long numberPageList, @PathVariable Long id) {
         tariffService.deleteById(id);
         return toPage(numberPageList);
     }
 
     @GetMapping("/list/{numberPageList}")
-    public String managementByOffset(@PathVariable Long numberPageList, ModelMap model){
+    public String managementByOffset(@PathVariable Long numberPageList, ModelMap model) {
         if (numberPageList < 1L)
             return firstPage();
-        Long nPage=tariffService.pageCount();
+        Long nPage = tariffService.pageCount();
         if (numberPageList > nPage)
             return lastPage();
         model.addAttribute("nPage", nPage);
         model.addAttribute("currentPage", numberPageList);
         model.addAttribute("tariffForm", new Tariff());
-        List<Tariff> tariffList =tariffService.ownTariffListByNumberPageList(numberPageList, userService.getRemoteUserId());
+        List<Tariff> tariffList = tariffService.ownTariffListByNumberPageList(numberPageList, userService.getRemoteUserId());
         model.addAttribute("tariffs", tariffList);
         return "tariff/management";
     }
@@ -69,27 +69,27 @@ public class TariffController extends AbstractTwosomeSecondaryPagingController {
 ///********************! Pagination Tariff !********************
 
     @Override
-    protected Long primarySinglePageCount(){
+    protected Long primarySinglePageCount() {
         return tariffService.pageCount();
     }
 
     @Override
-    protected String getPrimarySinglePrefix(){
+    protected String getPrimarySinglePrefix() {
         return "/tariff";
     }
 
 ///********************! Setup of Tariff !********************
 
     @GetMapping("/setup/{id}")
-    public String setupById(@PathVariable Long id){
+    public String setupById(@PathVariable Long id) {
         return firstSecondaryPage(id);
     }
 
     @GetMapping("/setup/{id}/list/{connectedTransmitterPage}")
-    public String setupByIdAndPage(@PathVariable Long id, @PathVariable Long connectedTransmitterPage, ModelMap model){
+    public String setupByIdAndPage(@PathVariable Long id, @PathVariable Long connectedTransmitterPage, ModelMap model) {
         if (connectedTransmitterPage < 1L)
             return firstSecondaryPage(id);
-        Long nPage=tariffService.connectedTransmitterPageCount(id);
+        Long nPage = tariffService.connectedTransmitterPageCount(id);
         if (connectedTransmitterPage > nPage)
             return lastSecondaryPage(id);
         model.addAttribute("nPage", nPage);
@@ -106,7 +106,7 @@ public class TariffController extends AbstractTwosomeSecondaryPagingController {
     public String setStatusByTariffId(
             @PathVariable Long id
             , @PathVariable Long connectedTransmitterPage
-            , @RequestParam Long statusSelectId){
+            , @RequestParam Long statusSelectId) {
         tariffService.setStatus(id, statusSelectId);
         return toSecondaryPage(connectedTransmitterPage, id);
     }
@@ -115,7 +115,7 @@ public class TariffController extends AbstractTwosomeSecondaryPagingController {
     public String setDescriptionByTariffId(
             @PathVariable Long id
             , @PathVariable Long connectedTransmitterPage
-            , @RequestParam String description){
+            , @RequestParam String description) {
         tariffService.setDescription(id, description);
         return toSecondaryPage(connectedTransmitterPage, id);
     }
@@ -124,7 +124,7 @@ public class TariffController extends AbstractTwosomeSecondaryPagingController {
     public String setPriceByTariffId(
             @PathVariable Long id
             , @PathVariable Long connectedTransmitterPage
-            , @RequestParam Long price){
+            , @RequestParam Long price) {
         tariffService.setPrice(id, price);
         return toSecondaryPage(connectedTransmitterPage, id);
     }
@@ -133,28 +133,28 @@ public class TariffController extends AbstractTwosomeSecondaryPagingController {
     public String disconnectTransmitterById(
             @PathVariable Long id
             , @PathVariable Long connectedTransmitterPage
-            , @PathVariable Long connectedTransmitterId){
+            , @PathVariable Long connectedTransmitterId) {
         tariffService.removeConnectedTransmitterByTransmitterIdAndTariffId(connectedTransmitterId, id);
         return toSecondaryPage(connectedTransmitterPage, id);
     }
 
     @PostMapping("/setup/{id}/connectableTransmitters/{transmitterId}")
     public String connectTransmitter(@PathVariable Long id, @PathVariable Long transmitterId
-            , Address address, ModelMap model){
+            , Address address, ModelMap model) {
         tariffService.addConnectedTransmitter(id, transmitterId);
-        return searchConnectableTransmitters(id,address,model);
+        return searchConnectableTransmitters(id, address, model);
     }
 
 ///********************! Search connectable Transmitters !********************
 
     @GetMapping("/setup/{id}/connectableTransmitters")
-    public String searchConnectableTransmitters(@PathVariable Long id, ModelMap model){
+    public String searchConnectableTransmitters(@PathVariable Long id, ModelMap model) {
         return searchConnectableTransmitters(id, new Address(), model);
     }
 
     @GetMapping("/setup/{id}/connectableTransmitters/list")
-    public String searchConnectableTransmitters(@PathVariable Long id, Address address, ModelMap model){
-        if (address==null)
+    public String searchConnectableTransmitters(@PathVariable Long id, Address address, ModelMap model) {
+        if (address == null)
             address = new Address();
         model.addAttribute("tariffId", id);
         model.addAttribute("searchAddress", address);
@@ -167,24 +167,24 @@ public class TariffController extends AbstractTwosomeSecondaryPagingController {
 ///********************! Pagination Transmitters !********************
 
     @Override
-    protected Long firstSecondaryPageCount(Long id){
+    protected Long firstSecondaryPageCount(Long id) {
         return tariffService.connectedTransmitterPageCount(id);
     }
 
     @Override
-    protected String getFirstSecondaryPrefix(){
+    protected String getFirstSecondaryPrefix() {
         return "/setup";
     }
 
 ///********************! Contracts view !********************
 
     @GetMapping("/contract/{id}")
-    public String contractsViewByTariffId(@PathVariable Long id){
+    public String contractsViewByTariffId(@PathVariable Long id) {
         return firstSecondSecondaryPage(id);
     }
 
     @GetMapping("/contract/{id}/list/{signedContractPage}")
-    public String contractsViewByTariffId(@PathVariable Long id, @PathVariable Long signedContractPage, ModelMap model){
+    public String contractsViewByTariffId(@PathVariable Long id, @PathVariable Long signedContractPage, ModelMap model) {
         if (signedContractPage < 1L)
             return firstSecondSecondaryPage(id);
         Long nPage = tariffService.countPageContractByTariffId(id);
@@ -200,7 +200,7 @@ public class TariffController extends AbstractTwosomeSecondaryPagingController {
 
     @PostMapping("/contract/{id}/list/{signedContractPage}/terminate_contract/{contractId}")
     public String terminateContractById(@PathVariable Long id, @PathVariable Long signedContractPage
-            , @PathVariable Long contractId){
+            , @PathVariable Long contractId) {
         tariffService.terminateContractById(contractId);
         return toSecondSecondaryPage(signedContractPage, id);
     }

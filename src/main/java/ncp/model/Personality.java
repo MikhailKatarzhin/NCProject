@@ -13,11 +13,11 @@ import javax.persistence.*;
 public class Personality {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long        id;
+    private Long id;
 
-    private String      firstName = "";
+    private String firstName = "";
 
-    private String      lastName = "";
+    private String lastName = "";
 
-    private String      patronymic = "";
+    private String patronymic = "";
 }

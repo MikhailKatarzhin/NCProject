@@ -20,7 +20,7 @@ public class TransmitterController extends AbstractSecondaryPagingController {
     private final TransmitterStatusService transmitterStatusService;
 
     @Autowired
-    public TransmitterController(TransmitterService transmitterService, TransmitterStatusService transmitterStatusService){
+    public TransmitterController(TransmitterService transmitterService, TransmitterStatusService transmitterStatusService) {
         this.transmitterStatusService = transmitterStatusService;
         this.transmitterService = transmitterService;
     }
@@ -28,32 +28,32 @@ public class TransmitterController extends AbstractSecondaryPagingController {
 ///********************! Transmitter management !********************
 
     @GetMapping
-    public String management(){
+    public String management() {
         return firstPage();
     }
 
     @PostMapping("/add")
-    public String transmitterAdd(@RequestParam String description){
+    public String transmitterAdd(@RequestParam String description) {
         transmitterService.saveNew(description);
         return firstPage();
     }
 
     @PostMapping("/list/{numberPageList}/{id}/remove")
-    public String removeById(@PathVariable Long numberPageList, @PathVariable Long id){
+    public String removeById(@PathVariable Long numberPageList, @PathVariable Long id) {
         transmitterService.deleteById(id);
         return toPage(numberPageList);
     }
 
     @GetMapping("/list/{numberPageList}")
-    public String managementByOffset(@PathVariable Long numberPageList, ModelMap model){
+    public String managementByOffset(@PathVariable Long numberPageList, ModelMap model) {
         if (numberPageList < 1L)
             return firstPage();
-        Long nPage=transmitterService.pageCount();
+        Long nPage = transmitterService.pageCount();
         if (numberPageList > nPage)
             return lastPage();
         model.addAttribute("nPage", nPage);
         model.addAttribute("currentPage", numberPageList);
-        List<Transmitter> transmitterList =transmitterService.transmitterListByNumberPageList(numberPageList);
+        List<Transmitter> transmitterList = transmitterService.transmitterListByNumberPageList(numberPageList);
         model.addAttribute("transmitters", transmitterList);
         return "transmitter/management";
     }
@@ -73,15 +73,15 @@ public class TransmitterController extends AbstractSecondaryPagingController {
 ///********************! Setup of Transmitter !********************
 
     @GetMapping("/setup/{id}")
-    public String setupById(@PathVariable Long id){
+    public String setupById(@PathVariable Long id) {
         return firstSecondaryPage(id);
     }
 
     @GetMapping("/setup/{id}/list/{availableAddressPage}")
-    public String setupByIdAndPage(@PathVariable Long id, @PathVariable Long availableAddressPage, ModelMap model){
+    public String setupByIdAndPage(@PathVariable Long id, @PathVariable Long availableAddressPage, ModelMap model) {
         if (availableAddressPage < 1L)
             return firstSecondaryPage(id);
-        Long nPage=transmitterService.availableAddressPageCount(id);
+        Long nPage = transmitterService.availableAddressPageCount(id);
         if (availableAddressPage > nPage)
             return lastSecondaryPage(id);
         model.addAttribute("nPage", nPage);
@@ -97,7 +97,7 @@ public class TransmitterController extends AbstractSecondaryPagingController {
     public String setStatusByTransmitterId(
             @PathVariable Long id
             , @PathVariable Long availableAddressPage
-            , @RequestParam Long statusSelectId){
+            , @RequestParam Long statusSelectId) {
         transmitterService.setStatus(id, statusSelectId);
         return toSecondaryPage(availableAddressPage, id);
     }
@@ -106,13 +106,13 @@ public class TransmitterController extends AbstractSecondaryPagingController {
     public String setDescriptionByTransmitterId(
             @PathVariable Long id
             , @PathVariable Long availableAddressPage
-            , @RequestParam String description){
+            , @RequestParam String description) {
         transmitterService.setDescription(id, description);
         return toSecondaryPage(availableAddressPage, id);
     }
 
     @PostMapping("/setup/{id}/address/{addressId}")
-    public String setAddress(@PathVariable Long id, @PathVariable Long addressId){
+    public String setAddress(@PathVariable Long id, @PathVariable Long addressId) {
         transmitterService.setAddress(id, addressId);
         return setupById(id);
     }
@@ -120,13 +120,13 @@ public class TransmitterController extends AbstractSecondaryPagingController {
 ///********************! Search addresses !********************
 
     @GetMapping("/setup/{id}/address")
-    public String selectAddress(@PathVariable Long id, ModelMap model){
+    public String selectAddress(@PathVariable Long id, ModelMap model) {
         return selectAddress(id, new Address(), model);
     }
 
     @GetMapping("/setup/{id}/address/list")
-    public String selectAddress(@PathVariable Long id, Address address, ModelMap model){
-        if (address==null)
+    public String selectAddress(@PathVariable Long id, Address address, ModelMap model) {
+        if (address == null)
             address = new Address();
         model.addAttribute("transmitterId", id);
         model.addAttribute("searchAddress", address);
@@ -135,13 +135,13 @@ public class TransmitterController extends AbstractSecondaryPagingController {
     }
 
     @GetMapping("/setup/{id}/availableAddress")
-    public String addAvailableAddress(@PathVariable Long id, ModelMap model){
+    public String addAvailableAddress(@PathVariable Long id, ModelMap model) {
         return addAvailableAddress(id, new Address(), model);
     }
 
     @GetMapping("/setup/{id}/availableAddress/list")
-    public String addAvailableAddress(@PathVariable Long id, Address address, ModelMap model){
-        if (address==null)
+    public String addAvailableAddress(@PathVariable Long id, Address address, ModelMap model) {
+        if (address == null)
             address = new Address();
         model.addAttribute("transmitterId", id);
         model.addAttribute("searchAddress", address);
@@ -166,14 +166,14 @@ public class TransmitterController extends AbstractSecondaryPagingController {
 
     @PostMapping("/setup/{id}/availableAddress/{addressId}")
     public String addAvailableAddress(@PathVariable Long id, @PathVariable Long addressId
-            , Address address, ModelMap model){
+            , Address address, ModelMap model) {
         transmitterService.addAvailableAddress(id, addressId);
-        return addAvailableAddress(id,address,model);
+        return addAvailableAddress(id, address, model);
     }
 
     @PostMapping("/setup/{id}/{availableAddressPage}/removeAvailableAddress/{idAA}")
     public String removeAvailableAddressByTransmitterIdAndAddressId(@PathVariable Long id
-            , @PathVariable Long availableAddressPage, @PathVariable Long idAA){
+            , @PathVariable Long availableAddressPage, @PathVariable Long idAA) {
         transmitterService.removeAvailableAddressByTransmitterIdAndAddressId(id, idAA);
         return toSecondaryPage(availableAddressPage, id);
     }
