@@ -39,7 +39,7 @@ public class WalletServiceImp implements WalletService {
         } catch (Exception e) {
             return false;
         }
-        return false;
+        return true;
     }
 
     @Override
