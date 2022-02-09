@@ -38,17 +38,7 @@ public class ScheduledTariffPayment {
             List<Tariff> tariffList = tariffRepository.selectNonInactiveByLimitOffset(
                     rowInPage, rowInPage * (i - 1L));
             for (Tariff tariff : tariffList) {
-                Long nTransmitterRow = transmitterRepository.countConnectedTransmitterByTariffId(tariff.getId());
-                Long nTransmitterPage = nTransmitterRow / rowInPage + (nTransmitterRow % rowInPage == 0L ? 0L : 1L);
-                Long price = 0L;
-                for (Long y = nTransmitterPage; y > 0; y--) {
-                    List<Transmitter> transmitterList = transmitterRepository
-                            .selectConnectedTransmitterByLimitOffsetAndId(
-                                    tariff.getId(), rowInPage, rowInPage * (i - 1L));
-                    for (Transmitter transmitter : transmitterList) {
-                        price += addressRepository.countConnectedAddressByTransmitterId(transmitter.getId());
-                    }
-                }
+                Long price = tariffRepository.countConnectedAddressByTariffId(tariff.getId());
                 User user = tariff.getProvider();
                 Wallet wallet = user.getWallet();
                 if (wallet.debitingFunds(price)) {
