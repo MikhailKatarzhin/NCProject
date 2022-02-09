@@ -1,6 +1,5 @@
 package ncp.repository;
 
-import ncp.model.Address;
 import ncp.model.Transmitter;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -53,6 +52,16 @@ public interface TransmitterRepository extends JpaRepository<Transmitter, Long> 
             , nativeQuery = true
     )
     List<Transmitter> selectConnectedTransmitterByLimitOffsetAndId(Long tariffId, Long limit, Long offset);
+
+    @Query(
+            value = "SELECT COUNT(t.id)" +
+                    " FROM tariff_connected_transmitters tct" +
+                    " INNER JOIN transmitter t ON tct.connected_transmitters_id = t.id" +
+                    " INNER JOIN tariff t2 on tct.tariff_id = t2.id" +
+                    " WHERE t2.id = ?"
+            , nativeQuery = true
+    )
+    Long countConnectedTransmitterByTariffId(Long tariffId);
 
     @Query(
             value = "SELECT DISTINCT t.* FROM transmitter t\n" +

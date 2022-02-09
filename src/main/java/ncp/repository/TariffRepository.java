@@ -18,6 +18,23 @@ public interface TariffRepository extends JpaRepository<Tariff, Long> {
     List<Tariff> selectByLimitOffset(Long limit, Long offset);
 
     @Query(
+            value = "SELECT * FROM tariff" +
+                    " INNER JOIN tariff_status ts on tariff.status_id = ts.id" +
+                    " WHERE ts.name <> 'inactive'" +
+                    " LIMIT ?1 OFFSET ?2"
+            , nativeQuery = true
+    )
+    List<Tariff> selectNonInactiveByLimitOffset(Long limit, Long offset);
+
+    @Query(
+            value = "SELECT COUNT(*) FROM tariff" +
+                    " INNER JOIN tariff_status ts on tariff.status_id = ts.id" +
+                    " WHERE ts.name <> 'inactive'"
+            , nativeQuery = true
+    )
+    Long countNonInactive();
+
+    @Query(
             value = "SELECT * FROM tariff t" +
                     " WHERE t.provider_id = ?3" +
                     " LIMIT ?1 OFFSET ?2"

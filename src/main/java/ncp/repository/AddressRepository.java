@@ -101,4 +101,13 @@ public interface AddressRepository extends JpaRepository<Address, Long> {
             , nativeQuery = true
     )
     List<Address> selectAvailableAddressByLimitOffsetAndId(Long transmitterId, Long limit, Long offset);
+
+    @Query(
+            value = "SELECT COUNT(*) from address a" +
+                    " INNER JOIN transmitter_available_addresses taa" +
+                    " ON a.id = taa.available_addresses_id" +
+                    " WHERE taa.transmitter_id = ?"
+            , nativeQuery = true
+    )
+    Long countConnectedAddressByTransmitterId(Long transmitterId);
 }
