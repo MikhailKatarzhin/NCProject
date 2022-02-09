@@ -29,13 +29,17 @@ public class ScheduledContractPayment {
         Long nRow = contractRepository.countExpiredWithNonInactiveTariffByLimitOffset();
         Long nPage = nRow / rowInPage + (nRow % rowInPage == 0L ? 0L : 1L);
         for (Long i = nPage; i > 0; i--) {
-            List<Contract> contractList = contractRepository.selectExpiredWithNonInactiveTariffByLimitOffset(rowInPage, rowInPage * (i-1L));
+            List<Contract> contractList = contractRepository.selectExpiredWithNonInactiveTariffByLimitOffset(
+                    rowInPage, rowInPage * (i - 1L));
             for (Contract contract : contractList) {
                 User user = contract.getConsumer();
-                Wallet wallet = user.getWallet();
-                if (wallet.debitingFunds(contract.getTariff().getPrice())) {
-                    walletRepository.save(wallet);
+                Wallet consumerWallet = user.getWallet();
+                if (consumerWallet.debitingFunds(contract.getTariff().getPrice())) {
+                    walletRepository.save(consumerWallet);
                     contractRepository.addToExpirationDate30DaysById(contract.getId());
+                    Wallet providerWallet = contract.getTariff().getProvider().getWallet();
+                    providerWallet.replenishmentFunds(contract.getTariff().getPrice());
+                    walletRepository.save(providerWallet);
                 }
             }
         }
