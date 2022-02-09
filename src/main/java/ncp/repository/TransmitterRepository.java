@@ -20,11 +20,10 @@ public interface TransmitterRepository extends JpaRepository<Transmitter, Long> 
     @Query(
             value = "SELECT COUNT(*) FROM transmitter t" +
                     " INNER JOIN transmitter_available_addresses taa on t.id = taa.transmitter_id" +
-                    " INNER JOIN address a on t.address_id = a.id" +
                     " WHERE t.id=?"
             , nativeQuery = true
     )
-    Long countAvailableAddressById(Long id);
+    Long countAvailableAddressByTransmitterId(Long transmitterId);
 
     @Transactional
     @Modifying

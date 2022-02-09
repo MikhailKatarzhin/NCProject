@@ -114,4 +114,15 @@ public interface TariffRepository extends JpaRepository<Tariff, Long> {
     )
     Long countByAvailableAddressIdAndTransmitterStatusAndTariffStatus(
             Long availableAddressId, String transmitterStatus, String tariffStatus);
+
+    @Query(
+            value = "SELECT COUNT(*) FROM tariff_connected_transmitters tct" +
+                    " INNER JOIN transmitter t" +
+                    " ON tct.connected_transmitters_id = t.id" +
+                    " INNER JOIN transmitter_available_addresses taa" +
+                    " ON t.id = taa.transmitter_id" +
+                    " WHERE tariff_id = ?"
+            , nativeQuery = true
+    )
+    Long countConnectedAddressByTariffId(Long tariffId);
 }

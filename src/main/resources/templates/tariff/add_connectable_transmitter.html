@@ -10,6 +10,12 @@
 <body>
 <div th:insert="~{fragments/navigation_fragments  :: navbar}"></div>
 
+<div th:if ="${paymentError}" class="alert alert-danger d-flex align-items-center alert-dismissible" role="alert">
+    <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
+    <span th:text="${paymentError}"></span>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+
 <table class="m-auto"><tr><td>
     <form th:object="${searchAddress}"
           th:action="@{/tariff/setup/__${tariffId}__/connectableTransmitters/list}"><table>
@@ -101,7 +107,8 @@
             <td th:text="${transmitter.address!=null}?${transmitter.address.flat}:''"></td>
             <td><form th:action="@{/tariff/setup/__${tariffId}__/connectableTransmitters/__${transmitter.id}__}"
                       method="post">
-                <input class="w-100 btn btn-sm btn-dark" type="submit" value="Connect">
+                <input class="w-100 btn btn-sm btn-dark" type="submit"
+                       th:value="'Connect ('+${transmitter.availableAddresses.size()}+'$)'">
             </form></td>
         </tr>
         <tr th:if="${transmitters.isEmpty()}"><td colspan="11" class="text-center">

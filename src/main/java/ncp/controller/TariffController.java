@@ -5,9 +5,7 @@ import ncp.model.Address;
 import ncp.model.Contract;
 import ncp.model.Tariff;
 import ncp.model.Transmitter;
-import ncp.service.interfaces.TariffService;
-import ncp.service.interfaces.TariffStatusService;
-import ncp.service.interfaces.UserService;
+import ncp.service.interfaces.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -19,13 +17,18 @@ import java.util.List;
 @RequestMapping("/tariff")
 public class TariffController extends AbstractTwosomeSecondaryPagingController {
 
-    private final TariffService tariffService;
     private final TariffStatusService tariffStatusService;
+    private final TransmitterService transmitterService;
+    private final WalletService walletService;
+    private final TariffService tariffService;
     private final UserService userService;
 
     @Autowired
-    public TariffController(TariffStatusService tariffStatusService, TariffService tariffService, UserService userService) {
+    public TariffController(TariffStatusService tariffStatusService, TransmitterService transmitterService
+            , WalletService walletService, TariffService tariffService, UserService userService) {
         this.tariffStatusService = tariffStatusService;
+        this.transmitterService = transmitterService;
+        this.walletService = walletService;
         this.tariffService = tariffService;
         this.userService = userService;
     }
@@ -141,7 +144,13 @@ public class TariffController extends AbstractTwosomeSecondaryPagingController {
     @PostMapping("/setup/{id}/connectableTransmitters/{transmitterId}")
     public String connectTransmitter(@PathVariable Long id, @PathVariable Long transmitterId
             , Address address, ModelMap model) {
-        tariffService.addConnectedTransmitter(id, transmitterId);
+        if (walletService.debitingFunds(transmitterService.countAvailableAddressByTransmitterId(transmitterId)
+                , userService.getRemoteUserId())) {
+            tariffService.addConnectedTransmitter(id, transmitterId);
+            return searchConnectableTransmitters(id, address, model);
+        }
+        model.addAttribute("paymentError"
+                , "Your funds are not enough to pay for this transmitter [" + transmitterId + "]");
         return searchConnectableTransmitters(id, address, model);
     }
 

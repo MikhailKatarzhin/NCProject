@@ -110,8 +110,8 @@ public class TariffServiceImp implements TariffService {
 
 ///********************! Connected Transmitter !********************
 
-    public Long connectedTransmitterPageCount(Long transmitterId) {
-        Long nConnectedTransmitter = tariffRepository.countConnectedTransmitterById(transmitterId);
+    public Long connectedTransmitterPageCount(Long tariffId) {
+        Long nConnectedTransmitter = tariffRepository.countConnectedTransmitterById(tariffId);
         Long nPage = nConnectedTransmitter / ROW_COUNT + (nConnectedTransmitter % ROW_COUNT == 0 ? 0 : 1);
         return nPage == 0 ? nPage + 1 : nPage;
     }
@@ -126,6 +126,10 @@ public class TariffServiceImp implements TariffService {
 
     public void removeConnectedTransmitterByTransmitterIdAndTariffId(Long transmitterId, Long tariffId) {
         tariffRepository.removeConnectedTransmitterByTransmitterIdAndTariffId(transmitterId, tariffId);
+    }
+
+    public Long countConnectedAddressByTariffId(Long tariffId){
+        return tariffRepository.countConnectedAddressByTariffId(tariffId);
     }
 
 ///********************! Search connectable Transmitters !********************

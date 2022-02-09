@@ -34,10 +34,14 @@ public class TransmitterServiceImp implements TransmitterService {
         return nPage == 0 ? nPage + 1 : nPage;
     }
 
-    public Long availableAddressPageCount(Long availableAddressId) {
-        Long nAvailableAddress = transmitterRepository.countAvailableAddressById(availableAddressId);
+    public Long availableAddressPageCount(Long TransmitterId) {
+        Long nAvailableAddress = transmitterRepository.countAvailableAddressByTransmitterId(TransmitterId);
         Long nPage = nAvailableAddress / ROW_COUNT + (nAvailableAddress % ROW_COUNT == 0 ? 0 : 1);
         return nPage == 0 ? nPage + 1 : nPage;
+    }
+
+    public Long countAvailableAddressByTransmitterId(Long TransmitterId) {
+        return transmitterRepository.countAvailableAddressByTransmitterId(TransmitterId);
     }
 
     public List<Transmitter> transmitterListByNumberPageList(Long numberPageList) {

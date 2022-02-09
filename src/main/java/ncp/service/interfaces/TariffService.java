@@ -44,6 +44,8 @@ public interface TariffService {
 
     void removeConnectedTransmitterByTransmitterIdAndTariffId(Long transmitterId, Long tariffId);
 
+    Long countConnectedAddressByTariffId(Long tariffId);
+
 ///********************! Search connectable Transmitters !********************
 
     List<Transmitter> searchTransmitterByTransmitterAvailableAddressIdWithoutConnectedTransmitterId(

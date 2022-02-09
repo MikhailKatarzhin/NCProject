@@ -10,6 +10,8 @@ public interface TransmitterService {
 
     Long availableAddressPageCount (Long availableAddressId);
 
+    Long countAvailableAddressByTransmitterId(Long TransmitterId);
+
     List<Transmitter> transmitterListByNumberPageList (Long numberPageList);
 
     List<Address> availableAddressListByNumberPageListAndTransmitterId (Long numberPageList, Long transmitterId);
