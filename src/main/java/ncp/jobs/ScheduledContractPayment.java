@@ -26,7 +26,7 @@ public class ScheduledContractPayment {
 
     @Scheduled(cron = "0 0 12 * * *")
     public void contractsPayment() {
-        Long nRow = contractRepository.countExpiredWithNonInactiveTariffByLimitOffset();
+        Long nRow = contractRepository.countExpiredWithNonInactiveTariff();
         Long nPage = nRow / rowInPage + (nRow % rowInPage == 0L ? 0L : 1L);
         for (Long i = nPage; i > 0; i--) {
             List<Contract> contractList = contractRepository.selectExpiredWithNonInactiveTariffByLimitOffset(

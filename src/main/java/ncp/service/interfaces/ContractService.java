@@ -22,4 +22,11 @@ public interface ContractService {
     void terminateContractById(Long contractId);
 
     Contract signContract(Tariff tariff, User consumer, Address address);
+
+    List<Contract> listExpiredContractWithNonInactiveTariffByLimitOffsetByConsumerIdLimitOffset(
+            Long consumerId, Long limit, Long offset);
+
+    Long countExpiredContractWithNonInactiveTariffByLimitOffsetByConsumerId(Long consumerId);
+
+    void addToExpirationDate30DaysSinceTodayById(Long id);
 }

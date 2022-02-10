@@ -66,4 +66,21 @@ public class ContractServiceImp implements ContractService {
                 + ". Tariff description: " + tariff.getDescription() + ".");
         return contractRepository.save(contract);
     }
+
+    @Override
+    public List<Contract> listExpiredContractWithNonInactiveTariffByLimitOffsetByConsumerIdLimitOffset(
+            Long consumerId, Long limit, Long offset) {
+        return contractRepository.selectExpiredWithNonInactiveTariffByLimitOffsetByConsumerIdLimitOffset(
+                consumerId, limit, offset);
+    }
+
+    @Override
+    public Long countExpiredContractWithNonInactiveTariffByLimitOffsetByConsumerId(Long consumerId) {
+        return contractRepository.countExpiredWithNonInactiveTariffByConsumerId(consumerId);
+    }
+
+    @Override
+    public void addToExpirationDate30DaysSinceTodayById(Long id) {
+        contractRepository.addToExpirationDate30DaysById(id);
+    }
 }

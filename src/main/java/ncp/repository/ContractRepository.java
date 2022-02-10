@@ -34,6 +34,31 @@ public interface ContractRepository extends JpaRepository<Contract, Long> {
                     " INNER JOIN tariff_status ts on t.status_id = ts.id" +
                     " WHERE ts.name <> 'inactive'" +
                     " AND contract_expiration_date <= CURDATE()" +
+                    " AND consumer_id = ?1" +
+                    " ORDER BY price" +
+                    " LIMIT ?2 OFFSET ?3"
+            , nativeQuery = true
+    )
+    List<Contract> selectExpiredWithNonInactiveTariffByLimitOffsetByConsumerIdLimitOffset(
+            Long consumerId, Long limit, Long offset);
+
+    @Query(
+            value = "SELECT COUNT(*) FROM contract" +
+                    " INNER JOIN tariff t on contract.tariff_id = t.id" +
+                    " INNER JOIN tariff_status ts on t.status_id = ts.id" +
+                    " WHERE ts.name <> 'inactive'" +
+                    " AND contract_expiration_date <= CURDATE()" +
+                    " AND consumer_id = ?1"
+            , nativeQuery = true
+    )
+    Long countExpiredWithNonInactiveTariffByConsumerId(Long consumerId);
+
+    @Query(
+            value = "SELECT * FROM contract" +
+                    " INNER JOIN tariff t on contract.tariff_id = t.id" +
+                    " INNER JOIN tariff_status ts on t.status_id = ts.id" +
+                    " WHERE ts.name <> 'inactive'" +
+                    " AND contract_expiration_date <= CURDATE()" +
                     " LIMIT ?1 OFFSET ?2"
             , nativeQuery = true
     )
@@ -47,7 +72,7 @@ public interface ContractRepository extends JpaRepository<Contract, Long> {
                     " AND contract_expiration_date <= CURDATE()"
             , nativeQuery = true
     )
-    Long countExpiredWithNonInactiveTariffByLimitOffset();
+    Long countExpiredWithNonInactiveTariff();
 
     @Transactional
     @Modifying

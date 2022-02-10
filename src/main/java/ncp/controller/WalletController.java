@@ -1,5 +1,8 @@
 package ncp.controller;
 
+import ncp.model.Contract;
+import ncp.repository.ContractRepository;
+import ncp.service.interfaces.ContractService;
 import ncp.service.interfaces.UserService;
 import ncp.service.interfaces.WalletService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,15 +13,19 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/wallet")
 public class WalletController {
 
+    private final ContractService contractService;
     private final WalletService walletService;
     private final UserService userService;
 
     @Autowired
-    public WalletController(WalletService walletService, UserService userService) {
+    public WalletController(ContractService contractService, WalletService walletService, UserService userService) {
+        this.contractService = contractService;
         this.walletService = walletService;
         this.userService = userService;
     }
@@ -31,7 +38,22 @@ public class WalletController {
 
     @PostMapping("/replenishment")
     public String replenishment(@RequestParam Long incomeFounds, ModelMap model) {
-        if (walletService.replenishmentFunds(incomeFounds, userService.getRemoteUserId())) {
+        Long userId = userService.getRemoteUserId();
+        if (walletService.replenishmentFunds(incomeFounds, userId)) {
+            Long nRow = contractService.countExpiredContractWithNonInactiveTariffByLimitOffsetByConsumerId(userId);
+            Long rowInPage = 100L;
+            Long nPage = nRow / rowInPage + (nRow % rowInPage == 0 ? 0 : 1);
+            for (; nPage > 0; nPage--){
+                List<Contract> contractList = contractService.listExpiredContractWithNonInactiveTariffByLimitOffsetByConsumerIdLimitOffset(
+                        userId, rowInPage, (nPage - 1) * rowInPage);
+                for (Contract contract: contractList) {
+                    if (!walletService.debitingFunds(contract.getTariff().getPrice(), userId)){
+                        nPage = 0L;
+                        break;
+                    }
+                    contractService.addToExpirationDate30DaysSinceTodayById(contract.getId());
+                }
+            }
             return "redirect:/profile";
         }
         model.addAttribute("replenishmentFailed", "Replenishment failed");
