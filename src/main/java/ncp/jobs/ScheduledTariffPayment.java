@@ -30,7 +30,7 @@ public class ScheduledTariffPayment {
     }
 
     @Scheduled(cron = "0 0 0 * * *")
-    public void contractsPayment() {
+    public void tariffPayment() {
         logger.trace("Scheduled payment of tariffs has started");
 
         Long nRow = tariffRepository.countNonInactive();
