@@ -14,18 +14,13 @@ public class ScheduledTariffPayment {
     private final Long rowInPage = 100L;
 
     private final TariffStatusRepository tariffStatusRepository;
-    private final TransmitterRepository transmitterRepository;
-    private final AddressRepository addressRepository;
     private final TariffRepository tariffRepository;
     private final WalletRepository walletRepository;
 
     @Autowired
     public ScheduledTariffPayment(TariffStatusRepository tariffStatusRepository
-            , TransmitterRepository transmitterRepository, AddressRepository addressRepository
             , TariffRepository tariffRepository, WalletRepository walletRepository) {
         this.tariffStatusRepository = tariffStatusRepository;
-        this.transmitterRepository = transmitterRepository;
-        this.addressRepository = addressRepository;
         this.tariffRepository = tariffRepository;
         this.walletRepository = walletRepository;
     }
