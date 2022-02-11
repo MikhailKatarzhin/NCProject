@@ -5,6 +5,8 @@ import ncp.service.interfaces.payment.ContractPaymentService;
 import ncp.service.interfaces.ContractService;
 import ncp.service.interfaces.UserService;
 import ncp.service.interfaces.WalletService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -18,6 +20,8 @@ import java.util.List;
 @Controller
 @RequestMapping("/wallet")
 public class WalletController {
+
+    private final static Logger logger = LoggerFactory.getLogger(WalletController.class);
 
     private final ContractPaymentService contractPaymentService;
     private final ContractService contractService;
@@ -42,6 +46,7 @@ public class WalletController {
     public String replenishment(@RequestParam Long incomeFounds, ModelMap model) {
         Long userId = userService.getRemoteUserId();
         if (walletService.replenishmentFunds(incomeFounds, userId)) {
+            logger.info("Wallet [id:{}] replenished by {}", userId, incomeFounds);
             Long nRow = contractService.countExpiredContractWithNonInactiveTariffByLimitOffsetByConsumerId(userId);
             Long rowInPage = 100L;
             Long nPage = nRow / rowInPage + (nRow % rowInPage == 0 ? 0 : 1);
@@ -51,12 +56,15 @@ public class WalletController {
                 for (Contract contract: contractList) {
                     if (!contractPaymentService.contractPayment(contract)){
                         nPage = 0L;
+                        logger.info("Contract [id:{}] payment by {} is failed", contract.getId(), contract.getTariff().getPrice());
                         break;
                     }
+                    logger.info("Contract [id:{}] paid by {}", contract.getId(), contract.getTariff().getPrice());
                 }
             }
             return "redirect:/profile";
         }
+        logger.warn("Wallet [id:{}] replenishment by {} is failed", userId, incomeFounds);
         model.addAttribute("replenishmentFailed", "Replenishment failed");
         return replenishment(model);
     }
