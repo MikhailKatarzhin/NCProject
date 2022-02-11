@@ -2,6 +2,7 @@ package ncp.jobs;
 
 import ncp.model.*;
 import ncp.repository.*;
+import ncp.service.interfaces.TariffPaymentService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,20 +18,17 @@ public class ScheduledTariffPayment {
 
     private final Long rowInPage = 100L;
 
-    private final TariffStatusRepository tariffStatusRepository;
     private final TariffRepository tariffRepository;
-    private final WalletRepository walletRepository;
+    private final TariffPaymentService tariffPaymentService;
 
     @Autowired
-    public ScheduledTariffPayment(TariffStatusRepository tariffStatusRepository
-            , TariffRepository tariffRepository, WalletRepository walletRepository) {
-        this.tariffStatusRepository = tariffStatusRepository;
+    public ScheduledTariffPayment(TariffRepository tariffRepository, TariffPaymentService tariffPaymentService) {
         this.tariffRepository = tariffRepository;
-        this.walletRepository = walletRepository;
+        this.tariffPaymentService = tariffPaymentService;
     }
 
     @Scheduled(cron = "0 0 0 * * *")
-    public void tariffPayment() {
+    public void tariffsPayment() {
         logger.trace("Scheduled payment of tariffs has started");
 
         Long nRow = tariffRepository.countNonInactive();
@@ -42,16 +40,8 @@ public class ScheduledTariffPayment {
             List<Tariff> tariffList = tariffRepository.selectNonInactiveByLimitOffset(
                     rowInPage, rowInPage * (i - 1L));
             for (Tariff tariff : tariffList) {
-                Long price = tariffRepository.countConnectedAddressByTariffId(tariff.getId());
-                User user = tariff.getProvider();
-                Wallet wallet = user.getWallet();
-                if (wallet.debitingFunds(price)) {
-                    walletRepository.save(wallet);
-                } else {
-                    tariff.setStatus(tariffStatusRepository.getByName("inactive"));
-                    tariffRepository.save(tariff);
+                if (!tariffPaymentService.tariffPayment(tariff))
                     inactivatedTariffs++;
-                }
             }
         }
         logger.info("Scheduled payment of tariffs has ended. Confirmed payments: {}. Inactivated tariffs: {}"
