@@ -28,8 +28,6 @@ public class ScheduledContractPayment {
 
     @Scheduled(cron = "0 0 12 * * *")
     public void contractsPayment() {
-        logger.trace("Scheduled payment of contracts has started");
-
         Long nRow = contractRepository.countExpiredWithNonInactiveTariff();
         logger.debug("Expired contracts quantity: {}", nRow);
 
