@@ -88,6 +88,7 @@ public class TariffController extends AbstractTwosomeSecondaryPagingController {
     }
 
     @GetMapping("/setup/{id}/list/{connectedTransmitterPage}")
+    @PreAuthorize("@userServiceImp.getRemoteUser().getTariff().contains(@tariffServiceImp.getById(#id))")
     public String setupByIdAndPage(@PathVariable Long id, @PathVariable Long connectedTransmitterPage, ModelMap model) {
         if (connectedTransmitterPage < 1L)
             return firstSecondaryPage(id);
