@@ -2,11 +2,7 @@ package ncp.controller;
 
 import ncp.controller.paging.AbstractSecondaryPagingController;
 import ncp.model.*;
-import ncp.service.implementations.ContractServiceImp;
-import ncp.service.interfaces.TariffService;
-import ncp.service.interfaces.UserService;
-import ncp.service.interfaces.AddressService;
-import ncp.service.interfaces.WalletService;
+import ncp.service.interfaces.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -18,14 +14,14 @@ import java.util.List;
 @RequestMapping("/contract")
 public class ContractController extends AbstractSecondaryPagingController {
 
-    private final ContractServiceImp contractService;
+    private final ContractService contractService;
     private final AddressService addressService;
     private final WalletService walletService;
     private final TariffService tariffService;
     private final UserService userService;
 
     @Autowired
-    public ContractController(ContractServiceImp contractService, TariffService tariffService
+    public ContractController(ContractService contractService, TariffService tariffService
             , WalletService walletService, UserService userService, AddressService addressService) {
         this.contractService = contractService;
         this.addressService = addressService;
