@@ -9,6 +9,8 @@ import java.util.List;
 
 public interface ContractService {
 
+    Contract getById(Long id);
+
     Long pageCount(Long consumerId);
 
     List<Contract> contractListByTariffIdAndNumberPageList(Long tariffId, Long numberPageList);

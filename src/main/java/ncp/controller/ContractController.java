@@ -4,6 +4,7 @@ import ncp.controller.paging.AbstractSecondaryPagingController;
 import ncp.model.*;
 import ncp.service.interfaces.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -53,6 +54,7 @@ public class ContractController extends AbstractSecondaryPagingController {
     }
 
     @PostMapping("/terminate/{currentPage}/{id}")
+    @PreAuthorize("@userServiceImp.getRemoteUser().getContract().contains(contractServiceImp.getById(#id))")
     public String terminateById(@PathVariable Long currentPage, @PathVariable Long id) {
         contractService.terminateContractById(id);
         return toPage(currentPage);

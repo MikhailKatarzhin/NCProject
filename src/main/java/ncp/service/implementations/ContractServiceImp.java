@@ -26,6 +26,10 @@ public class ContractServiceImp implements ContractService {
 
 ///********************! Contract !********************
 
+    public Contract getById(Long id){
+        return contractRepository.getById(id);
+    }
+
     public Long pageCount(Long consumerId) {
         Long nRow = countContractByConsumerId(consumerId);
         Long nPage = nRow / ROW_COUNT + (nRow % ROW_COUNT == 0 ? 0 : 1);
