@@ -5,6 +5,7 @@ import ncp.model.User;
 import ncp.model.Wallet;
 import ncp.repository.ContractRepository;
 import ncp.repository.WalletRepository;
+import ncp.service.interfaces.ContractPaymentService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,12 +21,12 @@ public class ScheduledContractPayment {
 
     private final Long rowInPage = 100L;
     private final ContractRepository contractRepository;
-    private final WalletRepository walletRepository;
+    private final ContractPaymentService contractPaymentService;
 
     @Autowired
-    public ScheduledContractPayment(ContractRepository contractRepository, WalletRepository walletRepository) {
+    public ScheduledContractPayment(ContractRepository contractRepository, ContractPaymentService contractPaymentService) {
+        this.contractPaymentService = contractPaymentService;
         this.contractRepository = contractRepository;
-        this.walletRepository = walletRepository;
     }
 
     @Scheduled(cron = "0 0 12 * * *")
@@ -40,18 +41,9 @@ public class ScheduledContractPayment {
         for (Long i = nPage; i > 0; i--) {
             List<Contract> contractList = contractRepository.selectExpiredWithNonInactiveTariffByLimitOffset(
                     rowInPage, rowInPage * (i - 1L));
-            for (Contract contract : contractList) {
-                User user = contract.getConsumer();
-                Wallet consumerWallet = user.getWallet();
-                if (consumerWallet.debitingFunds(contract.getTariff().getPrice())) {
-                    walletRepository.save(consumerWallet);
-                    contractRepository.addToExpirationDate30DaysById(contract.getId());
-                    Wallet providerWallet = contract.getTariff().getProvider().getWallet();
-                    providerWallet.replenishmentFunds(contract.getTariff().getPrice());
-                    walletRepository.save(providerWallet);
+            for (Contract contract : contractList)
+                if (contractPaymentService.contractPayment(contract))
                     confirmedPayment++;
-                }
-            }
         }
         logger.info("Scheduled payment of contracts has ended. Confirmed payments: {}. Failed payments: {}"
                 , confirmedPayment, nRow - confirmedPayment);
