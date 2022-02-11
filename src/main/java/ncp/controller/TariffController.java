@@ -4,6 +4,7 @@ import ncp.controller.paging.AbstractTwosomeSecondaryPagingController;
 import ncp.model.*;
 import ncp.service.interfaces.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -46,6 +47,7 @@ public class TariffController extends AbstractTwosomeSecondaryPagingController {
     }
 
     @PostMapping("/list/{numberPageList}/{id}/remove")
+    @PreAuthorize("@userServiceImp.getRemoteUser().getTariff().contains(@tariffServiceImp.getById(#id))")
     public String removeById(@PathVariable Long numberPageList, @PathVariable Long id) {
         tariffService.deleteById(id);
         return toPage(numberPageList);
