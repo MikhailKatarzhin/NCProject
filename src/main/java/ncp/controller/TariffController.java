@@ -106,6 +106,7 @@ public class TariffController extends AbstractTwosomeSecondaryPagingController {
     }
 
     @PostMapping("/setup/{id}/{connectedTransmitterPage}/status")
+    @PreAuthorize("@userServiceImp.getRemoteUser().getTariff().contains(@tariffServiceImp.getById(#id))")
     public String setStatusByTariffId(
             @PathVariable Long id
             , @PathVariable Long connectedTransmitterPage
@@ -124,6 +125,7 @@ public class TariffController extends AbstractTwosomeSecondaryPagingController {
     }
 
     @PostMapping("/setup/{id}/{connectedTransmitterPage}/description")
+    @PreAuthorize("@userServiceImp.getRemoteUser().getTariff().contains(@tariffServiceImp.getById(#id))")
     public String setDescriptionByTariffId(
             @PathVariable Long id
             , @PathVariable Long connectedTransmitterPage
@@ -133,6 +135,7 @@ public class TariffController extends AbstractTwosomeSecondaryPagingController {
     }
 
     @PostMapping("/setup/{id}/{connectedTransmitterPage}/price")
+    @PreAuthorize("@userServiceImp.getRemoteUser().getTariff().contains(@tariffServiceImp.getById(#id))")
     public String setPriceByTariffId(
             @PathVariable Long id
             , @PathVariable Long connectedTransmitterPage
