@@ -1,10 +1,10 @@
-package ncp.service.implementations;
+package ncp.service.implementations.payment;
 
 import ncp.model.Contract;
 import ncp.model.Wallet;
 import ncp.repository.ContractRepository;
 import ncp.repository.WalletRepository;
-import ncp.service.interfaces.ContractPaymentService;
+import ncp.service.interfaces.payment.ContractPaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

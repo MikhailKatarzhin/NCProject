@@ -1,11 +1,11 @@
-package ncp.service.implementations;
+package ncp.service.implementations.payment;
 
 import ncp.model.Tariff;
 import ncp.model.Wallet;
 import ncp.repository.TariffRepository;
 import ncp.repository.TariffStatusRepository;
 import ncp.repository.WalletRepository;
-import ncp.service.interfaces.TariffPaymentService;
+import ncp.service.interfaces.payment.TariffPaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

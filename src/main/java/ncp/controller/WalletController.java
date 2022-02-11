@@ -1,8 +1,7 @@
 package ncp.controller;
 
 import ncp.model.Contract;
-import ncp.repository.ContractRepository;
-import ncp.service.interfaces.ContractPaymentService;
+import ncp.service.interfaces.payment.ContractPaymentService;
 import ncp.service.interfaces.ContractService;
 import ncp.service.interfaces.UserService;
 import ncp.service.interfaces.WalletService;

@@ -2,7 +2,7 @@ package ncp.jobs;
 
 import ncp.model.*;
 import ncp.repository.*;
-import ncp.service.interfaces.TariffPaymentService;
+import ncp.service.interfaces.payment.TariffPaymentService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

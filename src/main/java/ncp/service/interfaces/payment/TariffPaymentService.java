@@ -1,4 +1,4 @@
-package ncp.service.interfaces;
+package ncp.service.interfaces.payment;
 
 import ncp.model.Tariff;
 

@@ -1,11 +1,8 @@
 package ncp.jobs;
 
 import ncp.model.Contract;
-import ncp.model.User;
-import ncp.model.Wallet;
 import ncp.repository.ContractRepository;
-import ncp.repository.WalletRepository;
-import ncp.service.interfaces.ContractPaymentService;
+import ncp.service.interfaces.payment.ContractPaymentService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
