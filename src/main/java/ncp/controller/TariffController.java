@@ -145,6 +145,7 @@ public class TariffController extends AbstractTwosomeSecondaryPagingController {
     }
 
     @PostMapping("/setup/{id}/{connectedTransmitterPage}/disconnectTransmitter/{connectedTransmitterId}")
+    @PreAuthorize("@userServiceImp.getRemoteUser().getTariff().contains(@tariffServiceImp.getById(#id))")
     public String disconnectTransmitterById(
             @PathVariable Long id
             , @PathVariable Long connectedTransmitterPage
@@ -154,6 +155,7 @@ public class TariffController extends AbstractTwosomeSecondaryPagingController {
     }
 
     @PostMapping("/setup/{id}/connectableTransmitters/{transmitterId}")
+    @PreAuthorize("@userServiceImp.getRemoteUser().getTariff().contains(@tariffServiceImp.getById(#id))")
     public String connectTransmitter(@PathVariable Long id, @PathVariable Long transmitterId
             , Address address, ModelMap model) {
         if (walletService.debitingFunds(transmitterService.countAvailableAddressByTransmitterId(transmitterId)
@@ -174,6 +176,7 @@ public class TariffController extends AbstractTwosomeSecondaryPagingController {
     }
 
     @GetMapping("/setup/{id}/connectableTransmitters/list")
+    @PreAuthorize("@userServiceImp.getRemoteUser().getTariff().contains(@tariffServiceImp.getById(#id))")
     public String searchConnectableTransmitters(@PathVariable Long id, Address address, ModelMap model) {
         if (address == null)
             address = new Address();
