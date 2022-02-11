@@ -208,6 +208,7 @@ public class TariffController extends AbstractTwosomeSecondaryPagingController {
     }
 
     @GetMapping("/contract/{id}/list/{signedContractPage}")
+    @PreAuthorize("@userServiceImp.getRemoteUser().getTariff().contains(@tariffServiceImp.getById(#id))")
     public String contractsViewByTariffId(@PathVariable Long id, @PathVariable Long signedContractPage, ModelMap model) {
         if (signedContractPage < 1L)
             return firstSecondSecondaryPage(id);
@@ -223,6 +224,7 @@ public class TariffController extends AbstractTwosomeSecondaryPagingController {
     }
 
     @PostMapping("/contract/{id}/list/{signedContractPage}/terminate_contract/{contractId}")
+    @PreAuthorize("@userServiceImp.getRemoteUser().getTariff().contains(@tariffServiceImp.getById(#id))")
     public String terminateContractById(@PathVariable Long id, @PathVariable Long signedContractPage
             , @PathVariable Long contractId) {
         tariffService.terminateContractById(contractId);
