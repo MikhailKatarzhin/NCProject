@@ -2,6 +2,7 @@ package ncp.controller;
 
 import ncp.model.Contract;
 import ncp.repository.ContractRepository;
+import ncp.service.interfaces.ContractPaymentService;
 import ncp.service.interfaces.ContractService;
 import ncp.service.interfaces.UserService;
 import ncp.service.interfaces.WalletService;
@@ -19,12 +20,14 @@ import java.util.List;
 @RequestMapping("/wallet")
 public class WalletController {
 
+    private final ContractPaymentService contractPaymentService;
     private final ContractService contractService;
     private final WalletService walletService;
     private final UserService userService;
 
     @Autowired
-    public WalletController(ContractService contractService, WalletService walletService, UserService userService) {
+    public WalletController(ContractPaymentService contractPaymentService, ContractService contractService, WalletService walletService, UserService userService) {
+        this.contractPaymentService = contractPaymentService;
         this.contractService = contractService;
         this.walletService = walletService;
         this.userService = userService;
@@ -47,11 +50,10 @@ public class WalletController {
                 List<Contract> contractList = contractService.listExpiredContractWithNonInactiveTariffByLimitOffsetByConsumerIdLimitOffset(
                         userId, rowInPage, (nPage - 1) * rowInPage);
                 for (Contract contract: contractList) {
-                    if (!walletService.debitingFunds(contract.getTariff().getPrice(), userId)){
+                    if (!contractPaymentService.contractPayment(contract)){
                         nPage = 0L;
                         break;
                     }
-                    contractService.addToExpirationDate30DaysSinceTodayById(contract.getId());
                 }
             }
             return "redirect:/profile";
