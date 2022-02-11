@@ -5,6 +5,7 @@ import ncp.model.User;
 import ncp.service.interfaces.PersonalityService;
 import ncp.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -27,6 +28,7 @@ public class ProfilesController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("(@userServiceImp.getRemoteUser().getId() == #id) or hasAuthority('ADMINISTRATOR')")
     public String viewProfileById(@PathVariable Long id, ModelMap model) {
         User user = userService.getById(id);
         if (user == null)
