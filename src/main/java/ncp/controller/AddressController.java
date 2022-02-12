@@ -49,11 +49,18 @@ public class AddressController extends AbstractPrimaryPagingController {
     }
 
     @PostMapping("/add")
-    public String addressAdd(@ModelAttribute Address address, ModelMap model) {
-
+    public String addressAdd(@ModelAttribute Address address, ModelMap model, boolean manyFlats) {
+        if (manyFlats)
+            return addressesAdd(address);
         model = addressService.addNewAddress(address, model);
         if (model != null)
             return "address/add";
+        return "redirect:/address/list/1";
+    }
+
+    @PostMapping("/adds")
+    public String addressesAdd(@ModelAttribute Address address) {
+        addressService.addNewAddresses(address);
         return "redirect:/address/list/1";
     }
 

@@ -128,6 +128,20 @@ public class AddressServiceImp implements AddressService {
                 , ROW_COUNT, ROW_COUNT * (numberPage - 1), transmitterId);
     }
 
+    public void addNewAddresses(Address address){
+        for (Long i = address.getFlat(); i > 0 ; i--) {
+            Address tmp = new Address();
+            tmp.setFlat(i);
+            tmp.setBuilding(address.getBuilding());
+            tmp.setHouse(address.getHouse());
+            tmp.setStreet(address.getStreet());
+            tmp.setCity(address.getCity());
+            tmp.setRegion(address.getRegion());
+            tmp.setCountry(address.getCountry());
+            addNewAddress(tmp, new ModelMap());
+        }
+    }
+
     public ModelMap addNewAddress(Address address, ModelMap model) {
 
         if (address.getCountry().isBlank()) {

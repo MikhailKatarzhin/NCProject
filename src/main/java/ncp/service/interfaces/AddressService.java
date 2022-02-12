@@ -32,6 +32,8 @@ public interface AddressService {
     List<Address> searchAddressLikeAddressUnconnectedToTransmitterId(
             Address address, Long numberPage, Long transmitterId);
 
+    void addNewAddresses(Address address);
+
     ModelMap addNewAddress(Address address, ModelMap model);
 
     List<Address> availableAddressListByNumberPageListAndTransmitterId(Long numberPageList, Long transmitterId);
