@@ -1,6 +1,5 @@
 package ncp.service.implementations;
 
-import ncp.controller.WalletController;
 import ncp.model.Wallet;
 import ncp.repository.WalletRepository;
 import ncp.service.interfaces.WalletService;
