@@ -29,14 +29,14 @@
             <th scope="col">Id</th>
             <th scope="col">Status</th>
             <th scope="col">Description</th>
-            <th scope="col">Transmitter address</th>
+            <th scope="col">Transmitter addresses</th>
             <th colspan="2">Actions</th>
         </tr></thead>
         <tr th:each="transmitter : ${transmitters}">
             <td th:text="${transmitter.id}"></td>
             <td th:text="${transmitter.status.name}"></td>
             <td th:text="${transmitter.description}"></td>
-            <td th:text="${transmitter.address!=null}?${transmitter.address.toString()}:''"></td>
+            <td th:text="${transmitter.availableAddresses.size()}"></td>
             <td><form th:action="@{/transmitter/list/__${currentPage}__/__${transmitter.id}__/remove}" method="post">
                 <input class="w-100 btn btn-sm btn-danger" type="submit" value="remove">
             </form></td>
