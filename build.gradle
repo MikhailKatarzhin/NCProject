@@ -19,12 +19,10 @@ dependencies {
     implementation 'org.springframework.session:spring-session-core:2.6.1'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.6.3'
     implementation 'org.springframework.boot:spring-boot-starter-security'
-    implementation 'org.springframework.security:spring-security-test'
     implementation group: 'commons-codec', name: 'commons-codec', version: '1.15'
     compileOnly 'org.projectlombok:lombok:1.18.22'
     runtimeOnly 'mysql:mysql-connector-java:8.0.25'
     annotationProcessor 'org.projectlombok:lombok:1.18.22'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test:2.6.3'
     implementation 'org.webjars:jquery:3.6.0'
     implementation 'org.webjars:bootstrap:5.1.1'
 }
