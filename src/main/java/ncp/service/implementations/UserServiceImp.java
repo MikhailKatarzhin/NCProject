@@ -4,6 +4,7 @@ import ncp.config.WebSecurityConfig;
 import ncp.model.Personality;
 import ncp.model.Role;
 import ncp.model.User;
+import ncp.model.Wallet;
 import ncp.repository.UserRepository;
 import ncp.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,6 +61,7 @@ public class UserServiceImp implements UserService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRoleSet(roleSet);
         user.setPersonality(new Personality());
+        user.setWallet(new Wallet());
         return userRepository.save(user);
     }
 
