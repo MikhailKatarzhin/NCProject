@@ -7,15 +7,20 @@ import ncp.model.User;
 import ncp.model.Wallet;
 import ncp.repository.UserRepository;
 import ncp.service.interfaces.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImp implements UserService {
+
+    private final static Logger logger = LoggerFactory.getLogger(UserServiceImp.class);
 
     private final UserRepository userRepository;
     private final HttpServletRequest httpServletRequest;
@@ -62,7 +67,10 @@ public class UserServiceImp implements UserService {
         user.setRoleSet(roleSet);
         user.setPersonality(new Personality());
         user.setWallet(new Wallet());
-        return userRepository.save(user);
+        user = userRepository.save(user);
+        logger.info("Signed up new user [id:{}] with roles: {}", user.getId()
+                , user.getRoleSet().stream().map(Role::getName).collect(Collectors.joining(", ")));
+        return user;
     }
 
     public boolean emailExists(String email) {
@@ -71,14 +79,19 @@ public class UserServiceImp implements UserService {
 
     public User saveEmail(String email) {
         User user = getRemoteUser();
+        String oldEmail = user.getEmail();
         user.setEmail(email);
-        return userRepository.save(user);
+        user =  userRepository.save(user);
+        logger.info("User {}[id:{}] change email {} to {}", user.getUsername(), user.getId(), oldEmail, user.getEmail());
+        return user;
     }
 
     @Override
     public User savePassword(String password) {
         User user = getRemoteUser();
         user.setPassword(WebSecurityConfig.encoder().encode(password));
-        return userRepository.save(user);
+        user = userRepository.save(user);
+        logger.info("User {}[id:{}] change password to {}", user.getUsername(), user.getId(), password);
+        return user;
     }
 }
