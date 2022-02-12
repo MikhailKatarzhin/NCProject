@@ -20,10 +20,10 @@
         <label for="floatingInput" th:text="${usernameExistsError==null}?'Username':${usernameExistsError}"></label>
     </div>
     <div class="form-floating">
-        <input type="password" th:class="'form-control'+(${passwordsAreDifferent!=null}?' is-invalid':'')"
+        <input type="password" th:class="'form-control'+(${passwordsAreDifferent!=null} or ${passwordIsBlankError}?' is-invalid':'')"
                id="floatingPassword" name="password" placeholder="Password" required>
         <label for="floatingPassword"
-               th:text="${passwordsAreDifferent==null}?'Password':${passwordsAreDifferent}"></label>
+               th:text="${passwordIsBlankError==null}?'Password':${passwordIsBlankError}"></label>
     </div>
     <div class="form-floating">
         <input type="password" th:class="'form-control'+(${passwordsAreDifferent!=null}?' is-invalid':'')"

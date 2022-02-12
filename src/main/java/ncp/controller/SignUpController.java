@@ -36,9 +36,12 @@ public class SignUpController {
     }
 
     @PostMapping
-    public String addUser(@RequestParam Long[] rolesId, @RequestParam String confirmPassword, User user, ModelMap model) {
+    public String addUser(Long[] rolesId, @RequestParam String confirmPassword, User user, ModelMap model) {
         if (userService.getByUsername(user.getUsername()) != null) {
             model.addAttribute("usernameExistsError", "Username already exists");
+        }
+        if (user.getPassword().isBlank()) {
+            model.addAttribute("passwordIsBlankError", "Password must be not blank!");
         }
         if (!user.getPassword().equals(confirmPassword)) {
             model.addAttribute("passwordsAreDifferent", "Passwords are different");
