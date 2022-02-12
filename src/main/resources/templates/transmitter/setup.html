@@ -23,7 +23,7 @@
         <tr><td><form th:action="@{/transmitter/setup/__*{id}__/__${availableAddressPage}__/description}" method="post">
             <div class="form-floating">
                 <input type="text" class="form-control" onchange="this.form.submit()" name="description"
-                       id="description" placeholder="Description" th:value="*{description}">
+                       id="description" placeholder="Description" th:value="*{description}" maxlength="200">
                 <label for="description">Description</label>
             </div>
         </form></td></tr>

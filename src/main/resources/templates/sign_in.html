@@ -16,11 +16,11 @@
     <div class="mt-1 mb-1 text-muted" th:if="${param.error}">Invalid username or/and password.</div>
     <div class="mt-1 mb-1 text-muted" th:if="${param.logout}">You have been logged out.</div>
     <div class="form-floating">
-        <input type="text" class="form-control" id="floatingInput" name="username" placeholder="Username">
+        <input type="text" class="form-control" id="floatingInput" name="username" placeholder="Username" maxlength="50">
         <label for="floatingInput">Username</label>
     </div>
     <div class="form-floating">
-        <input type="password" class="form-control" id="floatingPassword" name="password" placeholder="Password">
+        <input type="password" class="form-control" id="floatingPassword" name="password" placeholder="Password" maxlength="50">
         <label for="floatingPassword">Password</label>
     </div>
     <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>

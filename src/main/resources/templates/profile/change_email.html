@@ -15,7 +15,7 @@
 
         <h5 th:text="'Current email address: '+${currentEmail}"></h5>
         <div class="form-floating">
-            <input type="text" class="form-control" th:value="${currentEmail}"
+            <input type="text" class="form-control" th:value="${currentEmail}" maxlength="50"
                    id="newEmail" name="email" placeholder="New email address" required>
             <label for="newEmail" th:text="'New email address'"></label>
         </div>

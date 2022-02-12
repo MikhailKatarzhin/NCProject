@@ -16,37 +16,37 @@
 
     <div class="form-floating">
         <input type="text" th:class="'form-control'+(${CountryError!=null}?' is-invalid':'')"
-               id="country" th:field="*{country}" placeholder="Country" required minlength="2">
+               id="country" th:field="*{country}" placeholder="Country" required minlength="2" maxlength="50">
         <label for="country" th:text="${CountryError==null}?'Country':${CountryError}"></label>
     </div>
     <div class="form-floating">
         <input type="text" th:class="'form-control'+(${RegionError!=null}?' is-invalid':'')"
-               id="region" th:field="*{region}" placeholder="Region" minlength="2">
+               id="region" th:field="*{region}" placeholder="Region" minlength="2" maxlength="50">
         <label for="region" th:text="${RegionError==null}?'Region':${RegionError}"></label>
     </div>
     <div class="form-floating">
         <input type="text" th:class="'form-control'+(${CityError!=null}?' is-invalid':'')"
-               id="city" th:field="*{city}" placeholder="City" required minlength="2">
+               id="city" th:field="*{city}" placeholder="City" required minlength="2" maxlength="50">
         <label for="city" th:text="${CityError==null}?'City':${CityError}"></label>
     </div>
     <div class="form-floating">
         <input type="text" th:class="'form-control'+(${StreetError!=null}?' is-invalid':'')"
-               id="street" th:field="*{street}" placeholder="Street" minlength="2">
+               id="street" th:field="*{street}" placeholder="Street" minlength="2" maxlength="50">
         <label for="street" th:text="${StreetError==null}?'Street':${StreetError}"></label>
     </div>
     <div class="form-floating">
         <input type="number" th:class="'form-control'+(${HouseError!=null}?' is-invalid':'')"
-               id="house" th:field="*{house}" placeholder="House" required min="1">
+               id="house" th:field="*{house}" placeholder="House" required min="1" max="10000">
         <label for="house" th:text="${HouseError==null}?'House':${HouseError}"></label>
     </div>
     <div class="form-floating">
         <input type="number" th:class="'form-control'+(${BuildingError!=null}?' is-invalid':'')"
-               id="building" th:field="*{building}" placeholder="Building" required min="1">
+               id="building" th:field="*{building}" placeholder="Building" required min="1" max="100">
         <label for="building" th:text="${BuildingError==null}?'Building':${BuildingError}"></label>
     </div>
     <div class="form-floating">
         <input type="number" th:class="'form-control'+(${FlatError!=null}?' is-invalid':'')"
-               id="flat" th:field="*{flat}" placeholder="Flat" min="1">
+               id="flat" th:field="*{flat}" placeholder="Flat" min="1" max="2000">
         <label for="flat" th:text="${FlatError==null}?'Flat':${FlatError}"></label>
     </div>
 

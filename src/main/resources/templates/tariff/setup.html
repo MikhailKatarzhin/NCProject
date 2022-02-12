@@ -30,14 +30,14 @@
         <tr><td><form th:action="@{/tariff/setup/__*{id}__/__${connectedTransmitterPage}__/price}" method="post">
             <div class="form-floating">
                 <input type="number" class="form-control" onchange="this.form.submit()" name="price"
-                       id="price" placeholder="Price" th:value="*{price}" required min="0">
+                       id="price" placeholder="Price" th:value="*{price}" required min="0" max="10000">
                 <label for="price">Price</label>
             </div>
         </form></td></tr>
         <tr><td><form th:action="@{/tariff/setup/__*{id}__/__${connectedTransmitterPage}__/description}" method="post">
             <div class="form-floating">
                 <input type="text" class="form-control" onchange="this.form.submit()" name="description"
-                       id="description" placeholder="Description" th:value="*{description}">
+                       id="description" placeholder="Description" th:value="*{description}" maxlength="200">
                 <label for="description">Description</label>
             </div>
         </form></td></tr>

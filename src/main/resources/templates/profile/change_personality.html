@@ -19,21 +19,21 @@
         <h5 th:text="'Current first name: '+*{firstName}"></h5>
         <div class="form-floating">
             <input type="text" class="form-control"
-                   id="firstName" th:field="*{firstName}" placeholder="New first name" required>
+                   id="firstName" th:field="*{firstName}" placeholder="New first name" required maxlength="50">
             <label for="firstName" th:text="'New first name'"></label>
         </div>
 
         <h5 th:text="'Current last name: '+*{lastName}"></h5>
         <div class="form-floating">
             <input type="text" class="form-control"
-                   id="lastName" th:field="*{lastName}" placeholder="New last name" required>
+                   id="lastName" th:field="*{lastName}" placeholder="New last name" required maxlength="50">
             <label for="lastName" th:text="'New last name'"></label>
         </div>
 
         <h5 th:text="'Current patronymic: '+*{patronymic}"></h5>
         <div class="form-floating">
             <input type="text" class="form-control"
-                   id="patronymic" th:field="*{patronymic}" placeholder="New patronymic" required>
+                   id="patronymic" th:field="*{patronymic}" placeholder="New patronymic" required maxlength="50">
             <label for="patronymic" th:text="'New patronymic'"></label>
         </div>
 
