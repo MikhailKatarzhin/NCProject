@@ -5,6 +5,8 @@ import ncp.model.Transmitter;
 import ncp.repository.TransmitterRepository;
 import ncp.service.interfaces.TransmitterService;
 import ncp.service.interfaces.TransmitterStatusService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +17,8 @@ import static ncp.config.ProjectConstants.ROW_COUNT;
 
 @Service
 public class TransmitterServiceImp implements TransmitterService {
+
+    private final static Logger logger = LoggerFactory.getLogger(TransmitterServiceImp.class);
 
     private final TransmitterStatusService transmitterStatusService;
     private final TransmitterRepository transmitterRepository;
@@ -57,7 +61,9 @@ public class TransmitterServiceImp implements TransmitterService {
         transmitter.setDescription(description);
         transmitter.setStatus(transmitterStatusService.getById(1L));
         transmitter.setAvailableAddresses(new HashSet<>());
-        return transmitterRepository.save(transmitter);
+        transmitter = transmitterRepository.save(transmitter);
+        logger.info("Added new transmitter [id:{}]", transmitter.getId());
+        return transmitter;
     }
 
     public Transmitter save(Transmitter transmitter) {
@@ -67,13 +73,17 @@ public class TransmitterServiceImp implements TransmitterService {
     public Transmitter setStatus(Long transmitterId, Long statusId) {
         Transmitter transmitter = transmitterRepository.getById(transmitterId);
         transmitter.setStatus(transmitterStatusService.getById(statusId));
-        return transmitterRepository.save(transmitter);
+        transmitter = transmitterRepository.save(transmitter);
+        logger.info("Status of transmitter [id:{}] set to {}", transmitter.getId(), transmitter.getStatus().getName());
+        return transmitter;
     }
 
     public Transmitter setDescription(Long transmitterId, String description) {
         Transmitter transmitter = transmitterRepository.getById(transmitterId);
         transmitter.setDescription(description);
-        return transmitterRepository.save(transmitter);
+        transmitter = transmitterRepository.save(transmitter);
+        logger.info("Changed description of transmitter [id:{}]", transmitter.getId());
+        return transmitter;
     }
 
     public Transmitter getById(Long id) {
@@ -83,7 +93,10 @@ public class TransmitterServiceImp implements TransmitterService {
     public Transmitter setAddress(Long transmitterId, Long addressId) {
         Transmitter transmitter = transmitterRepository.getById(transmitterId);
         transmitter.setAddress(addressService.getById(addressId));
-        return transmitterRepository.save(transmitter);
+        transmitter = transmitterRepository.save(transmitter);
+        logger.info("Changed address of transmitter [id:{}] to address id:{}"
+                , transmitterId, addressId);
+        return transmitter;
     }
 
     public void addAvailableAddress(Long transmitterId, Long addressId) {
@@ -92,6 +105,7 @@ public class TransmitterServiceImp implements TransmitterService {
 
     public void deleteById(Long id) {
         transmitterRepository.deleteById(id);
+        logger.info("Deleted transmitter [id:{}]", id);
     }
 
     public void removeAvailableAddressByTransmitterIdAndAddressId(Long tId, Long aId) {
