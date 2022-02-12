@@ -56,10 +56,8 @@ public class WalletController {
                 for (Contract contract: contractList) {
                     if (!contractPaymentService.contractPayment(contract)){
                         nPage = 0L;
-                        logger.info("Contract [id:{}] payment by {} is failed", contract.getId(), contract.getTariff().getPrice());
                         break;
                     }
-                    logger.info("Contract [id:{}] paid by {}", contract.getId(), contract.getTariff().getPrice());
                 }
             }
             return "redirect:/profile";
