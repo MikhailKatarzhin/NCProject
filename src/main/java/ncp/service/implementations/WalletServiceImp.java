@@ -40,12 +40,15 @@ public class WalletServiceImp implements WalletService {
         try {
             Wallet wallet = walletRepository.findById(id).orElseThrow();
             if (!wallet.debitingFunds(requiredFunds)) {
+                logger.info("In Wallet [id:{}] not enough founds for debiting by {}. ", id, requiredFunds);
                 return false;
             }
             walletRepository.save(wallet);
         } catch (Exception e) {
+            logger.warn("Wallet [id:{}] replenishment by {} is failed. Cause: {}", id, requiredFunds, e.getMessage());
             return false;
         }
+        logger.info("Wallet [id:{}] debiting by {}", id, requiredFunds);
         return true;
     }
 
