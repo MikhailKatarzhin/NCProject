@@ -1,13 +1,18 @@
 package ncp.service.implementations;
 
+import ncp.controller.WalletController;
 import ncp.model.Wallet;
 import ncp.repository.WalletRepository;
 import ncp.service.interfaces.WalletService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class WalletServiceImp implements WalletService {
+
+    private final static Logger logger = LoggerFactory.getLogger(WalletServiceImp.class);
 
     private final WalletRepository walletRepository;
 
@@ -23,8 +28,10 @@ public class WalletServiceImp implements WalletService {
             wallet.replenishmentFunds(incomingFunds);
             walletRepository.save(wallet);
         } catch (Exception e) {
+            logger.warn("Wallet [id:{}] replenishment by {} is failed", id, incomingFunds);
             return false;
         }
+        logger.info("Wallet [id:{}] replenished by {}", id, incomingFunds);
         return true;
     }
 

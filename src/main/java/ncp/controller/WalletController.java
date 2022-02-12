@@ -21,8 +21,6 @@ import java.util.List;
 @RequestMapping("/wallet")
 public class WalletController {
 
-    private final static Logger logger = LoggerFactory.getLogger(WalletController.class);
-
     private final ContractPaymentService contractPaymentService;
     private final ContractService contractService;
     private final WalletService walletService;
@@ -46,23 +44,20 @@ public class WalletController {
     public String replenishment(@RequestParam Long incomeFounds, ModelMap model) {
         Long userId = userService.getRemoteUserId();
         if (walletService.replenishmentFunds(incomeFounds, userId)) {
-            logger.info("Wallet [id:{}] replenished by {}", userId, incomeFounds);
             Long nRow = contractService.countExpiredContractWithNonInactiveTariffByLimitOffsetByConsumerId(userId);
             Long rowInPage = 100L;
             Long nPage = nRow / rowInPage + (nRow % rowInPage == 0 ? 0 : 1);
             for (; nPage > 0; nPage--){
                 List<Contract> contractList = contractService.listExpiredContractWithNonInactiveTariffByLimitOffsetByConsumerIdLimitOffset(
                         userId, rowInPage, (nPage - 1) * rowInPage);
-                for (Contract contract: contractList) {
+                for (Contract contract: contractList)
                     if (!contractPaymentService.contractPayment(contract)){
                         nPage = 0L;
                         break;
                     }
-                }
             }
             return "redirect:/profile";
         }
-        logger.warn("Wallet [id:{}] replenishment by {} is failed", userId, incomeFounds);
         model.addAttribute("replenishmentFailed", "Replenishment failed");
         return replenishment(model);
     }
