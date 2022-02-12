@@ -1,4 +1,4 @@
-package ncp.controller;
+package ncp.controller.tariff;
 
 import ncp.controller.paging.AbstractTwosomeSecondaryPagingController;
 import ncp.model.*;

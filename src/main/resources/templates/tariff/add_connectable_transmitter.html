@@ -110,6 +110,11 @@
                 <input class="w-100 btn btn-sm btn-dark" type="submit"
                        th:value="'Connect ('+${transmitter.availableAddresses.size()}+'$)'">
             </form></td>
+            <td><form th:action="@{/tariff/transmitter/availableAddresses/__${transmitter.id}__}"
+                      method="get" target="_blank">
+                <input class="w-100 btn btn-sm btn-dark" type="submit"
+                       th:value="'View adresses'">
+            </form></td>
         </tr>
         <tr th:if="${transmitters.isEmpty()}"><td colspan="11" class="text-center">
             <h5>Connectable transmitters not found!</h5>
