@@ -24,12 +24,12 @@
 
             <td th:text="${user.email}"></td>
 
-            <td th:text="${user.wallet.balance}"></td>
+            <td th:text="${balance}"></td>
 
             <td>
-                <div><span th:text="${user.personality.firstName}"></span></div>
-                <div><span th:text="${user.personality.lastName}"></span></div>
-                <div><span th:text="${user.personality.patronymic}"></span></div>
+                <div><span th:text="${personality.firstName}"></span></div>
+                <div><span th:text="${personality.lastName}"></span></div>
+                <div><span th:text="${personality.patronymic}"></span></div>
             </td>
         </tr>
 

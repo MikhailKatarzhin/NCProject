@@ -6,6 +6,7 @@ import ncp.service.interfaces.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
@@ -46,10 +47,13 @@ public class TariffController extends AbstractTwosomeSecondaryPagingController {
         return firstPage();
     }
 
+    @Transactional
     @PostMapping("/list/{numberPageList}/{id}/remove")
     @PreAuthorize("@userServiceImp.getRemoteUser().getTariff().contains(@tariffServiceImp.getById(#id))")
     public String removeById(@PathVariable Long numberPageList, @PathVariable Long id) {
-        tariffService.deleteById(id);
+        if (tariffService.getById(id).getContracts().isEmpty()) {
+            tariffService.deleteById(id);
+        }
         return toPage(numberPageList);
     }
 
@@ -112,7 +116,7 @@ public class TariffController extends AbstractTwosomeSecondaryPagingController {
             , @PathVariable Long connectedTransmitterPage
             , @RequestParam Long statusSelectId, ModelMap model) {
         if (tariffService.getById(id).getStatus().getName().equals("inactive")){
-            Wallet wallet = tariffService.getById(id).getProvider().getWallet();
+            Wallet wallet = walletService.getById(tariffService.getById(id).getProvider().getId());
             Long payment = tariffService.countConnectedAddressByTariffId(id);
             if (!wallet.debitingFunds(payment)){
                 model.addAttribute("paymentError"

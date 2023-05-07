@@ -25,7 +25,7 @@ public class Contract {
     @JoinColumn(nullable = false, updatable = false)
     private Address address;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "contract_expiration_date")
     private Date contractExpirationDate;
 
     @ManyToOne(optional = false)

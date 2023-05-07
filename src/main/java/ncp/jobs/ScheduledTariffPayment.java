@@ -35,8 +35,8 @@ public class ScheduledTariffPayment {
         logger.debug("Tariffs quantity: {}", nRow);
 
         Long inactivatedTariffs = 0L;
-        Long nPage = nRow / rowInPage + (nRow % rowInPage == 0L ? 0L : 1L);
-        for (Long i = nPage; i > 0; i--) {
+        long nPage = nRow / rowInPage + (nRow % rowInPage == 0L ? 0L : 1L);
+        for (long i = nPage; i > 0; i--) {
             List<Tariff> tariffList = tariffRepository.selectNonInactiveByLimitOffset(
                     rowInPage, rowInPage * (i - 1L));
             for (Tariff tariff : tariffList) {

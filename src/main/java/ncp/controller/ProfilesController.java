@@ -4,6 +4,7 @@ import ncp.model.Personality;
 import ncp.model.User;
 import ncp.service.interfaces.PersonalityService;
 import ncp.service.interfaces.UserService;
+import ncp.service.interfaces.WalletService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -15,11 +16,13 @@ import org.springframework.web.bind.annotation.*;
 public class ProfilesController {
     private final PersonalityService personalityService;
     private final UserService userService;
+    private final WalletService walletService;
 
     @Autowired
-    public ProfilesController(PersonalityService personalityService, UserService userService) {
+    public ProfilesController(PersonalityService personalityService, UserService userService, WalletService walletService) {
         this.personalityService = personalityService;
         this.userService = userService;
+        this.walletService = walletService;
     }
 
     @GetMapping
@@ -34,6 +37,8 @@ public class ProfilesController {
         if (user == null)
             return myProfile();
         model.addAttribute("user", user);
+        model.addAttribute("personality", personalityService.getById(user.getId()));
+        model.addAttribute("balance", walletService.getBalance(user.getId()));
         return "profile/profile";
     }
 

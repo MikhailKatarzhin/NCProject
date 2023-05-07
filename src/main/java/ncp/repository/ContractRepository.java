@@ -33,7 +33,7 @@ public interface ContractRepository extends JpaRepository<Contract, Long> {
                     " INNER JOIN tariff t on contract.tariff_id = t.id" +
                     " INNER JOIN tariff_status ts on t.status_id = ts.id" +
                     " WHERE ts.name <> 'inactive'" +
-                    " AND contract_expiration_date <= CURDATE()" +
+                    " AND contract_expiration_date <= current_date" +
                     " AND consumer_id = ?1" +
                     " ORDER BY price" +
                     " LIMIT ?2 OFFSET ?3"
@@ -47,7 +47,7 @@ public interface ContractRepository extends JpaRepository<Contract, Long> {
                     " INNER JOIN tariff t on contract.tariff_id = t.id" +
                     " INNER JOIN tariff_status ts on t.status_id = ts.id" +
                     " WHERE ts.name <> 'inactive'" +
-                    " AND contract_expiration_date <= CURDATE()" +
+                    " AND contract_expiration_date <= current_date" +
                     " AND consumer_id = ?1"
             , nativeQuery = true
     )
@@ -58,7 +58,7 @@ public interface ContractRepository extends JpaRepository<Contract, Long> {
                     " INNER JOIN tariff t on contract.tariff_id = t.id" +
                     " INNER JOIN tariff_status ts on t.status_id = ts.id" +
                     " WHERE ts.name <> 'inactive'" +
-                    " AND contract_expiration_date <= CURDATE()" +
+                    " AND contract_expiration_date <= current_date" +
                     " LIMIT ?1 OFFSET ?2"
             , nativeQuery = true
     )
@@ -69,7 +69,7 @@ public interface ContractRepository extends JpaRepository<Contract, Long> {
                     " INNER JOIN tariff t on contract.tariff_id = t.id" +
                     " INNER JOIN tariff_status ts on t.status_id = ts.id" +
                     " WHERE ts.name <> 'inactive'" +
-                    " AND contract_expiration_date <= CURDATE()"
+                    " AND contract_expiration_date <= current_date"
             , nativeQuery = true
     )
     Long countExpiredWithNonInactiveTariff();
@@ -78,7 +78,7 @@ public interface ContractRepository extends JpaRepository<Contract, Long> {
     @Modifying
     @Query(
             value = "UPDATE contract" +
-                    " SET contract_expiration_date = DATE_ADD(CURDATE(), INTERVAL 30 DAY)" +
+                    " SET contract_expiration_date = CURRENT_DATE + INTERVAL '30 days'" +
                     " WHERE id = ?"
             , nativeQuery = true
     )

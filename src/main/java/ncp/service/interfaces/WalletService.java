@@ -1,6 +1,10 @@
 package ncp.service.interfaces;
 
+import ncp.model.Wallet;
+
 public interface WalletService {
+
+    Wallet getById(long id);
 
     boolean replenishmentFunds(Long incomingFunds, Long id);
 

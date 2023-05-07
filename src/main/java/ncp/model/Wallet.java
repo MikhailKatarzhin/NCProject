@@ -2,12 +2,14 @@ package ncp.model;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 
 @Table
 @Entity
 @Getter
+@Setter
 @RequiredArgsConstructor
 public class Wallet {
     @Id
@@ -15,6 +17,11 @@ public class Wallet {
     private Long id;
 
     private Long balance = 0L;
+
+    @MapsId
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "id", nullable = false)
+    private User user;
 
     public boolean debitingFunds(Long requiredFunds) {
         if (requiredFunds < 0) throw new IllegalArgumentException("Required funds must be zero or positive");

@@ -24,8 +24,17 @@ public class Transmitter {
     private TransmitterStatus status;
 
     @ManyToMany
+    @JoinTable(name = "transmitter_available_addresses",
+            joinColumns = @JoinColumn(name = "transmitter_id"),
+            inverseJoinColumns = @JoinColumn(name = "available_addresses_id"))
     private Set<Address> availableAddresses = new HashSet<>();
 
     @ManyToOne
     private Address address;
+
+    @ManyToMany
+    @JoinTable(name = "tariff_connected_transmitters",
+            joinColumns = @JoinColumn(name = "connected_transmitters_id"),
+            inverseJoinColumns = @JoinColumn(name = "tariff_id"))
+    private Set<Tariff> connectedTariffs = new HashSet<>();
 }

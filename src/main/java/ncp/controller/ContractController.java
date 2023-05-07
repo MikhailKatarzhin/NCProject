@@ -99,6 +99,7 @@ public class ContractController extends AbstractSecondaryPagingController {
             address = new Address();
         model.addAttribute("searchAddress", address);
         model.addAttribute("addresses", addressService.searchAddressLikeAddress(address, 1L));
+        int i = 0;
         return "contract/select_address";
     }
 

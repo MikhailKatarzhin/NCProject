@@ -21,6 +21,11 @@ public class WalletServiceImp implements WalletService {
     }
 
     @Override
+    public Wallet getById(long id) {
+        return walletRepository.getById(id);
+    }
+
+    @Override
     public boolean replenishmentFunds(Long incomingFunds, Long id) {
         try {
             Wallet wallet = walletRepository.findById(id).orElseThrow();

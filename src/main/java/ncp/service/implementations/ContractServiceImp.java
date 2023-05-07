@@ -32,7 +32,7 @@ public class ContractServiceImp implements ContractService {
 
     public Long pageCount(Long consumerId) {
         Long nRow = countContractByConsumerId(consumerId);
-        Long nPage = nRow / ROW_COUNT + (nRow % ROW_COUNT == 0 ? 0 : 1);
+        long nPage = nRow / ROW_COUNT + (nRow % ROW_COUNT == 0 ? 0 : 1);
         return nPage == 0 ? nPage + 1 : nPage;
     }
 

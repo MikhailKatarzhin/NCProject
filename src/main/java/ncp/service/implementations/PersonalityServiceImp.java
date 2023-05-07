@@ -9,11 +9,15 @@ import org.springframework.stereotype.Service;
 @Service
 public class PersonalityServiceImp implements PersonalityService {
 
-    PersonalityRepository personalityRepository;
+    private final PersonalityRepository personalityRepository;
 
     @Autowired
     public PersonalityServiceImp(PersonalityRepository personalityRepository) {
         this.personalityRepository = personalityRepository;
+    }
+
+    public Personality getById(long id) {
+        return personalityRepository.findById(id).orElse(null);
     }
 
     public Personality save(Personality personality) {

@@ -7,6 +7,7 @@ import ncp.service.interfaces.TransmitterService;
 import ncp.service.interfaces.TransmitterStatusService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,9 +39,12 @@ public class TransmitterController extends AbstractSecondaryPagingController {
         return firstPage();
     }
 
+    @Transactional
     @PostMapping("/list/{numberPageList}/{id}/remove")
     public String removeById(@PathVariable Long numberPageList, @PathVariable Long id) {
-        transmitterService.deleteById(id);
+        if (transmitterService.getById(id).getConnectedTariffs().isEmpty()) {
+            transmitterService.deleteById(id);
+        }
         return toPage(numberPageList);
     }
 

@@ -30,6 +30,9 @@ public class Tariff {
     private TariffStatus status;
 
     @ManyToMany
+    @JoinTable(name = "tariff_connected_transmitters",
+            joinColumns = @JoinColumn(name = "tariff_id"),
+            inverseJoinColumns = @JoinColumn(name = "connected_transmitters_id"))
     private Set<Transmitter> connectedTransmitters = new HashSet<>();
 
     @ManyToOne(optional = false)

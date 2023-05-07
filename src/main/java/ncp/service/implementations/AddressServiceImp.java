@@ -5,7 +5,6 @@ import ncp.repository.AddressRepository;
 import ncp.service.interfaces.AddressService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.ModelMap;
 
 import java.util.List;
 
@@ -14,7 +13,7 @@ import static ncp.config.ProjectConstants.ROW_COUNT;
 @Service
 public class AddressServiceImp implements AddressService {
 
-    AddressRepository addressRepository;
+    private final AddressRepository addressRepository;
 
     @Autowired
     public AddressServiceImp(AddressRepository addressRepository) {
@@ -38,7 +37,7 @@ public class AddressServiceImp implements AddressService {
     }
 
     public Long pageCount() {
-        Long nPage = addressRepository.count() / ROW_COUNT + (addressRepository.count() % ROW_COUNT == 0 ? 0 : 1);
+        long nPage = addressRepository.count() / ROW_COUNT + (addressRepository.count() % ROW_COUNT == 0 ? 0 : 1);
         return nPage == 0 ? nPage + 1 : nPage;
     }
 
@@ -130,85 +129,26 @@ public class AddressServiceImp implements AddressService {
 
     public void addNewAddresses(Address address){
         for (Long i = address.getFlat(); i > 0 ; i--) {
-            Address tmp = new Address();
-            tmp.setFlat(i);
-            tmp.setBuilding(address.getBuilding());
-            tmp.setHouse(address.getHouse());
-            tmp.setStreet(address.getStreet());
-            tmp.setCity(address.getCity());
-            tmp.setRegion(address.getRegion());
-            tmp.setCountry(address.getCountry());
-            addNewAddress(tmp, new ModelMap());
-        }
-    }
-
-    public ModelMap addNewAddress(Address address, ModelMap model) {
-
-        if (address.getCountry().isBlank()) {
-            model.addAttribute("CountryError", "Country is required");
-            return model;
-        } else if (address.getCountry().length() < 2) {
-            model.addAttribute("CountryError", "Country length must be more 1");
-            return model;
-        }
-        if (address.getRegion().isBlank()) {
-            address.setRegion("");
-            if (isExistsRegions(address)) {
-                model.addAttribute("RegionError", "Region is required");
-                return model;
+            if (0 == addressRepository.countByFlatAndBuildingAndHouseAndStreetAndCityAndRegionAndCountry(
+                    address.getFlat(),
+                    address.getBuilding(),
+                    address.getHouse(),
+                    address.getStreet(),
+                    address.getCity(),
+                    address.getRegion(),
+                    address.getCountry()
+            )) {
+                Address tmp = new Address();
+                tmp.setFlat(i);
+                tmp.setBuilding(address.getBuilding());
+                tmp.setHouse(address.getHouse());
+                tmp.setStreet(address.getStreet());
+                tmp.setCity(address.getCity());
+                tmp.setRegion(address.getRegion());
+                tmp.setCountry(address.getCountry());
+                save(tmp);
             }
-        } else if (address.getRegion().length() < 2) {
-            model.addAttribute("RegionError", "Region length must be more 1");
-            return model;
         }
-        if (address.getCity().isBlank()) {
-            model.addAttribute("CityError", "City is required");
-            return model;
-        } else if (address.getCity().length() < 2) {
-            model.addAttribute("CityError", "City length must be more 1");
-            return model;
-        }
-        if (address.getStreet().isBlank()) {
-            address.setStreet("");
-            if (isExistsStreets(address)) {
-                model.addAttribute("StreetError", "Street is required");
-                return model;
-            }
-        } else if (address.getStreet().length() < 2) {
-            model.addAttribute("StreetError", "Street length must be more 1");
-            return model;
-        }
-        if (address.getHouse() == null) {
-            model.addAttribute("HouseError", "House is required");
-            return model;
-        } else if (address.getHouse() < 1) {
-            model.addAttribute("HouseError", "House number must be more 0");
-            return model;
-        }
-        if (address.getBuilding() == null) {
-            if (isExistsBuildings(address)) {
-                model.addAttribute("BuildingError", "Building is required");
-                return model;
-            }
-        } else if (address.getBuilding() < 1) {
-            model.addAttribute("BuildingError", "Building number must be more 0");
-            return model;
-        }
-        if (address.getFlat() == null) {
-            if (isExistsFlats(address)) {
-                model.addAttribute("FlatError", "Flat is required");
-                return model;
-            }
-        } else if (address.getFlat() < 1) {
-            model.addAttribute("FlatError", "Flat number must be more 0");
-            return model;
-        }
-        if (addressExists(address)) {
-            model.addAttribute("addressExistsError", "Address already exists");
-            return model;
-        }
-        save(address);
-        return null;
     }
 
     public List<Address> availableAddressListByNumberPageListAndTransmitterId(Long numberPageList, Long transmitterId) {

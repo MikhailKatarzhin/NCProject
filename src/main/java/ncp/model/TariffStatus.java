@@ -7,7 +7,7 @@ import javax.persistence.*;
 
 @Getter
 @RequiredArgsConstructor
-@Table
+@Table(name = "tariff_status")
 @Entity
 public class TariffStatus {
     @Id

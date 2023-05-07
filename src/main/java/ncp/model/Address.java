@@ -3,6 +3,8 @@ package ncp.model;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -42,14 +44,20 @@ public class Address {
      */
     private Long flat;
 
+    @ManyToMany
+    @JoinTable(name = "transmitter_available_addresses",
+            joinColumns = @JoinColumn(name = "available_addresses_id"),
+            inverseJoinColumns = @JoinColumn(name = "transmitter_id"))
+    private Set<Transmitter> transmitters = new HashSet<>();
+
     @Override
     public String toString() {
         return country +
-                (region.isBlank() ? "" : (", rg " + region)) +
-                ", " + city +
-                (street.isBlank() ? "" : (", st " + street)) +
-                ", hse " + house +
-                "/" + building +
+                (region.isBlank() || region == null ? "" : (", rg " + region)) +
+                (city.isBlank() || city == null ? "" : (", " + city)) +
+                (street.isBlank() || street == null ? "" : (", st " + street)) +
+                (house == null ? "" : (", hse " + house)) +
+                (building == null ? "" : ("/" + building)) +
                 (flat == null ? "" : (", ste " + flat))
                 ;
     }

@@ -8,10 +8,10 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 
-    User findByUsername(String username);
+    User findUserByUsername(String username);
 
     @Query(
-            value = "select count(*) from user where email = ?",
+            value = "select count(*) from \"user\" where email = ?",
             nativeQuery = true
     )
     Long countByEmail(String email);

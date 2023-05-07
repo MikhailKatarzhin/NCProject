@@ -38,7 +38,8 @@
     </div>
     <div th:class="'form-check form-switch'+(${roleRequired!=null}?' is-invalid':'')" th:each="role : ${roles}">
         <input type="checkbox" class="form-check-input" name="rolesId" id="flexSwitchCheckDefault"
-               th:value="${role.id}" th:checked="${#lists.contains(selectedRoles, role.id)}">
+               th:value="${role.id}" th:checked="${role.name == 'CONSUMER'}"
+               th:readonly="${role.name == 'CONSUMER'}" >
         <label class="form-check-label" for="flexSwitchCheckDefault" th:text="${role.name}"></label>
     </div>
     <div class="invalid-feedback" th:if="${roleRequired}" th:text="${roleRequired}"></div>

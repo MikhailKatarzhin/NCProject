@@ -34,7 +34,5 @@ public interface AddressService {
 
     void addNewAddresses(Address address);
 
-    ModelMap addNewAddress(Address address, ModelMap model);
-
     List<Address> availableAddressListByNumberPageListAndTransmitterId(Long numberPageList, Long transmitterId);
 }

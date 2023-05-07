@@ -11,7 +11,7 @@ import java.util.List;
 @Service
 public class TariffStatusServiceImp implements TariffStatusService {
 
-    TariffStatusRepository tariffStatusRepository;
+    private final TariffStatusRepository tariffStatusRepository;
 
     @Autowired
     public TariffStatusServiceImp(TariffStatusRepository tariffStatusRepository) {

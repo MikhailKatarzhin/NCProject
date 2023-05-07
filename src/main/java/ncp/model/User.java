@@ -12,9 +12,10 @@ import java.util.Set;
 
 @Getter
 @Setter
-@RequiredArgsConstructor
-@Table
+@AllArgsConstructor
+@Table(name = "\"user\"")
 @Entity
+@NoArgsConstructor
 public class User implements UserDetails {
 
     @Id
@@ -30,13 +31,10 @@ public class User implements UserDetails {
     @Column(nullable = false, unique = true)
     private String email;
 
-    @OneToOne(cascade = CascadeType.ALL, optional = false, orphanRemoval = true)
-    @JoinColumn(nullable = false)
-    @PrimaryKeyJoinColumn
-    private Personality personality;
-
-
     @ManyToMany
+    @JoinTable(name = "user_role_set",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_set_id"))
     private Set<Role> roleSet = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "provider", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -44,10 +42,6 @@ public class User implements UserDetails {
 
     @OneToMany(mappedBy = "consumer", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Contract> contract = new HashSet<>();
-
-    @OneToOne(cascade = CascadeType.ALL, optional = false, orphanRemoval = true)
-    @JoinColumn(nullable = false)
-    private Wallet wallet;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -73,5 +67,4 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
-
 }

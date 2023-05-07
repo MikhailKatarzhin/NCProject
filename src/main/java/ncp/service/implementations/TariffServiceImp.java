@@ -42,7 +42,7 @@ public class TariffServiceImp implements TariffService {
 
     public Long pageCount() {
         Long nTariff = tariffRepository.count();
-        Long nPage = nTariff / ROW_COUNT + (nTariff % ROW_COUNT == 0 ? 0 : 1);
+        long nPage = nTariff / ROW_COUNT + (nTariff % ROW_COUNT == 0 ? 0 : 1);
         return nPage == 0 ? nPage + 1 : nPage;
     }
 
@@ -81,7 +81,7 @@ public class TariffServiceImp implements TariffService {
     }
 
     public void deleteById(Long id) {
-        tariffRepository.deleteById(id);
+        tariffRepository.deleteWithId(id);
     }
 
     public Tariff getById(Long id) {
@@ -112,7 +112,7 @@ public class TariffServiceImp implements TariffService {
 
     public Long connectedTransmitterPageCount(Long tariffId) {
         Long nConnectedTransmitter = tariffRepository.countConnectedTransmitterById(tariffId);
-        Long nPage = nConnectedTransmitter / ROW_COUNT + (nConnectedTransmitter % ROW_COUNT == 0 ? 0 : 1);
+        long nPage = nConnectedTransmitter / ROW_COUNT + (nConnectedTransmitter % ROW_COUNT == 0 ? 0 : 1);
         return nPage == 0 ? nPage + 1 : nPage;
     }
 
@@ -149,7 +149,7 @@ public class TariffServiceImp implements TariffService {
 
     public Long countPageContractByTariffId(Long tariffId) {
         Long nConnectedTransmitter = contractService.countContractByTariffId(tariffId);
-        Long nPage = nConnectedTransmitter / ROW_COUNT + (nConnectedTransmitter % ROW_COUNT == 0 ? 0 : 1);
+        long nPage = nConnectedTransmitter / ROW_COUNT + (nConnectedTransmitter % ROW_COUNT == 0 ? 0 : 1);
         return nPage == 0 ? nPage + 1 : nPage;
     }
 
@@ -175,7 +175,7 @@ public class TariffServiceImp implements TariffService {
     public Long countPageByAvailableAddressIdAndTurnedOnTransmitterAndActiveTariff(Long availableAddressId) {
         Long nRow = tariffRepository.countByAvailableAddressIdAndTransmitterStatusAndTariffStatus(
                 availableAddressId, "turned on", "active");
-        Long nPage = nRow / ROW_COUNT + (nRow % ROW_COUNT == 0 ? 0 : 1);
+        long nPage = nRow / ROW_COUNT + (nRow % ROW_COUNT == 0 ? 0 : 1);
         return nPage == 0 ? nPage + 1 : nPage;
     }
 }

@@ -44,7 +44,7 @@ public class WalletController {
         if (walletService.replenishmentFunds(incomeFounds, userId)) {
             Long nRow = contractService.countExpiredContractWithNonInactiveTariffByLimitOffsetByConsumerId(userId);
             Long rowInPage = 100L;
-            Long nPage = nRow / rowInPage + (nRow % rowInPage == 0 ? 0 : 1);
+            long nPage = nRow / rowInPage + (nRow % rowInPage == 0 ? 0 : 1);
             for (; nPage > 0; nPage--){
                 List<Contract> contractList = contractService.listExpiredContractWithNonInactiveTariffByLimitOffsetByConsumerIdLimitOffset(
                         userId, rowInPage, (nPage - 1) * rowInPage);

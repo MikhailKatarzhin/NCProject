@@ -21,7 +21,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation group: 'commons-codec', name: 'commons-codec', version: '1.15'
     compileOnly 'org.projectlombok:lombok:1.18.22'
-    runtimeOnly 'mysql:mysql-connector-java:8.0.25'
+    runtimeOnly 'org.postgresql:postgresql:42.2.10'
     annotationProcessor 'org.projectlombok:lombok:1.18.22'
     implementation 'org.webjars:jquery:3.6.0'
     implementation 'org.webjars:bootstrap:5.1.1'
@@ -30,3 +30,5 @@ dependencies {
 test {
     useJUnitPlatform()
 }
+sourceCompatibility = JavaVersion.VERSION_11
+targetCompatibility = JavaVersion.VERSION_11

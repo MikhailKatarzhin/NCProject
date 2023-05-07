@@ -6,12 +6,15 @@ import ncp.model.Role;
 import ncp.model.User;
 import ncp.model.Wallet;
 import ncp.repository.UserRepository;
+import ncp.repository.WalletRepository;
+import ncp.service.interfaces.PersonalityService;
 import ncp.service.interfaces.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Set;
@@ -23,19 +26,23 @@ public class UserServiceImp implements UserService {
     private final static Logger logger = LoggerFactory.getLogger(UserServiceImp.class);
 
     private final UserRepository userRepository;
+    private final PersonalityService personalityService;
     private final HttpServletRequest httpServletRequest;
     private final BCryptPasswordEncoder passwordEncoder;
+    private final WalletRepository walletRepository;
 
     @Autowired
-    public UserServiceImp(UserRepository userRepository, HttpServletRequest httpServletRequest
-            , BCryptPasswordEncoder passwordEncoder) {
+    public UserServiceImp(UserRepository userRepository, PersonalityService personalityService, HttpServletRequest httpServletRequest
+            , BCryptPasswordEncoder passwordEncoder, WalletRepository walletRepository) {
         this.userRepository = userRepository;
+        this.personalityService = personalityService;
         this.httpServletRequest = httpServletRequest;
         this.passwordEncoder = passwordEncoder;
+        this.walletRepository = walletRepository;
     }
 
     public User getRemoteUser() {
-        return userRepository.findByUsername(httpServletRequest.getRemoteUser());
+        return userRepository.findUserByUsername(httpServletRequest.getRemoteUser());
     }
 
     public Long getRemoteUserId() {
@@ -47,7 +54,7 @@ public class UserServiceImp implements UserService {
     }
 
     public Personality getRemoteUserPersonality() {
-        return getRemoteUser().getPersonality();
+        return personalityService.getById(getRemoteUser().getId());
     }
 
     public boolean checkRemoteUserPassword(String password) {
@@ -59,15 +66,24 @@ public class UserServiceImp implements UserService {
     }
 
     public User getByUsername(String username) {
-        return userRepository.findByUsername(username);
+        return userRepository.findUserByUsername(username);
     }
 
+    @Transactional
     public User signUp(User user, Set<Role> roleSet) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRoleSet(roleSet);
-        user.setPersonality(new Personality());
-        user.setWallet(new Wallet());
         user = userRepository.save(user);
+        Personality personality = new Personality();
+        personality.setUser(user);
+        personality.setFirstName("");
+        personality.setLastName("");
+        personality.setPatronymic("");
+        personalityService.save(personality);
+        Wallet wallet = new Wallet();
+        wallet.setUser(user);
+        wallet.setBalance(0L);
+        walletRepository.save(wallet);
         logger.info("Signed up new user [id:{}] with roles: {}", user.getId()
                 , user.getRoleSet().stream().map(Role::getName).collect(Collectors.joining(", ")));
         return user;

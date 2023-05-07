@@ -32,8 +32,8 @@ public class ScheduledContractPayment {
         logger.debug("Expired contracts quantity: {}", nRow);
 
         Long confirmedPayment = 0L;
-        Long nPage = nRow / rowInPage + (nRow % rowInPage == 0L ? 0L : 1L);
-        for (Long i = nPage; i > 0; i--) {
+        long nPage = nRow / rowInPage + (nRow % rowInPage == 0L ? 0L : 1L);
+        for (long i = nPage; i > 0; i--) {
             List<Contract> contractList = contractRepository.selectExpiredWithNonInactiveTariffByLimitOffset(
                     rowInPage, rowInPage * (i - 1L));
             for (Contract contract : contractList)

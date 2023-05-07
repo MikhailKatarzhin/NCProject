@@ -33,9 +33,12 @@ public class TariffPaymentServiceImp implements TariffPaymentService {
     @Transactional
     public boolean tariffPayment(Tariff tariff) {
         Long price = tariffRepository.countConnectedAddressByTariffId(tariff.getId());
-        Wallet wallet = tariff.getProvider().getWallet();
+        Wallet wallet = walletRepository.getById(tariff.getProvider().getId());
         if (wallet.debitingFunds(price)) {
             walletRepository.save(wallet);
+            Wallet walletAd = walletRepository.getById(0L);
+            walletAd.replenishmentFunds(price);
+            walletRepository.save(walletAd);
             logger.info("Tariff [id:{}] paid by {}", tariff.getId(), price);
             return true;
         } else {

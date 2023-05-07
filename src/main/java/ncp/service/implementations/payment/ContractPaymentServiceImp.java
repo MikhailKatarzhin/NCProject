@@ -28,11 +28,11 @@ public class ContractPaymentServiceImp implements ContractPaymentService {
     @Override
     @Transactional
     public boolean contractPayment(Contract contract) {
-        Wallet consumerWallet = contract.getConsumer().getWallet();
+        Wallet consumerWallet = walletRepository.getById(contract.getConsumer().getId());
         if (consumerWallet.debitingFunds(contract.getTariff().getPrice())) {
             walletRepository.save(consumerWallet);
             contractRepository.addToExpirationDate30DaysById(contract.getId());
-            Wallet providerWallet = contract.getTariff().getProvider().getWallet();
+            Wallet providerWallet = walletRepository.getById(contract.getTariff().getProvider().getId());
             providerWallet.replenishmentFunds(contract.getTariff().getPrice());
             walletRepository.save(providerWallet);
             logger.info("Contract [id:{}] paid by {}", contract.getId(), contract.getTariff().getPrice());

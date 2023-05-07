@@ -70,7 +70,7 @@ public interface TransmitterRepository extends JpaRepository<Transmitter, Long> 
                     "    INNER JOIN address a on a.id = taa.available_addresses_id\n" +
                     "WHERE tct.connected_transmitters_id IS NULL AND tct.tariff_id IS NULL\n" +
                     "  AND a.country LIKE ?1 AND a.region LIKE ?2 AND a.city LIKE ?3 AND a.street LIKE ?4\n" +
-                    "  AND a.house LIKE ?5 AND a.building LIKE ?6 AND a.flat LIKE ?7\n" +
+                    "  AND CAST (a.house AS TEXT) LIKE ?5 AND CAST (a.building AS TEXT) LIKE ?6 AND CAST (a.flat AS TEXT) LIKE ?7\n" +
                     "LIMIT ?8 OFFSET ?9"
             , nativeQuery = true
     )

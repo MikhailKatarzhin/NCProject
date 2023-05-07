@@ -61,7 +61,7 @@ public interface AddressRepository extends JpaRepository<Address, Long> {
 
     @Query(
             value = "SELECT * FROM address WHERE country LIKE ?1 AND region LIKE ?2 AND city LIKE ?3 AND street LIKE ?4" +
-                    " AND house LIKE ?5 AND building LIKE ?6 AND flat LIKE ?7" +
+                    " AND CAST (house AS TEXT) LIKE ?5 AND CAST (building AS TEXT) LIKE ?6 AND CAST (flat AS TEXT) LIKE ?7" +
                     " LIMIT ?8 OFFSET ?9"
             , nativeQuery = true
     )
@@ -70,7 +70,7 @@ public interface AddressRepository extends JpaRepository<Address, Long> {
 
     @Query(
             value = "SELECT * FROM address WHERE country LIKE ?1 AND region LIKE ?2 AND city LIKE ?3 AND street LIKE ?4" +
-                    " AND house LIKE ?5 AND building LIKE ?6" +
+                    " AND CAST (house AS TEXT) LIKE ?5 AND CAST (building AS TEXT) LIKE ?6" +
                     " LIMIT ?7 OFFSET ?8"
             , nativeQuery = true
     )
@@ -82,7 +82,7 @@ public interface AddressRepository extends JpaRepository<Address, Long> {
                     " LEFT JOIN transmitter_available_addresses taa" +
                     " ON a.id = taa.available_addresses_id AND ?10 = taa.transmitter_id" +
                     " WHERE a.country LIKE ?1 AND a.region LIKE ?2 AND a.city LIKE ?3 AND a.street LIKE ?4" +
-                    " AND a.house LIKE ?5 AND a.building LIKE ?6 AND a.flat LIKE ?7" +
+                    " AND CAST (a.house AS TEXT) LIKE ?5 AND CAST (a.building AS TEXT) LIKE ?6 AND CAST (a.flat AS TEXT) LIKE ?7" +
                     " AND taa.available_addresses_id IS NULL AND taa.transmitter_id IS NULL" +
                     " LIMIT ?8 OFFSET ?9"
             , nativeQuery = true
