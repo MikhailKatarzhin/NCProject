@@ -153,6 +153,10 @@ public class TariffServiceImp implements TariffService {
         return nPage == 0 ? nPage + 1 : nPage;
     }
 
+    public Long countContractByTariffId(Long tariffId) {
+        return contractService.countContractByTariffId(tariffId);
+    }
+
     public void terminateContractById(Long contractId) {
         contractService.terminateContractById(contractId);
     }

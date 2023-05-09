@@ -51,7 +51,7 @@ public class TariffController extends AbstractTwosomeSecondaryPagingController {
     @PostMapping("/list/{numberPageList}/{id}/remove")
     @PreAuthorize("@userServiceImp.getRemoteUser().getTariff().contains(@tariffServiceImp.getById(#id))")
     public String removeById(@PathVariable Long numberPageList, @PathVariable Long id) {
-        if (tariffService.getById(id).getContracts().isEmpty()) {
+        if (0 == tariffService.countContractByTariffId(id)) {
             tariffService.deleteById(id);
         }
         return toPage(numberPageList);

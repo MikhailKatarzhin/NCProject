@@ -57,6 +57,8 @@ public interface TariffService {
 
     Long countPageContractByTariffId(Long tariffId);
 
+    Long countContractByTariffId(Long tariffId);
+
     void terminateContractById(Long contractId);
 
 

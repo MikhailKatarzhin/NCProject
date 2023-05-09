@@ -130,7 +130,7 @@ public class AddressServiceImp implements AddressService {
     public void addNewAddresses(Address address){
         for (Long i = address.getFlat(); i > 0 ; i--) {
             if (0 == addressRepository.countByFlatAndBuildingAndHouseAndStreetAndCityAndRegionAndCountry(
-                    address.getFlat(),
+                    i,
                     address.getBuilding(),
                     address.getHouse(),
                     address.getStreet(),
